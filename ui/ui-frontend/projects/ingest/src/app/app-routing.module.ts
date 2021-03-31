@@ -79,6 +79,13 @@ const routes: Routes = [
     resolve: { userAnalytics: AnalyticsResolver },
     data: { appId: 'HOLDING_FILLING_SCHEME_APP' }
   },
+  {
+    path: 'archive-search',
+    loadChildren: () => import('./archive/archive.module').then(m => m.ArchiveModule),
+    canActivate: [AuthGuard, AppGuard],
+    resolve: { userAnalytics: AnalyticsResolver },
+    data: { appId: 'ARCHIVE_SEARCH_MANAGEMENT_APP' }
+  },
   // =====================================================
   //                      unknown path
   // =====================================================
