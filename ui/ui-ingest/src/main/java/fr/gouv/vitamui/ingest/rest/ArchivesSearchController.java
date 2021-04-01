@@ -24,19 +24,19 @@
  * accept its terms.
  */
 
-package fr.gouv.vitamui.archives.search.rest;
+package fr.gouv.vitamui.ingest.rest;
 
 import fr.gouv.vitamui.archives.search.common.dto.ArchiveUnitsDto;
 import fr.gouv.vitamui.archives.search.common.dto.SearchCriteriaDto;
 import fr.gouv.vitamui.archives.search.common.dto.VitamUIArchiveUnitResponseDto;
 import fr.gouv.vitamui.archives.search.common.rest.RestApi;
-import fr.gouv.vitamui.archives.search.service.ArchivesSearchService;
 import fr.gouv.vitamui.commons.api.CommonConstants;
 import fr.gouv.vitamui.commons.api.logger.VitamUILogger;
 import fr.gouv.vitamui.commons.api.logger.VitamUILoggerFactory;
 import fr.gouv.vitamui.commons.rest.AbstractUiRestController;
 import fr.gouv.vitamui.commons.vitam.api.dto.ResultsDto;
 import fr.gouv.vitamui.commons.vitam.api.dto.VitamUISearchResponseDto;
+import fr.gouv.vitamui.ingest.service.ArchivesSearchService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,7 +99,7 @@ public class ArchivesSearchController extends AbstractUiRestController {
     @ApiOperation(value = "Find the Archive Unit Details")
     @GetMapping(RestApi.ARCHIVE_UNIT_INFO + CommonConstants.PATH_ID)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<ResultsDto> findUnitById(final @PathVariable("id") String id){
+    public ResponseEntity<ResultsDto> findUnitById(final @PathVariable("id") String id) {
         LOGGER.debug("Find the Archive Unit with ID {}", id);
         return archivesSearchService.findUnitById(id, buildUiHttpContext());
     }

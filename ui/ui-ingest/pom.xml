@@ -134,6 +134,16 @@
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
+
+
+        <dependency>
+            <groupId>fr.gouv.vitamui</groupId>
+            <artifactId>archive-search-commons</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>fr.gouv.vitamui</groupId>
+            <artifactId>archive-search-external-client</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -217,7 +227,8 @@
                         <phase>process-sources</phase>
                         <configuration>
                             <skip>${skipAllFrontend}</skip>
-                            <arguments>run build -- --project=ingest --output-path=${project.basedir}/target/www --base-href=${angular.base.href} --deploy-url=${angular.base.href}
+                            <arguments>run build -- --project=ingest --output-path=${project.basedir}/target/www
+                                --base-href=${angular.base.href} --deploy-url=${angular.base.href}
                             </arguments>
                         </configuration>
                     </execution>

@@ -24,16 +24,16 @@
  * accept its terms.
  */
 
-package fr.gouv.vitamui.archives.search.rest;
+package fr.gouv.vitamui.ingest.rest;
 
 import fr.gouv.vitamui.archives.search.common.dto.AccessContractDto;
-import fr.gouv.vitamui.archives.search.service.AccessContractTempService;
 import fr.gouv.vitamui.commons.api.domain.DirectionDto;
 import fr.gouv.vitamui.commons.api.domain.PaginatedValuesDto;
 import fr.gouv.vitamui.commons.api.logger.VitamUILogger;
 import fr.gouv.vitamui.commons.api.logger.VitamUILoggerFactory;
 import fr.gouv.vitamui.commons.rest.AbstractUiRestController;
 import fr.gouv.vitamui.commons.rest.util.RestUtils;
+import fr.gouv.vitamui.ingest.service.AccessContractTempService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,11 +76,15 @@ public class AccessContractTempController extends AbstractUiRestController {
     }
 
     @ApiOperation(value = "Get entities paginated")
-    @GetMapping(params = { "page", "size" })
+    @GetMapping(params = {"page", "size"})
     @ResponseStatus(HttpStatus.OK)
-    public PaginatedValuesDto<AccessContractDto> getAllPaginated(@RequestParam final Integer page, @RequestParam final Integer size,
-        @RequestParam final Optional<String> criteria, @RequestParam final Optional<String> orderBy, @RequestParam final Optional<DirectionDto> direction) {
-        LOGGER.debug("getAllPaginated page={}, size={}, criteria={}, orderBy={}, ascendant={}", page, size, orderBy, direction);
-        return accessContractTempService.getAllPaginated(page, size, criteria, orderBy, direction, buildUiHttpContext());
+    public PaginatedValuesDto<AccessContractDto> getAllPaginated(@RequestParam final Integer page,
+        @RequestParam final Integer size,
+        @RequestParam final Optional<String> criteria, @RequestParam final Optional<String> orderBy,
+        @RequestParam final Optional<DirectionDto> direction) {
+        LOGGER.debug("getAllPaginated page={}, size={}, criteria={}, orderBy={}, ascendant={}", page, size, orderBy,
+            direction);
+        return accessContractTempService
+            .getAllPaginated(page, size, criteria, orderBy, direction, buildUiHttpContext());
     }
 }

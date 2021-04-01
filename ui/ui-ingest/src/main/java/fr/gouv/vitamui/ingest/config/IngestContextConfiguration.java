@@ -36,6 +36,11 @@
  */
 package fr.gouv.vitamui.ingest.config;
 
+import fr.gouv.vitamui.archives.search.external.client.AccessContractTempExternalRestClient;
+import fr.gouv.vitamui.archives.search.external.client.ArchiveSearchExternalRestClient;
+import fr.gouv.vitamui.archives.search.external.client.ArchiveSearchExternalRestClientFactory;
+import fr.gouv.vitamui.archives.search.external.client.ArchiveSearchExternalWebClient;
+import fr.gouv.vitamui.archives.search.external.client.ArchiveSearchExternalWebClientFactory;
 import fr.gouv.vitamui.commons.api.application.AbstractContextConfiguration;
 import fr.gouv.vitamui.commons.rest.RestExceptionHandler;
 import fr.gouv.vitamui.commons.rest.configuration.SwaggerConfiguration;
@@ -69,7 +74,8 @@ public class IngestContextConfiguration extends AbstractContextConfiguration {
     @Bean
     @ConditionalOnMissingBean
     @DependsOn("uiProperties")
-    public IngestExternalRestClientFactory ingestExternalRestClientFactory(final IngestApplicationProperties uiProperties,
+    public IngestExternalRestClientFactory ingestExternalRestClientFactory(
+        final IngestApplicationProperties uiProperties,
         RestTemplateBuilder restTemplateBuilder) {
         return new IngestExternalRestClientFactory(uiProperties.getIngestExternalClient(), restTemplateBuilder);
     }
@@ -93,6 +99,25 @@ public class IngestContextConfiguration extends AbstractContextConfiguration {
     public IngestExternalWebClient ingestExternalWebClient(
         final IngestExternalWebClientFactory ingestExternalWebClientFactory) {
         return ingestExternalWebClientFactory.getIngestExternalWebClient();
+    }
+
+
+    @Bean
+    public ArchiveSearchExternalRestClient archiveSearchExternalRestClient(
+        final ArchiveSearchExternalRestClientFactory archiveSearchExternalRestClientFactory) {
+        return archiveSearchExternalRestClientFactory.getArchiveSearchExternalRestClient();
+    }
+
+    @Bean
+    public ArchiveSearchExternalWebClient archiveSearchExternalWebClient(
+        final ArchiveSearchExternalWebClientFactory archiveSearchExternalWebClientFactory) {
+        return archiveSearchExternalWebClientFactory.getArchiveSearchExternalWebClient();
+    }
+
+    @Bean
+    public AccessContractTempExternalRestClient accessContractTempExternalRestClient(
+        final ArchiveSearchExternalRestClientFactory archiveSearchExternalRestClientFactory) {
+        return archiveSearchExternalRestClientFactory.getAccessContractTempExternalRestClient();
     }
 
 }
