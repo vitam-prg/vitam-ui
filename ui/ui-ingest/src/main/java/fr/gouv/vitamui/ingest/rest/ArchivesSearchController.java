@@ -58,7 +58,7 @@ import javax.ws.rs.Produces;
 
 @Api(tags = "archives Search")
 @RestController
-@RequestMapping("${ui-archive-search.prefix}/archive-search")
+@RequestMapping("${ui-ingest.prefix}/ingest")
 @Consumes("application/json")
 @Produces("application/json")
 public class ArchivesSearchController extends AbstractUiRestController {

@@ -52,7 +52,7 @@ import java.util.Optional;
 
 @Api(tags = "archives Search")
 @RestController
-@RequestMapping("${ui-archive-search.prefix}/archive-search/accesscontracts")
+@RequestMapping("${ui-ingest.prefix}/ingest/accesscontracts")
 @Consumes("application/json")
 @Produces("application/json")
 public class AccessContractTempController extends AbstractUiRestController {
