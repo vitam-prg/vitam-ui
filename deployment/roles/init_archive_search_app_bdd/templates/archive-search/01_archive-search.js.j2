@@ -97,33 +97,6 @@ db.applications.update(
 
 print("INFO 01_archive_search.js : END archive search database update");
 
-
-// +++++++++++++++++++++++++++++++++++++++ CAS DATABASE +++++++++++++++++++++++++++++++++++++++
-
-print("INFO 01_archive_search.js : START cas database update");
-db = db.getSiblingDB('{{ mongodb.cas.db }}')
-
-
-db.services.update(
-    { "_id" :  NumberInt(4) },
-    {
-        "$set" : {
-            "_class": "org.apereo.cas.services.RegexRegisteredService",
-        	"serviceId": "^{{ vitamui.archive_search.base_url | default(url_prefix) }}/archive-search/.*",
-            "name": "Archive Application",
-            "logoutType" : "FRONT_CHANNEL",
-            "logoutUrl": "{{ vitamui.archive_search.base_url | default(url_prefix) }}/archive-search/logout",
-            "attributeReleasePolicy": {
-                "_class": "org.apereo.cas.services.ReturnAllAttributeReleasePolicy"
-            }
-        },
-        "$setOnInsert": {
-            "_id" :  NumberInt(4)
-        }
-    },
-    { "upsert":true }
-);
-
 print("INFO 01_archive_search.js : END cas database update");
 
 
