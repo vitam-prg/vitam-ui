@@ -22,5 +22,4 @@ V	231026171107Z		15	unknown	/C=fr/ST=idf/L=paris/O=vitamui/CN=ui-portal.service.
 V	231026171111Z		16	unknown	/C=fr/ST=idf/L=paris/O=vitamui/CN=ui-identity-admin.service.consul
 V	231026171114Z		17	unknown	/C=fr/ST=idf/L=paris/O=vitamui/CN=ui-referential.service.consul
 V	231026171117Z		18	unknown	/C=fr/ST=idf/L=paris/O=vitamui/CN=ui-ingest.service.consul
-V	231026171119Z		19	unknown	/C=fr/ST=idf/L=paris/O=vitamui/CN=ui-archive-search.service.consul
 V	231026171122Z		1A	unknown	/C=fr/ST=idf/L=paris/O=vitamui/CN=reverse.service.consul

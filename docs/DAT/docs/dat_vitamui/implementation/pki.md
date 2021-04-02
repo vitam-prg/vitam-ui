@@ -157,7 +157,6 @@ Le tableau ci-dessous détail l’ensemble du contenu des keystores et truststor
 |**ui-identity-admin**  |  ui-identity-admin.crt, ui-identity-admin.key  | ca-root.crt, ca-intermediate.crt |
 |**ui-referential**  |  ui-referential.crt, ui-referential.key  | ca-root.crt, ca-intermediate.crt |
 |**ui-ingest**  |  ui-ingest.crt, ui-ingest.key  | ca-root.crt, ca-intermediate.crt |
-|**ui-archive-search**  |  ui-archive-search.crt, ui-archive-search.key  | ca-root.crt, ca-intermediate.crt |
 |**cas-server**  |  cas-server.crt, cas-server.key  | ca-root.crt, ca-intermediate.crt |
 |**iam-external**  |  iam-external.crt, iam-external.key  | ca-root.crt |
 |**iam-internal**  |  iam-internal.crt, iam-internal.key  | ca-root.crt |

@@ -97,50 +97,6 @@ db.applications.update(
 
 print("INFO 01_archive_search.js : END archive search database update");
 
-// +++++++++++++++++++++++++++++++++++++++ SECURITY DATABASE ++++++++++++++++++++++++++++++++++
-
-db = db.getSiblingDB('{{ mongodb.security.db }}')
-
-print("INFO 01_archive_search.js : START security update");
-
-db.contexts.update(
-    { "_id" : "ui_archive_search_context" },
-    {
-        "$set" : {
-            "name": "Contexte UI Archive Search",
-             "fullAccess" : true,
-             "tenants" : [NumberInt({{ vitamui_platform_informations.proof_tenant }}), NumberInt({{ vitamui_platform_informations.cas_tenant }})],
-             "roleNames" : [
-                 "ROLE_CREATE_ARCHIVE_SEARCH", "ROLE_GET_ARCHIVE_SEARCH", "ROLE_GET_ALL_ARCHIVE_SEARCH"
-                ]
-        },
-        "$setOnInsert": {
-            "_id" : "ui_archive_search_context"
-        }
-    },
-    { "upsert":true }
-);
-
-
-{% macro insertCertififcate(pemFile, contextId) -%}
-db.certificates.remove(
-    {"_id" : "{{ pemFile | basename | replace('.pem','_cert')}}"},
-    { justOne: true }
-)
-db.certificates.insert({
-    "_id": "{{ pemFile | basename | replace('.pem','_cert')}}",
-    "contextId": "{{ contextId }}",
-    "subjectDN": "subjectDN",
-    "issuerDN": "issuerDN",
-    "serialNumber": "serialNumberAdmin",
-    "data": "{{ lookup('file', pemFile) | cert_to_str() }}"
-})
-
-{%- endmacro %}
-
-{{ insertCertififcate('{{ inventory_dir }}/certs/server/hosts/{{ groups["hosts_ui_archive_search"]|first }}/ui-archive-search.pem', 'ui_archive_search_context') }}
-
-print("INFO 01_archive_search.js : END security update for Archive search");
 
 // +++++++++++++++++++++++++++++++++++++++ CAS DATABASE +++++++++++++++++++++++++++++++++++++++
 
