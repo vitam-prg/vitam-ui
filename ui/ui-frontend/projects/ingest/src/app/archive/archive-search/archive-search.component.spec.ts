@@ -45,7 +45,7 @@ import { MatTreeModule } from '@angular/material/tree';
 
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { environment } from 'projects/archive-search/src/environments/environment';
+import { environment } from 'projects/ingest/src/environments/environment';
 import { of } from 'rxjs';
 import { InjectorModule, LoggerModule } from 'ui-frontend-common';
 import { ArchiveSharedDataServiceService } from '../../core/archive-shared-data-service.service';

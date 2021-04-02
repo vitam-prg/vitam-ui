@@ -57,4 +57,5 @@ public class IngestApplicationProperties extends UIPropertiesImpl implements UIP
 
     public RestClientConfiguration ingestExternalClient;
 
+    public RestClientConfiguration archiveSearchExternalClient;
 }

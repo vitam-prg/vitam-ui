@@ -1,4 +1,3 @@
-
 spring:
   application:
     name: ${server-identity.identityRole}
@@ -43,6 +42,20 @@ ui-ingest:
       truststore:
         key-path: src/main/config/truststore.jks
         key-password: jkspasswd
+      hostname-verification: false
+
+  archive-search-external-client:
+    server-host: localhost
+    server-port: 8089
+    secure: true
+    ssl-configuration:
+      keystore:
+        key-path: ../../dev-deployment/environments/keystores/server/localhost/keystore_ui-archive-search.jks
+        key-password: changeme
+        type: JKS
+      truststore:
+        key-path: ../../dev-deployment/environments/keystores/server/truststore_server.jks
+        key-password: changeme
       hostname-verification: false
 
 ui-prefix: ingest-api

@@ -120,4 +120,24 @@ public class IngestContextConfiguration extends AbstractContextConfiguration {
         return archiveSearchExternalRestClientFactory.getAccessContractTempExternalRestClient();
     }
 
+
+
+    @Bean
+    @ConditionalOnMissingBean
+    @DependsOn("uiProperties")
+    public ArchiveSearchExternalRestClientFactory archiveSearchExternalRestClientFactory(
+        final IngestApplicationProperties uiProperties,
+        RestTemplateBuilder restTemplateBuilder) {
+        return new ArchiveSearchExternalRestClientFactory(uiProperties.getArchiveSearchExternalClient(),
+            restTemplateBuilder);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    @DependsOn("uiProperties")
+    public ArchiveSearchExternalWebClientFactory archiveSearchExternalWebClientFactory(
+        final IngestApplicationProperties uiProperties,
+        RestTemplateBuilder restTemplateBuilder) {
+        return new ArchiveSearchExternalWebClientFactory(uiProperties.getArchiveSearchExternalClient());
+    }
 }
