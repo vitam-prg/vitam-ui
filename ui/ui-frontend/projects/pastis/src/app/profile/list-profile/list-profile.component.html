@@ -1,0 +1,148 @@
+<div>
+
+    <!--Vitamui-header -  To be deleted after vituamui integration-->
+    <div style="height: 80px;background-color:#604379;"></div>
+
+    <!--Navigation links-->
+
+    <div class=navigation-links-container>
+
+        <p class="pastis-font-roboto-regular pastis-primary-500">
+            <span>
+                <button class="btn-back">
+                    <mat-icon class="pastis-ico-arrow-back">arrow_back
+                    </mat-icon>
+                </button>
+            </span>
+
+            Portail <mat-icon class="pastis-ico-arrow-right">arrow_right_alt</mat-icon> <b
+                class="pastis-black-height">créer et gérer des profils d’archivage</b>
+        </p>
+    </div>
+
+    <!-- The input search -->
+    <div class="search-and-create-container">
+        <p class="pastis-font-h5">Créer et gérer des profils d’archivage</p><br>
+
+        <div class="button-container">
+            <!--Button save profile-->
+            <div style="width: 50%">
+                <input placeholder="Recherche un profil par son intitulé" class="filter-input-text">
+
+                <button mat-button mat-icon-button class="btn-search ">
+                    <mat-icon style="color:white; vertical-align: text-bottom;">search</mat-icon>
+                </button>
+            </div>
+
+            <!--Button create profile -->
+            <button *ngIf="true" class="btn-create-profile">
+                <span class="btn-icon-left" >
+                    <mat-icon>add</mat-icon>
+                </span>
+                <span style="align-items: center; margin:auto;">créer un nouveau profil</span>
+            </button>
+
+
+            <!--Button import profile -->
+
+            <button class="btn-import-profile" (click)="fileInput.click()">
+                <span class="btn-icon-left">
+                    <mat-icon svgIcon="import-icon"></mat-icon>
+                </span>
+                <span style="align-items: center; margin:auto;">importer un profil</span>
+                
+                <input #fileInput type="file" class="buttons" accept=".json, .rng" ng2FileSelect style="display:none;"
+                    [uploader]="uploader" (change)="uploadProfile($event)" />
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!--The profile types cards container-->
+    <div class=profile-cards-container>
+        <p class="pastis-font-menu">Liste des profils</p>
+        <div class="total-profile-card">
+            <p class="total-profile-label">Tous les profils</p>
+            <p class="total-profilenum-label">{{totalProfileNum}}</p>
+        </div>
+
+        <div class="pa-pua-card">
+            <p class="pa-pua-label">PA</p>
+            <p class="pa-pua-num-label">{{numPA}}</p>
+        </div>
+        <div class="pa-pua-card">
+            <p class="pa-pua-label">PUA</p>
+            <p class="pa-pua-num-label">{{numPUA}}</p>
+        </div>
+        <div id="test" class=test></div>
+    </div>
+
+
+    <!--The list of profile container-->
+    <div ngxUiLoaderBlurred blur="0" [loaderId]="'table-profiles'" style="position: relative"
+        class="profile-list-container" *ngIf="matDataSource">
+        <table mat-table [dataSource]="matDataSource" class="list-profile-table">
+
+            <!-- Type/State Column -->
+            <ng-container matColumnDef="type">
+                <th mat-header-cell *matHeaderCellDef class="pastis-font-table-header pastis-col"> Type/Etat <mat-icon
+                        svgIcon="chevron-down" class="pastis-ico-chevron-down"></mat-icon>
+                </th>
+                <td mat-cell *matCellDef="let element" class="pastis-table-content pastis-col"> {{element.type}}
+                    <mat-icon *ngIf="element.type == 'PA'" svgIcon="active-icon"></mat-icon>
+                    <mat-icon *ngIf="element.type == 'PUA'" svgIcon="inactive-icon"></mat-icon>
+                </td>
+            </ng-container>
+
+            <!-- Identifiant Column -->
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef class="pastis-font-table-header pastis-col"> Identifiant <mat-icon
+                        svgIcon="chevron-down" class="pastis-ico-chevron-down"></mat-icon>
+                </th>
+                <td mat-cell *matCellDef="let element" class="pastis-table-content pastis-col"> {{element.id}} </td>
+            </ng-container>
+
+            <!-- Intitulé Column -->
+            <ng-container matColumnDef="baseName">
+                <th mat-header-cell *matHeaderCellDef class="pastis-font-table-header pastis-col"> Intitulé <mat-icon
+                        svgIcon="chevron-down" class="pastis-ico-chevron-down"></mat-icon>
+                </th>
+                <td mat-cell *matCellDef="let element" class="pastis-table-content pastis-col"> {{element.baseName}}
+                </td>
+            </ng-container>
+
+            <!-- Last modified Column -->
+            <ng-container matColumnDef="lastModified">
+                <th mat-header-cell *matHeaderCellDef class="pastis-font-table-header pastis-col"> Dernières
+                    modifications
+                    <mat-icon svgIcon="chevron-down" class="pastis-ico-chevron-down"></mat-icon>
+                </th>
+                <td mat-cell *matCellDef="let element" class="pastis-table-content pastis-col" style="width: 350px;">
+                    <div style="display: inline-block; vertical-align: middle;">
+                        {{element.lastModified}}
+                        <div style="display: inline-flex;" *ngIf="isRowHovered(element.id)">
+                            <button mat-button mat-icon-button class="btn-edit-profile"
+                                (click)="editProfile(element.id)">
+                                <mat-icon style="color:white; vertical-align: middle;">edit</mat-icon>
+                            </button>
+
+                            <button mat-button mat-icon-button class="btn-menu">
+                                <mat-icon class="pastis-primary-500">more_horiz</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true" class="pastis-table-row-header"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="pastis-table-row"
+                (mouseover)="onMouseOver(row)" (mouseleave)="onMouseLeave(row)"></tr>
+        </table>
+        <ngx-ui-loader [loaderId]="'table-profiles'"></ngx-ui-loader>
+
+    </div>
+    <br>
+    <br>
+</div>

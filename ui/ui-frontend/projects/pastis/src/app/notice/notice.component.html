@@ -1,0 +1,89 @@
+<mat-sidenav-container class="pastis-page-container">
+  <mat-sidenav-content >
+    <div class="pastis-entete-bandeau"></div>
+    <div>
+      <!--<pastis-file-tree-metadata style="text-align: center;"></pastis-file-tree-metadata>-->
+      <!--Top panels container-->
+      <div class="pastis-metadata-option-container">
+        <!-- Top left panel container -->
+        <div class="pastis-metadata-option-entete-1">
+          <!--Arrow button conainer-->
+          <div class="pastis-position-btn-arrow-back">
+            <button class="pastis-btn-rounded-arrow-back" tooltip="Retour vers la liste des profils" placement="bottom"
+                    show-delay="0" tooltip-class="pastis-tooltip-class" (click)="goBack()">
+              <mat-icon class="pastis-ico-arrow-back" style="color: #FFFFFF">arrow_back
+              </mat-icon>
+            </button>
+          </div>
+          <!--Panel content separator-->
+          <div class="pastis-entete-1-separator"></div>
+          <!--Text cotopntainer-->
+          <div class="pastis-entete-1-text">
+            <div class="pastis-entete-1-text-titre">{{keys[0]}}</div>
+            <div class="pastis-entete-1-text-body-1">
+              Créer et gérer un profil d'unité archivistique<mat-icon  style="color: #474D4A" class="pastis-ico-arrow-right">arrow_right_alt</mat-icon>
+              <span class="pastis-entete-1-text-body-2" *ngIf="notice">{{notice.Name}}</span>
+            </div>
+          </div>
+        </div>
+
+        <!--Top right panel container-->
+        <div class="pastis-metadata-option-entete-2">
+
+          <!--Button save-->
+          <div class="panel-buttons" tooltip="Enregistrer le profil" placement="top" show-delay="0"
+               tooltip-class="pastis-tooltip-class">
+            <pastis-user-action-save-profile></pastis-user-action-save-profile>
+          </div>
+          <!--Button setting-->
+          <div class="panel-buttons" tooltip="Télécharger le manuel d'utilisation de PASTIS" placement="top" show-delay="0"
+               tooltip-class="pastis-tooltip-class">
+            <pastis-user-action-download-doc></pastis-user-action-download-doc>
+          </div>
+        </div>
+
+      </div>
+      <!--Check font.scss-->
+    </div>
+    <div class="pastis-notice-container">
+
+      <div class="pastis-notice-container-title">
+        Notice
+      </div>
+      <div>
+        <div class="pastis-notice-container-id">
+          <div class="pastis-notice-id-label">Type</div>
+          <div class="pastis-notice-id-value">Profil d'unité archivistique</div>
+        </div>
+        <div class="pastis-notice-container-id">
+          <div class="pastis-notice-id-label">Identifiant</div>
+          <div class="pastis-notice-id-value">{{ notice ? notice.Identifier : '-- --'}}</div>
+        </div>
+      </div>
+      <div class="pastis-notice-container-intitule">
+        <label class="pastis-notice-intitule-key">Intitulé <span style="color:#E7304D;font-weight:bold;margin-left: 5px;">*</span></label>
+        <input type="text" style="border: none" *ngIf="notice" [(ngModel)]="notice.Name" (change)="changeNotice()">
+      </div>
+      <div class="pastis-notice-container-description">
+        <div class="pastis-notice-description">
+          <label class="pastis-notice-description-label"> Description</label>
+          <textarea class="pastis-notice-description-value" *ngIf="notice" [(ngModel)]="notice.Description" (change)="changeNotice()">{{notice.Description}}</textarea>
+        </div>
+      </div>
+      <div class="pastis-notice-footer">
+        <pastis-notice-toggle-button></pastis-notice-toggle-button>
+        <div class="pastis-notice-container-chart">
+          <div class="pastis-notice-chart">
+            Autoriser dans le manifeste la présence de
+          </div>
+          <div class="pastis-notice-chart">
+            métadonnées non déclarées dans le PUA ?
+          </div>
+        </div>
+        <div class="pastis-notice-container-info">
+          <mat-icon>info</mat-icon>
+        </div>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -926,7 +926,9 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "pastis:build"
+            "browserTarget": "pastis:build",
+            "host": "dev.vitamui.com",
+            "port": 4251
           },
           "configurations": {
             "production": {
