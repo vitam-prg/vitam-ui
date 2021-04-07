@@ -93,7 +93,7 @@ export class FileTreeComponent {
 
   static archiveUnits: FileNode;
   static archiveUnitsNumber: number;
-  static uaIdAndPosition = new Map<string, number>();
+  static uaIdAndPosition = new Map<any, number>();
 
 
   constructor(private fileService: FileService, private loggingService: NotificationService,
@@ -173,7 +173,7 @@ export class FileTreeComponent {
   insertItem(parent: FileNode, elementsToAdd: string[]) {
     let elementsToAddFromSeda: SedaData[] = [];
     for (let element of elementsToAdd) {
-      parent.sedaData.Children.forEach(child => {
+      parent.sedaData.Children.forEach((child) => {
         if (child.Name === element) {
           elementsToAddFromSeda.push(child);
         }
@@ -212,7 +212,7 @@ export class FileTreeComponent {
         // 2. Insert all children of complex elements based on SEDA definition
         if (sedaChild.Element === SedaElementConstants.complex) {
           let childrenOfComplexElement: string[] = [];
-          sedaChild.Children.forEach(child => {
+          sedaChild.Children.forEach((child: { Cardinality: any; Name: string; }) => {
             if (child.Cardinality === SedaCardinalityConstants.one ||
               child.Cardinality === SedaCardinalityConstants.oreOrMore) {
               childrenOfComplexElement.push(child.Name);
@@ -221,9 +221,9 @@ export class FileTreeComponent {
           this.insertItem(newNode, childrenOfComplexElement);
         }
         // 3. Insert all olbigatory attributes of the added node, if there is
-        if (sedaChild.Children.some(child => child.Element === SedaElementConstants.attribute)) {
+        if (sedaChild.Children.some((child: { Element: any; }) => child.Element === SedaElementConstants.attribute)) {
           let attributes: FileNode[] = [];
-          sedaChild.Children.filter(c => c.Element === SedaElementConstants.attribute).forEach(child => {
+          sedaChild.Children.filter((c: { Element: any; }) => c.Element === SedaElementConstants.attribute).forEach((child: { Name: string; Element: any; Cardinality: any; }) => {
             let isAttributeAlreadyIncluded = newNode.children.some(nodeChild => nodeChild.name.includes(child.Name));
             // If the added node contains an obligatory attribute,
             // on its seda definition and the attribute is not already part of the node, 
@@ -244,7 +244,7 @@ export class FileTreeComponent {
       }
       // 4. Order elements according to seda definition
       let sedaChildrenName: string[] = [];
-      parent.sedaData.Children.forEach(child => {
+      parent.sedaData.Children.forEach((child: { Name: string; }) => {
         sedaChildrenName.push(child.Name);
       })
       parent.children.sort((a, b) => {
@@ -308,13 +308,15 @@ export class FileTreeComponent {
 
   generateArchiveUnitsNumbers(archiveUnit: FileNode): void {
     if (archiveUnit.name === 'DescriptiveMetadata') {
-      FileTreeComponent.uaIdAndPosition[archiveUnit.level - 1] = archiveUnit.id;
+      const archiveUnitLevel  = archiveUnit.level - 1;
+      FileTreeComponent.uaIdAndPosition.set(archiveUnitLevel , archiveUnit.id);
     }
     let counter = 0;
     archiveUnit.children.forEach(child => {
       if (child.name === 'ArchiveUnit') {
         counter++;
-        FileTreeComponent.uaIdAndPosition[archiveUnit.level - 1 + "." + counter] = child.id;
+        const archiveUnitLevel  = archiveUnit.level - 1 + "." + counter;
+        FileTreeComponent.uaIdAndPosition.set(archiveUnitLevel, child.id);
       }
     })
   }
@@ -424,7 +426,7 @@ export class FileTreeComponent {
   buildFileTree(obj: object, level: number): FileNode[] {
     // This should recive Root node of Tree of Type FileNode
     // so we dont have to create a new node and use it as it is
-    return Object.keys(obj).reduce<FileNode[]>((accumulator, key: string) => {
+    return Object.keys(obj).reduce<FileNode[]>((accumulator: FileNode[], key: keyof object) => {
       const value = obj[key];
       const node = {} as FileNode;
       node.id = level;

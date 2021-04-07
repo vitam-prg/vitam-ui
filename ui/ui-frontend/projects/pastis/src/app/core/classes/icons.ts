@@ -47,7 +47,7 @@ export enum IconsEnum {
     'pastis-complex-element-white2' = 'complex-element-white2',
     'pastis-plus-blue' = 'plus-blue',
     'pastis-plus-grey' = 'plus-grey',
-    'import-icon' = 'import-icon',
+    'pastis-import-icon' = 'import-icon',
     'chevron-down' = 'chevron-down',
     'inactive-icon' = 'inactive-icon',
     'active-icon' = 'active-icon',

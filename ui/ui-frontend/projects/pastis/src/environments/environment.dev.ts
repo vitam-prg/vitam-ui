@@ -39,5 +39,5 @@ import { IEnvironment } from './IEnvironment';
 
 export const environment: IEnvironment = {
   production: false,
-  apiServerUrl: "http://10.100.129.51:8080", 
+  apiServerUrl: "https://dev.vitamui.com:8051", 
 };

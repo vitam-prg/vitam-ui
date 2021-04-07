@@ -42,7 +42,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FiletreeFilterPipe implements PipeTransform {
 
-  transform(value: any, ...args: any[]): any {
+  transform(): any {
     return null;
   }
 

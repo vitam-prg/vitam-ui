@@ -37,9 +37,9 @@ knowledge of the CeCILL-C license and that you accept its terms.
 */
 
 // Angular modules
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule, APP_INITIALIZER, LOCALE_ID} from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -67,6 +67,17 @@ import { ToastContainerModule, ToastrModule } from 'ngx-toastr';
 import { PastisConfiguration } from '../app/core/classes/pastis-configuration';
 import { QuicklinkModule } from 'ngx-quicklink';
 import { RegisterIconsService } from './core/services/register-icons.service';
+import { BASE_URL, ENVIRONMENT, LoggerModule, VitamUICommonModule, WINDOW_LOCATION } from 'ui-frontend-common';
+import { environment } from 'projects/archive-search/src/environments/environment';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { MultiTranslateHttpLoader } from 'ngx-translate-multi-http-loader';
+
+export function httpLoaderFactory(httpClient: HttpClient): MultiTranslateHttpLoader {
+  return new MultiTranslateHttpLoader(httpClient,  [
+  {prefix: './assets/shared-i18n/', suffix: '.json'},
+  {prefix: './assets/i18n/', suffix: '.json'}
+]);
+}
 
 @NgModule({
   declarations: [
@@ -92,6 +103,8 @@ import { RegisterIconsService } from './core/services/register-icons.service';
     ProfileModule,
     ToastContainerModule,
     QuicklinkModule,
+    VitamUICommonModule,
+    LoggerModule.forRoot(),
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-full-width',
       preventDuplicates: false,
@@ -99,6 +112,14 @@ import { RegisterIconsService } from './core/services/register-icons.service';
       closeButton:false,
       easeTime:0
     }),
+    TranslateModule.forRoot({
+      defaultLanguage: 'fr',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: httpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   exports:[
       HttpClientModule,
@@ -109,17 +130,20 @@ import { RegisterIconsService } from './core/services/register-icons.service';
       UserActionsModule,
       CoreModule,
       FileTreeModule,
-      SharedModule
+      SharedModule,
+      VitamUICommonModule
   ],
   providers: [
+    Title,
+    { provide: BASE_URL, useValue: '/portal-api' },
+    { provide: ENVIRONMENT, useValue: environment },
+    { provide: LOCALE_ID, useValue: 'fr'},
+    { provide: WINDOW_LOCATION, useValue: window.location},
     PastisConfiguration,
-    { 
-        provide: APP_INITIALIZER, 
-        useFactory: PastisConfigurationFactory, 
+    {
+        provide: APP_INITIALIZER,
+        useFactory: PastisConfigurationFactory,
         deps: [PastisConfiguration, HttpClient], multi: true },
-    {   provide: APP_INITIALIZER, 
-        useFactory: PastisIconsFactory, 
-        deps: [RegisterIconsService, HttpClient], multi: true },
   ],
 
   bootstrap: [AppComponent],

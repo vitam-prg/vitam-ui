@@ -75,7 +75,7 @@ export class FileTreeMetadataService {
     this.allowedCardinality.set('1-N', ['1', '1-N']);
   }
 
-  fillDataTable(sedaChild: SedaData, clickedNode: FileNode, childrenToInclude:string[], childrenToExclude:string[]): MetadataHeaders[] {
+  fillDataTable(sedaChild: SedaData, clickedNode: FileNode, _childrenToInclude:string[], childrenToExclude:string[]): MetadataHeaders[] {
     let data:MetadataHeaders[] = [];
     let allowedCardList: string[][];
     if (clickedNode.children.length > 0 ) {
@@ -198,7 +198,7 @@ export class FileTreeMetadataService {
 
     if (sedaNode.Children.length > 0) {
         for (let fileNodechild of nodesToKeep) {
-          sedaNode.Children.forEach(sedaGrandChild=>{
+          sedaNode.Children.forEach((sedaGrandChild: { Name: string; })=>{
             if (fileNodechild.name === sedaGrandChild.Name) {
               fileNodechild.cardinality ? childrenCardMap.set(fileNodechild.id,fileNodechild.cardinality) : childrenCardMap.set(fileNodechild.id,"1");
             }
@@ -222,7 +222,7 @@ export class FileTreeMetadataService {
     if (sedaParent.Name === childName){
       return sedaParent.Enumeration;
     }
-    let sedaNode: SedaData = sedaParent.Children.find(c => c.Name === childName);
+    let sedaNode: SedaData = sedaParent.Children.find((c: { Name: string; }) => c.Name === childName);
     if (sedaNode){
       return sedaNode.Enumeration
     }

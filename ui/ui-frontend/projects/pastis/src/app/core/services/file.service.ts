@@ -91,7 +91,7 @@ export class FileService  {
   }
 
   addSedaMetadataToFileTree(id:number){
-    this.profileService.getProfile(id).subscribe(response => {
+    this.profileService.getProfile(id).subscribe((response) => {
       this.profile.next(response);
       let profile = this.puaService.puaToFileNode(response);
       this.sedaService.getSedaRules().subscribe((sedaData: any) => {
@@ -126,11 +126,11 @@ export class FileService  {
    * Les nodes correspondant aux ArchivesUnit
    * se réfèrent à la définition SEDA de l'ArchiveUnit mère (ils sont récursifs...)
    * @param parent 
-   * @param nodes 
+   * @param _nodes 
    * @param sedaData 
    */
-  linkFileNodeToSedaData(parent: FileNode, nodes: FileNode[], sedaData: SedaData[]){
-    Array.prototype.forEach.call((nodes: any,node: any) => {
+  linkFileNodeToSedaData(parent: FileNode, _nodes: FileNode[], sedaData: SedaData[]){
+    Array.prototype.forEach.call((_nodes: any,node: any) => {
       node.parent = parent;
       let nodeName : string = (node.name === 'xml:id') ? 'id' : node.name;
       let sedaDataMatch: SedaData;
@@ -162,7 +162,7 @@ export class FileService  {
         if (sedaDataMatch.Name === 'ArchiveUnit' && this.sedaDataArchiveUnit == undefined){
           this.sedaDataArchiveUnit = sedaDataMatch;
           // On introduit la récursivité sur les ArchivesUnit
-          this.sedaDataArchiveUnit.Children.find(c=>c.Name=='ArchiveUnit').Children = this.sedaDataArchiveUnit.Children;
+          this.sedaDataArchiveUnit.Children.find((c: { Name: string; })=>c.Name=='ArchiveUnit').Children = this.sedaDataArchiveUnit.Children;
         }
       }
       node.sedaData = sedaDataMatch;
@@ -173,7 +173,7 @@ export class FileService  {
   }
 
   updateFileTree(newData: FileNode[]): Observable<FileNode[]> {
-    this.sedaService.getSedaRules().subscribe(sedaData => {
+    this.sedaService.getSedaRules().subscribe((sedaData) => {
       let sedaDataArray: SedaData[] = [sedaData[0]];
       this.linkFileNodeToSedaData(null, newData, sedaDataArray);
       this.dataChange.next(newData);
@@ -391,7 +391,7 @@ export class FileService  {
     if (sedaElement.Element === SedaElementConstants.complex && 
       sedaElement.Children.length > 0) {
           let fileNodeComplexChildren : FileNode[] = [];
-          sedaElement.Children.forEach(child => {
+          sedaElement.Children.forEach((child: { Cardinality: string; Name: string; Type: string; }) => {
                 if (child.Cardinality === SedaCardinalityConstants.one || 
                     child.Cardinality === SedaCardinalityConstants.oreOrMore) {
                       let aFileNode : FileNode = {} as FileNode;
