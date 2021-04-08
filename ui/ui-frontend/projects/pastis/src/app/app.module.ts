@@ -45,7 +45,6 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PortalModule  } from '@angular/cdk/portal';
 
-
 //Pastis modules
 import { CoreModule } from './core/core.module';
 import { FileTreeModule } from './profile/edit-profile/file-tree/file-tree.module';
@@ -68,9 +67,12 @@ import { PastisConfiguration } from '../app/core/classes/pastis-configuration';
 import { QuicklinkModule } from 'ngx-quicklink';
 import { RegisterIconsService } from './core/services/register-icons.service';
 import { BASE_URL, ENVIRONMENT, LoggerModule, VitamUICommonModule, WINDOW_LOCATION } from 'ui-frontend-common';
-import { environment } from 'projects/archive-search/src/environments/environment';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { MultiTranslateHttpLoader } from 'ngx-translate-multi-http-loader';
+import {environment} from 'projects/pastis/src/environments/environment';
+import { ServiceWorkerModule } from '@angular/service-worker';
+
+
 
 export function httpLoaderFactory(httpClient: HttpClient): MultiTranslateHttpLoader {
   return new MultiTranslateHttpLoader(httpClient,  [
@@ -82,7 +84,6 @@ export function httpLoaderFactory(httpClient: HttpClient): MultiTranslateHttpLoa
 @NgModule({
   declarations: [
     AppComponent,
-    PastisDialogConfirmComponent,
     UserActionAddMetadataComponent,
     UserActionRemoveMetadataComponent,
     routingComponents,
@@ -119,7 +120,8 @@ export function httpLoaderFactory(httpClient: HttpClient): MultiTranslateHttpLoa
         useFactory: httpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   exports:[
       HttpClientModule,

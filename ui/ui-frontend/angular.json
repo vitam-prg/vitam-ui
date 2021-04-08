@@ -678,7 +678,6 @@
               "i18nFormat": "xlf",
               "i18nLocale": "en",
               "i18nMissingTranslation": "warning"
-
             }
           }
         },
@@ -864,32 +863,39 @@
       }
     },
     "pastis": {
-      "projectType": "application",
-      "schematics": {
-        "@schematics/angular:component": {
-          "style": "scss"
-        }
-      },
-      "root": "projects/pastis",
+      "root": "projects/pastis/",
       "sourceRoot": "projects/pastis/src",
-      "prefix": "app",
+      "projectType": "application",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
+            "customWebpackConfig": {
+              "path": "./extra-webpack.config.js"
+            },
             "outputPath": "dist/pastis",
             "index": "projects/pastis/src/index.html",
             "main": "projects/pastis/src/main.ts",
             "polyfills": "projects/pastis/src/polyfills.ts",
             "tsConfig": "projects/pastis/tsconfig.app.json",
-            "aot": true,
+            "rebaseRootRelativeCssUrls": true,
             "assets": [
+              "projects/pastis/src/assets",
               "projects/pastis/src/favicon.ico",
-              "projects/pastis/src/assets"
+              {
+                "glob": "**/*",
+                "input": "node_modules/ui-frontend-common/assets",
+                "output": "/assets"
+              }
             ],
             "styles": [
               "projects/pastis/src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "projects/commons/src/sass"
+              ]
+            },
             "scripts": []
           },
           "configurations": {
@@ -924,7 +930,7 @@
           }
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
             "browserTarget": "pastis:build",
             "host": "dev.vitamui.com",

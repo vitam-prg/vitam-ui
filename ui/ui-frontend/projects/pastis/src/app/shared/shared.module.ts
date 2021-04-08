@@ -54,6 +54,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     PastisUnderConstructionComponent,
     PastisToggleButtonComponent,
     PastisNoticeToggleButtonComponent,
+    PastisDialogConfirmComponent
   ],
   imports: [CommonModule,
     FormsModule,
