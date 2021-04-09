@@ -1,5 +1,3 @@
-<app-archive-test [ingest]= "test"></app-archive-test>
-
 <mat-sidenav-container [autosize]="true" [hasBackdrop]="false">
   
   <mat-sidenav mode="side" [fixedInViewport]="true" opened="{{show}}" *ngIf="foundAccessContract" >
@@ -10,7 +8,6 @@
     <app-archive-preview *ngIf="openedItem" (previewClose)="closePanel()" [archiveUnit]="openedItem"
                          [accessContract]="accessContract"></app-archive-preview>
   </mat-sidenav>
-
 
   <mat-sidenav-content>
     <div class="vitamui-heading">

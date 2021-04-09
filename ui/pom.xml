@@ -21,7 +21,6 @@
         <module>ui-identity</module>
         <module>ui-referential</module>
         <module>ui-ingest</module>
-        <module>ui-archive-search</module>
     </modules>
 
 </project>
