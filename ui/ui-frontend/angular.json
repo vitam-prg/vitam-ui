@@ -889,7 +889,7 @@
               }
             ],
             "styles": [
-              "projects/pastis/src/styles.scss"
+              "projects/pastis/src/sass/styles.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [

@@ -1,7 +1,7 @@
-@import '../../../styles.scss';
+
 
 .pastis-edit-profile-header{
-    @extend .pastis-bg-surface-tabs;
+    @extend .pastis-bg-surface-tabs !optional;
     width: auto !important;
     height: 200px;
 }
@@ -81,7 +81,7 @@
 
 // The tab
 ::ng-deep.mat-tab-label{
-    @extend .pastis-font-label-historique;
+    @extend .pastis-font-label-historique !optional;
     margin-right: 3px !important;
     background: rgba(255, 255, 255, 0.3);
     height: 37px !important;
@@ -120,7 +120,7 @@
 
 // The content of the active tab
 ::ng-deep .mat-tab-label-active .mat-tab-label-content{
-    @extend .pastis-font-informations;
+    @extend .pastis-font-informations  !optional;
     color: #5E5D5D !important;
 }
 
