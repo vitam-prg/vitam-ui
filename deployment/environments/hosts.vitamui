@@ -129,7 +129,6 @@ hosts_ui_identity
 hosts_ui_portal
 hosts_ui_search
 hosts_ui_ingest
-hosts_ui_archive_search
 hosts_ui_referential
 
 [hosts_ui_identity]
@@ -137,10 +136,6 @@ hosts_ui_referential
 vitamui-env
 
 [hosts_ui_ingest]
-# EDIT
-vitamui-env
-
-[hosts_ui_archive_search]
 # EDIT
 vitamui-env
 

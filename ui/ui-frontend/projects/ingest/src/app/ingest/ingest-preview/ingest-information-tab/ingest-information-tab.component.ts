@@ -36,6 +36,7 @@
  */
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { IngestService } from '../../ingest.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-ingest-information-tab',
@@ -47,9 +48,17 @@ export class IngestInformationTabComponent implements OnInit, OnChanges {
   ingest: any;
 
   ingestDetails: any;
-  constructor(private ingestService: IngestService) { }
+  tenantIdentifier : string;
+  path : string;
+  constructor(private ingestService: IngestService, private route :ActivatedRoute) { }
 
   ngOnInit() {
+
+    this.route.params.subscribe(params => {
+      this.tenantIdentifier = params.tenantIdentifier;
+    });
+    this.path = "/archive-search/tenant/" + this.tenantIdentifier;
+
     this.getIngestDetails(this.ingest);
   }
 

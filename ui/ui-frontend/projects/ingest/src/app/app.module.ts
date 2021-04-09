@@ -55,6 +55,7 @@ import { SharedModule } from './shared/shared.module';
 import { HoldingFillingSchemeModule } from './holding-filling-scheme/holding-filling-scheme.module';
 
 
+
 export function httpLoaderFactory(httpClient: HttpClient): MultiTranslateHttpLoader {
   return new MultiTranslateHttpLoader(httpClient,  [
     {prefix: './assets/shared-i18n/', suffix: '.json'},
@@ -75,7 +76,7 @@ registerLocaleData(localeFr, 'fr');
     VitamUICommonModule,
     AppRoutingModule,
     SharedModule,
-    IngestModule,
+    IngestModule   ,
     HoldingFillingSchemeModule,
     QuicklinkModule,
     TranslateModule.forRoot({

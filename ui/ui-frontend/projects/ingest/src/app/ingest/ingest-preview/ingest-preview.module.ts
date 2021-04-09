@@ -53,10 +53,14 @@ import { IngestInformationTabComponent } from './ingest-information-tab/ingest-i
 import { IngestEventDetailComponent } from './ingest-information-tab/ingest-event-detail/ingest-event-detail.component';
 import { EventDisplayHelperService } from './event-display-helper.service';
 import { EventDisplayComponent } from './ingest-information-tab/ingest-event-detail/event-display/event-display.component';
+import { ArchiveModule } from '../../archive';
+
+
 
 
 @NgModule({
   declarations: [
+    
     IngestPreviewComponent,
     IngestInformationTabComponent,
     IngestEventDetailComponent,
@@ -74,13 +78,15 @@ import { EventDisplayComponent } from './ingest-information-tab/ingest-event-det
     MatSelectModule,
     MatOptionModule,
     MatTabsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    ArchiveModule
   ],
   exports: [
     IngestPreviewComponent,
     IngestInformationTabComponent,
     IngestEventDetailComponent,
-    EventDisplayComponent
+    EventDisplayComponent,
+    
   ],
   providers: [
     EventDisplayHelperService

@@ -74,7 +74,7 @@ db.applications.update(
     {
         "$set" : {
 {% if vitamui.archive_search.base_url is defined %}
-        	"url": "{{ vitamui.archive_search.base_url }}/archive-search",
+        	"url": "{{ vitamui.ingest.base_url }}/archive-search",
 {% else %}
             "url" : "{{ url_prefix }}/archive-search/archive-search",
 {% endif %}
@@ -97,78 +97,7 @@ db.applications.update(
 
 print("INFO 01_archive_search.js : END archive search database update");
 
-// +++++++++++++++++++++++++++++++++++++++ SECURITY DATABASE ++++++++++++++++++++++++++++++++++
 
-db = db.getSiblingDB('{{ mongodb.security.db }}')
-
-print("INFO 01_archive_search.js : START security update");
-
-db.contexts.update(
-    { "_id" : "ui_archive_search_context" },
-    {
-        "$set" : {
-            "name": "Contexte UI Archive Search",
-             "fullAccess" : true,
-             "tenants" : [NumberInt({{ vitamui_platform_informations.proof_tenant }}), NumberInt({{ vitamui_platform_informations.cas_tenant }})],
-             "roleNames" : [
-                 "ROLE_CREATE_ARCHIVE_SEARCH", "ROLE_GET_ARCHIVE_SEARCH", "ROLE_GET_ALL_ARCHIVE_SEARCH"
-                ]
-        },
-        "$setOnInsert": {
-            "_id" : "ui_archive_search_context"
-        }
-    },
-    { "upsert":true }
-);
-
-
-{% macro insertCertififcate(pemFile, contextId) -%}
-db.certificates.remove(
-    {"_id" : "{{ pemFile | basename | replace('.pem','_cert')}}"},
-    { justOne: true }
-)
-db.certificates.insert({
-    "_id": "{{ pemFile | basename | replace('.pem','_cert')}}",
-    "contextId": "{{ contextId }}",
-    "subjectDN": "subjectDN",
-    "issuerDN": "issuerDN",
-    "serialNumber": "serialNumberAdmin",
-    "data": "{{ lookup('file', pemFile) | cert_to_str() }}"
-})
-
-{%- endmacro %}
-
-{{ insertCertififcate('{{ inventory_dir }}/certs/server/hosts/{{ groups["hosts_ui_archive_search"]|first }}/ui-archive-search.pem', 'ui_archive_search_context') }}
-
-print("INFO 01_archive_search.js : END security update for Archive search");
-
-// +++++++++++++++++++++++++++++++++++++++ CAS DATABASE +++++++++++++++++++++++++++++++++++++++
-
-print("INFO 01_archive_search.js : START cas database update");
-db = db.getSiblingDB('{{ mongodb.cas.db }}')
-
-
-db.services.update(
-    { "_id" :  NumberInt(4) },
-    {
-        "$set" : {
-            "_class": "org.apereo.cas.services.RegexRegisteredService",
-        	"serviceId": "^{{ vitamui.archive_search.base_url | default(url_prefix) }}/archive-search/.*",
-            "name": "Archive Application",
-            "logoutType" : "FRONT_CHANNEL",
-            "logoutUrl": "{{ vitamui.archive_search.base_url | default(url_prefix) }}/archive-search/logout",
-            "attributeReleasePolicy": {
-                "_class": "org.apereo.cas.services.ReturnAllAttributeReleasePolicy"
-            }
-        },
-        "$setOnInsert": {
-            "_id" :  NumberInt(4)
-        }
-    },
-    { "upsert":true }
-);
-
-print("INFO 01_archive_search.js : END cas database update");
 
 
 print("END 01_archive_search.js");

@@ -69,6 +69,14 @@ const routes: Routes = [
     data: { appId: 'INGEST_MANAGEMENT_APP' }
   },
 
+  {
+    path: 'archive-search',
+    loadChildren: () => import('./archive/archive.module').then(m => m.ArchiveModule),
+    canActivate: [AuthGuard, AppGuard],
+    resolve: { userAnalytics: AnalyticsResolver },
+    data: { appId: 'ARCHIVE_SEARCH_MANAGEMENT_APP' }
+  },
+
   // =====================================================
   //                      TREES PLANS API
   // =====================================================

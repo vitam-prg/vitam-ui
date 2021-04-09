@@ -55,7 +55,6 @@ import { UploadModule } from '../core/common/upload.module';
 import { UploadTrackingModule } from './upload-tracking/upload-tracking.module';
 
 
-
 @NgModule({
   imports: [
     CommonModule,
@@ -72,7 +71,7 @@ import { UploadTrackingModule } from './upload-tracking/upload-tracking.module';
     ReactiveFormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatTooltipModule,
+    MatTooltipModule
   ],
   declarations: [
     IngestComponent

@@ -56,5 +56,6 @@ import org.springframework.stereotype.Component;
 public class IngestApplicationProperties extends UIPropertiesImpl implements UIProperties {
 
     public RestClientConfiguration ingestExternalClient;
+    public RestClientConfiguration archiveSearchExternalClient;
 
 }

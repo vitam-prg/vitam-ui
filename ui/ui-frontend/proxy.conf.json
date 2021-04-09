@@ -22,11 +22,6 @@
     "secure": false,
     "pathRewrite": {},
     "logLevel": "debug"
-  },
-  "/archive-search-api": {
-    "target": "https://dev.vitamui.com:9009/",
-    "secure": false,
-    "pathRewrite": {},
-    "logLevel": "debug"
   }
+
 }
