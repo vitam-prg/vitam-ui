@@ -56,6 +56,7 @@ import { NoticeComponent } from '../notice/notice.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {UserActionsModule} from '../user-actions/user-actions.module';
 import {FormsModule} from "@angular/forms";
+import { VitamUICommonModule } from 'ui-frontend-common';
 
 
 @NgModule({
@@ -70,7 +71,8 @@ import {FormsModule} from "@angular/forms";
     PastisMaterialModule,
     UserActionsModule,
     MatSlideToggleModule,
-    FormsModule
+    FormsModule,
+    VitamUICommonModule,
   ],
   exports: [CreateProfileComponent,EditProfileComponent,ListProfileComponent,NoticeComponent],
   providers:[],
