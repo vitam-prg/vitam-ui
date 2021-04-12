@@ -1,0 +1,962 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rng:element name="ArchiveTransfer">
+    <xsd:annotation>
+        <xsd:documentation>Pour controler manifest xml Vitam</xsd:documentation>
+    </xsd:annotation>
+    <rng:zeroOrMore>
+        <rng:attribute/>
+    </rng:zeroOrMore>
+    <rng:optional>
+        <rng:attribute name="id">
+            <rng:data type="ID"/>
+        </rng:attribute>
+    </rng:optional>
+    <rng:element name="Comment"/>
+    <rng:element name="Date">
+        <rng:data type="dateTime"/>
+    </rng:element>
+    <rng:element name="MessageIdentifier"/>
+    <rng:element name="ArchivalAgreement"/>
+    <rng:element name="CodeListVersions">
+        <rng:optional>
+            <rng:attribute name="id">
+                <rng:data type="ID"/>
+            </rng:attribute>
+        </rng:optional>
+        <rng:optional>
+            <rng:element name="ReplyCodeListVersion">
+                <rng:value type="token">ReplyCodeListVersion0</rng:value>
+            </rng:element>
+            <rng:optional>
+                <rng:attribute name="listName">
+                    <rng:data type="string"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listAgencyID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listSchemeURI">
+                    <rng:data type="anyURI"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listAgencyName">
+                    <rng:data type="string"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listURI">
+                    <rng:data type="anyURI"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listVersionID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+        </rng:optional>
+        <rng:optional>
+            <rng:element name="MessageDigestAlgorithmCodeListVersion">
+                <rng:value type="token">MessageDigestAlgorithmCodeListVersion0</rng:value>
+            </rng:element>
+            <rng:optional>
+                <rng:attribute name="listName">
+                    <rng:data type="string"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listAgencyID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listSchemeURI">
+                    <rng:data type="anyURI"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listAgencyName">
+                    <rng:data type="string"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listURI">
+                    <rng:data type="anyURI"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listVersionID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+        </rng:optional>
+        <rng:optional>
+            <rng:element name="MimeTypeCodeListVersion">
+                <rng:value type="token">MimeTypeCodeListVersion0</rng:value>
+            </rng:element>
+            <rng:optional>
+                <rng:attribute name="listName">
+                    <rng:data type="string"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listAgencyID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listSchemeURI">
+                    <rng:data type="anyURI"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listAgencyName">
+                    <rng:data type="string"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listURI">
+                    <rng:data type="anyURI"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listVersionID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+        </rng:optional>
+        <rng:optional>
+            <rng:element name="EncodingCodeListVersion">
+                <rng:value type="token">EncodingCodeListVersion0</rng:value>
+            </rng:element>
+            <rng:optional>
+                <rng:attribute name="listName">
+                    <rng:data type="string"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listAgencyID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listSchemeURI">
+                    <rng:data type="anyURI"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listAgencyName">
+                    <rng:data type="string"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listURI">
+                    <rng:data type="anyURI"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listVersionID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+        </rng:optional>
+        <rng:optional>
+            <rng:element name="FileFormatCodeListVersion">
+                <rng:value type="token">FileFormatCodeListVersion0</rng:value>
+            </rng:element>
+            <rng:optional>
+                <rng:attribute name="listName">
+                    <rng:data type="string"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listAgencyID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listSchemeURI">
+                    <rng:data type="anyURI"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listAgencyName">
+                    <rng:data type="string"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listURI">
+                    <rng:data type="anyURI"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listVersionID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+        </rng:optional>
+        <rng:optional>
+            <rng:element name="CompressionAlgorithmCodeListVersion">
+                <rng:value type="token">CompressionAlgorithmCodeListVersion0</rng:value>
+            </rng:element>
+            <rng:optional>
+                <rng:attribute name="listName">
+                    <rng:data type="string"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listAgencyID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listSchemeURI">
+                    <rng:data type="anyURI"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listAgencyName">
+                    <rng:data type="string"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listURI">
+                    <rng:data type="anyURI"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listVersionID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+        </rng:optional>
+        <rng:optional>
+            <rng:element name="DataObjectVersionCodeListVersion">
+                <rng:value type="token">DataObjectVersionCodeListVersion0</rng:value>
+            </rng:element>
+            <rng:optional>
+                <rng:attribute name="listName">
+                    <rng:data type="string"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listAgencyID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listSchemeURI">
+                    <rng:data type="anyURI"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listAgencyName">
+                    <rng:data type="string"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listURI">
+                    <rng:data type="anyURI"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listVersionID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+        </rng:optional>
+        <rng:optional>
+            <rng:element name="StorageRuleCodeListVersion">
+                <rng:value type="token">StorageRuleCodeListVersion0</rng:value>
+            </rng:element>
+            <rng:optional>
+                <rng:attribute name="listName">
+                    <rng:data type="string"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listAgencyID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listSchemeURI">
+                    <rng:data type="anyURI"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listAgencyName">
+                    <rng:data type="string"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listURI">
+                    <rng:data type="anyURI"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listVersionID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+        </rng:optional>
+        <rng:optional>
+            <rng:element name="AppraisalRuleCodeListVersion">
+                <rng:value type="token">AppraisalRuleCodeListVersion0</rng:value>
+            </rng:element>
+            <rng:optional>
+                <rng:attribute name="listName">
+                    <rng:data type="string"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listAgencyID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listSchemeURI">
+                    <rng:data type="anyURI"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listAgencyName">
+                    <rng:data type="string"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listURI">
+                    <rng:data type="anyURI"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listVersionID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+        </rng:optional>
+        <rng:optional>
+            <rng:element name="AccessRuleCodeListVersion">
+                <rng:value type="token">AccessRuleCodeListVersion0</rng:value>
+            </rng:element>
+            <rng:optional>
+                <rng:attribute name="listName">
+                    <rng:data type="string"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listAgencyID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listSchemeURI">
+                    <rng:data type="anyURI"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listAgencyName">
+                    <rng:data type="string"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listURI">
+                    <rng:data type="anyURI"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listVersionID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+        </rng:optional>
+        <rng:optional>
+            <rng:element name="DisseminationRuleCodeListVersion">
+                <rng:value type="token">DisseminationRuleCodeListVersion0</rng:value>
+            </rng:element>
+            <rng:optional>
+                <rng:attribute name="listName">
+                    <rng:data type="string"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listAgencyID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listSchemeURI">
+                    <rng:data type="anyURI"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listAgencyName">
+                    <rng:data type="string"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listURI">
+                    <rng:data type="anyURI"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listVersionID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+        </rng:optional>
+        <rng:optional>
+            <rng:element name="ReuseRuleCodeListVersion">
+                <rng:value type="token">ReuseRuleCodeListVersion0</rng:value>
+            </rng:element>
+            <rng:optional>
+                <rng:attribute name="listName">
+                    <rng:data type="string"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listAgencyID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listSchemeURI">
+                    <rng:data type="anyURI"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listAgencyName">
+                    <rng:data type="string"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listURI">
+                    <rng:data type="anyURI"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listVersionID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+        </rng:optional>
+        <rng:optional>
+            <rng:element name="ClassificationRuleCodeListVersion">
+                <rng:value type="token">ClassificationRuleCodeListVersion0</rng:value>
+            </rng:element>
+            <rng:optional>
+                <rng:attribute name="listName">
+                    <rng:data type="string"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listAgencyID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listSchemeURI">
+                    <rng:data type="anyURI"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listAgencyName">
+                    <rng:data type="string"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listURI">
+                    <rng:data type="anyURI"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listVersionID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+        </rng:optional>
+        <rng:optional>
+            <rng:element name="AuthorizationReasonCodeListVersion">
+                <rng:value type="token">AuthorizationReasonCodeListVersion0</rng:value>
+            </rng:element>
+            <rng:optional>
+                <rng:attribute name="listName">
+                    <rng:data type="string"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listAgencyID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listSchemeURI">
+                    <rng:data type="anyURI"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listAgencyName">
+                    <rng:data type="string"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listURI">
+                    <rng:data type="anyURI"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listVersionID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+        </rng:optional>
+        <rng:optional>
+            <rng:element name="RelationshipCodeListVersion">
+                <rng:value type="token">RelationshipCodeListVersion0</rng:value>
+            </rng:element>
+            <rng:optional>
+                <rng:attribute name="listName">
+                    <rng:data type="string"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listAgencyID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listSchemeURI">
+                    <rng:data type="anyURI"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listAgencyName">
+                    <rng:data type="string"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listURI">
+                    <rng:data type="anyURI"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:attribute name="listVersionID">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:optional>
+        </rng:optional>
+    </rng:element>
+    <rng:element name="DataObjectPackage">
+        <rng:optional>
+            <rng:attribute name="id">
+                <rng:data type="ID"/>
+            </rng:attribute>
+        </rng:optional>
+        <rng:element name="BinaryDataObject">
+            <xsd:annotation>
+                <xsd:documentation>Mon premier binaire</xsd:documentation>
+            </xsd:annotation>
+            <rng:attribute name="id">
+                <rng:data type="ID"/>
+            </rng:attribute>
+            <rng:optional>
+                <rng:element name="DataObjectGroupId">
+                    <rng:data type="string"/>
+                </rng:element>
+            </rng:optional>
+            <rng:optional>
+                <rng:element name="DataObjectVersion">
+                    <rng:data type="token"/>
+                </rng:element>
+            </rng:optional>
+            <rng:element name="Uri">
+                <rng:data type="anyURI"/>
+            </rng:element>
+            <rng:element name="MessageDigest">
+                <rng:data type="hexBinary"/>
+                <rng:attribute name="algorithm">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:element>
+            <rng:element name="Size">
+                <rng:data type="positiveInteger"/>
+            </rng:element>
+            <rng:element name="FormatIdentification">
+                <rng:optional>
+                    <rng:element name="FormatLitteral">
+                        <rng:data type="string"/>
+                    </rng:element>
+                </rng:optional>
+                <rng:optional>
+                    <rng:element name="MimeType">
+                        <rng:data type="token"/>
+                    </rng:element>
+                </rng:optional>
+                <rng:optional>
+                    <rng:element name="FormatId">
+                        <rng:data type="token"/>
+                    </rng:element>
+                </rng:optional>
+                <rng:optional>
+                    <rng:element name="Encoding">
+                        <rng:data type="token"/>
+                    </rng:element>
+                </rng:optional>
+            </rng:element>
+            <rng:element name="FileInfo">
+                <rng:element name="Filename"/>
+                <rng:element name="CreatingApplicationName"/>
+            </rng:element>
+        </rng:element>
+        <rng:element name="BinaryDataObject">
+            <xsd:annotation>
+                <xsd:documentation>Mon deuxieme bianire</xsd:documentation>
+            </xsd:annotation>
+            <rng:attribute name="id">
+                <rng:data type="ID"/>
+            </rng:attribute>
+            <rng:optional>
+                <rng:element name="DataObjectGroupId">
+                    <rng:data type="string"/>
+                </rng:element>
+            </rng:optional>
+            <rng:optional>
+                <rng:element name="DataObjectVersion">
+                    <rng:data type="token"/>
+                </rng:element>
+            </rng:optional>
+            <rng:element name="Uri">
+                <rng:data type="anyURI"/>
+            </rng:element>
+            <rng:element name="MessageDigest">
+                <rng:data type="hexBinary"/>
+                <rng:attribute name="algorithm">
+                    <rng:data type="token"/>
+                </rng:attribute>
+            </rng:element>
+            <rng:element name="Size">
+                <rng:data type="positiveInteger"/>
+            </rng:element>
+            <rng:element name="FormatIdentification">
+                <rng:optional>
+                    <rng:element name="FormatLitteral">
+                        <rng:data type="string"/>
+                    </rng:element>
+                </rng:optional>
+                <rng:optional>
+                    <rng:element name="MimeType">
+                        <rng:data type="token"/>
+                    </rng:element>
+                </rng:optional>
+                <rng:optional>
+                    <rng:element name="FormatId">
+                        <rng:data type="token"/>
+                    </rng:element>
+                </rng:optional>
+                <rng:optional>
+                    <rng:element name="Encoding">
+                        <rng:data type="token"/>
+                    </rng:element>
+                </rng:optional>
+            </rng:element>
+            <rng:element name="FileInfo">
+                <rng:element name="Filename"/>
+            </rng:element>
+        </rng:element>
+        <rng:element name="DescriptiveMetadata">
+            <rng:zeroOrMore>
+                <rng:element name="ArchiveUnit">
+                    <xsd:annotation>
+                        <xsd:documentation>Mon arborescense attendue</xsd:documentation>
+                    </xsd:annotation>
+                </rng:element>
+                <rng:attribute name="id">
+                    <rng:data type="ID"/>
+                </rng:attribute>
+                <rng:optional>
+                    <rng:element name="ArchiveUnitProfile"/>
+                </rng:optional>
+                <rng:element name="Content">
+                    <rng:element name="DescriptionLevel"/>
+                    <rng:element name="Title"/>
+                    <rng:element name="Description"/>
+                    <rng:optional>
+                        <rng:element name="CustodialHistory"/>
+                        <rng:element name="CustodialHistoryItem"/>
+                    </rng:optional>
+                    <rng:optional>
+                        <rng:element name="Type">
+                            <rng:data type="string"/>
+                        </rng:element>
+                    </rng:optional>
+                    <rng:optional>
+                        <rng:element name="DocumentType">
+                            <rng:data type="string"/>
+                        </rng:element>
+                    </rng:optional>
+                    <rng:optional>
+                        <rng:element name="Language">
+                            <rng:data type="language"/>
+                        </rng:element>
+                    </rng:optional>
+                    <rng:optional>
+                        <rng:element name="DescriptionLanguage">
+                            <rng:data type="language"/>
+                        </rng:element>
+                    </rng:optional>
+                    <rng:optional>
+                        <rng:element name="Status">
+                            <rng:data type="token"/>
+                        </rng:element>
+                    </rng:optional>
+                    <rng:optional>
+                        <rng:element name="Version">
+                            <rng:data type="string"/>
+                        </rng:element>
+                    </rng:optional>
+                    <rng:optional>
+                        <rng:element name="Keyword"/>
+                        <rng:optional>
+                            <rng:attribute name="id">
+<rng:data type="ID"/>
+                            </rng:attribute>
+                        </rng:optional>
+                        <rng:optional>
+                            <rng:element name="KeywordContent"/>
+                        </rng:optional>
+                        <rng:optional>
+                            <rng:element name="KeywordType"/>
+                            <rng:optional>
+<rng:attribute name="listVersionID"/>
+                            </rng:optional>
+                        </rng:optional>
+                    </rng:optional>
+                    <rng:element name="OriginatingAgency">
+                        <rng:element name="Identifier">
+                            <rng:value>CDC</rng:value>
+                        </rng:element>
+                    </rng:element>
+                    <rng:optional>
+                        <rng:element name="Otherfindaid"/>
+                        <rng:element name="p"/>
+                    </rng:optional>
+                </rng:element>
+                <rng:element name="ArchiveUnit">
+                    <xsd:annotation>
+                        <xsd:documentation>Men répertoire</xsd:documentation>
+                    </xsd:annotation>
+                    <rng:attribute name="id">
+                        <rng:data type="ID"/>
+                    </rng:attribute>
+                    <rng:element name="Content">
+                        <rng:element name="DescriptionLevel"/>
+                        <rng:element name="Title"/>
+                        <rng:element name="Description"/>
+                    </rng:element>
+                    <rng:element name="ArchiveUnit">
+                        <xsd:annotation>
+                            <xsd:documentation>Mes sous répertoire</xsd:documentation>
+                        </xsd:annotation>
+                        <rng:attribute name="id">
+                            <rng:data type="ID"/>
+                        </rng:attribute>
+                        <rng:element name="Content">
+                            <rng:element name="DescriptionLevel"/>
+                            <rng:element name="Title"/>
+                        </rng:element>
+                        <rng:element name="ArchiveUnit">
+                            <xsd:annotation>
+<xsd:documentation>Rattachement 1er binaire</xsd:documentation>
+                            </xsd:annotation>
+                            <rng:attribute name="id">
+<rng:data type="ID"/>
+                            </rng:attribute>
+                            <rng:element name="Content">
+<rng:element name="DescriptionLevel"/>
+<rng:element name="Title"/>
+<rng:zeroOrMore>
+    <rng:element name="Description">
+        <rng:data type="string"/>
+    </rng:element>
+</rng:zeroOrMore>
+                            </rng:element>
+                            <rng:element name="DataObjectReference">
+<xsd:annotation>
+    <xsd:documentation>Ma reference Objet</xsd:documentation>
+</xsd:annotation>
+<rng:optional>
+    <rng:attribute name="id">
+        <rng:data type="ID"/>
+    </rng:attribute>
+</rng:optional>
+<rng:element name="DataObjectGroupReferenceId">
+    <rng:data type="NCName"/>
+</rng:element>
+                            </rng:element>
+                        </rng:element>
+                        <rng:element name="ArchiveUnit">
+                            <xsd:annotation>
+<xsd:documentation>Rattachement 2eme binaire</xsd:documentation>
+                            </xsd:annotation>
+                            <rng:attribute name="id">
+<rng:data type="ID"/>
+                            </rng:attribute>
+                            <rng:element name="Content">
+<rng:element name="DescriptionLevel"/>
+<rng:element name="Title"/>
+<rng:element name="Description"/>
+                            </rng:element>
+                            <rng:element name="DataObjectReference">
+<xsd:annotation>
+    <xsd:documentation>Ma reference objet</xsd:documentation>
+</xsd:annotation>
+<rng:optional>
+    <rng:attribute name="id">
+        <rng:data type="ID"/>
+    </rng:attribute>
+</rng:optional>
+<rng:element name="DataObjectGroupReferenceId">
+    <rng:data type="NCName"/>
+</rng:element>
+                            </rng:element>
+                        </rng:element>
+                    </rng:element>
+                </rng:element>
+            </rng:zeroOrMore>
+        </rng:element>
+        <rng:element name="ManagementMetadata">
+            <rng:optional>
+                <rng:attribute name="id">
+                    <rng:data type="ID"/>
+                </rng:attribute>
+            </rng:optional>
+            <rng:optional>
+                <rng:element name="ArchivalProfile">
+                    <rng:data type="token"/>
+                </rng:element>
+            </rng:optional>
+            <rng:element name="OriginatingAgencyIdentifier">
+                <rng:value>CDC</rng:value>
+            </rng:element>
+            <rng:optional>
+                <rng:element name="StorageRule"/>
+                <rng:optional>
+                    <rng:element name="Rule">
+                        <rng:data type="token"/>
+                    </rng:element>
+                    <rng:optional>
+                        <rng:attribute name="id">
+                            <rng:data type="ID"/>
+                        </rng:attribute>
+                    </rng:optional>
+                </rng:optional>
+                <rng:optional>
+                    <rng:element name="StartDate">
+                        <rng:data type="date"/>
+                    </rng:element>
+                </rng:optional>
+                <rng:element name="FinalAction"/>
+            </rng:optional>
+            <rng:element name="AppraisalRule">
+                <rng:element name="Rule"/>
+                <rng:element name="StartDate">
+                    <rng:data type="date"/>
+                </rng:element>
+                <rng:element name="FinalAction"/>
+            </rng:element>
+        </rng:element>
+    </rng:element>
+    <rng:element name="ArchivalAgency">
+        <rng:element name="Identifier">
+            <rng:value>CDC</rng:value>
+        </rng:element>
+    </rng:element>
+    <rng:element name="TransferringAgency">
+        <rng:element name="Identifier">
+            <rng:value>CDC</rng:value>
+        </rng:element>
+        <rng:element name="OrganizationDescriptiveMetadata">
+            <rng:element name="Name">
+                <rng:value>CDC</rng:value>
+            </rng:element>
+        </rng:element>
+    </rng:element>
+</rng:element>
