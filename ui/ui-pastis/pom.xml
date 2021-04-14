@@ -5,7 +5,7 @@
 	<packaging>jar</packaging>
 	<url>http://maven.apache.org</url>
 	<artifactId>ui-pastis</artifactId>
-	<name>PASTIS-API</name>
+	<name>UI Pastis</name>
 
     <parent>
         <groupId>fr.gouv.vitamui</groupId>
@@ -55,24 +55,29 @@
 			<version>1.4.5</version>
 		</dependency>
 
+        <!-- Documentation -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.5.2</version>
+        </dependency>
+
+
 		<!-- Start of SpringBoot starter web (Tomcat by default) and starter test-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-			<version>2.2.6.RELEASE</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<version>2.2.6.RELEASE</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-			<version>2.2.6.RELEASE</version>
 			<exclusions>
 				<exclusion>
 					<groupId>com.vaadin.external.google</groupId>
@@ -201,8 +206,6 @@
 					</testResource>
 				</testResources>
 
-				<finalName>PastisApi</finalName>
-
 			</build>
 
 		</profile>
@@ -236,11 +239,10 @@
                             <executable>true</executable>
                             <attach>false</attach> <!-- Need to use the original jar for integration-tests -->
                             <mainClass>fr.gouv.vitamui.pastis.PastisRestApplication</mainClass>
-                            <jvmArguments>-Xmx512m</jvmArguments>
+                            <jvmArguments>-Xmx128m</jvmArguments>
+                            <jvmArguments>-Xms512m</jvmArguments>
                             <arguments>
-                                <!-- use src/main/config/application-dev.yml when using mvn spring-boot:run -->
-                                <!-- See : https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html#boot-features-external-config-application-property-files -->
-                                <argument>--spring.config.additional-location=file:${basedir}/src/main/config/application.yml</argument>
+                                <argument>--spring.config.additional-location=file:src/main/config/ui-pastis-application-dev.yml</argument>
                             </arguments>
                         </configuration>
                     </plugin>
@@ -264,13 +266,6 @@
 						</executions>
 					</plugin>
 				</plugins>
-
-				<!-- Tests -->
-				<testResources>
-					<testResource>
-						<directory>${project.basedir}/src/test/resources</directory>
-					</testResource>
-				</testResources>
 			</build>
 		</profile>
 		<!-- End of Dev profile -->

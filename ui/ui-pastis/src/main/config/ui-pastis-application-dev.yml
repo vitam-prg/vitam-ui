@@ -1,6 +1,6 @@
 server:
   host: dev.vitamui.com
-  port: 9051
+  port: 8051
   scheme: https
   ssl:
     key-store: src/main/config/ui-pastis.jks
