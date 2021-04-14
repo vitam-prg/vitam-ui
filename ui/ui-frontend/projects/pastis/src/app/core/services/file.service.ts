@@ -119,11 +119,11 @@ export class FileService  {
    * Les nodes correspondant aux ArchivesUnit
    * se réfèrent à la définition SEDA de l'ArchiveUnit mère (ils sont récursifs...)
    * @param parent
-   * @param _nodes
+   * @param nodes
    * @param sedaData
    */
-  linkFileNodeToSedaData(parent: FileNode, _nodes: FileNode[], sedaData: SedaData[]){
-    Array.prototype.forEach.call((_nodes: any,node: any) => {
+  linkFileNodeToSedaData(parent: FileNode, nodes: FileNode[], sedaData: SedaData[]){
+    Array.prototype.forEach.call(nodes, (node: FileNode) => {
       node.parent = parent;
       let nodeName : string = (node.name === 'xml:id') ? 'id' : node.name;
       let sedaDataMatch: SedaData;
