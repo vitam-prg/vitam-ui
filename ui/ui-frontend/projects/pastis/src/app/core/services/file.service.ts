@@ -1,25 +1,25 @@
 /*
-Copyright © CINES - Centre Informatique National pour l'Enseignement Supérieur (2020) 
+Copyright © CINES - Centre Informatique National pour l'Enseignement Supérieur (2020)
 
 [dad@cines.fr]
 
-This software is a computer program whose purpose is to provide 
-a web application to create, edit, import and export archive 
+This software is a computer program whose purpose is to provide
+a web application to create, edit, import and export archive
 profiles based on the french SEDA standard
 (https://redirect.francearchives.fr/seda/).
 
 
 This software is governed by the CeCILL-C  license under French law and
-abiding by the rules of distribution of free software.  You can  use, 
+abiding by the rules of distribution of free software.  You can  use,
 modify and/ or redistribute the software under the terms of the CeCILL-C
 license as circulated by CEA, CNRS and INRIA at the following URL
-"http://www.cecill.info". 
+"http://www.cecill.info".
 
 As a counterpart to the access to the source code and  rights to copy,
 modify and redistribute granted by the license, users are provided only
 with a limited warranty  and the software's author,  the holder of the
 economic rights,  and the successive licensors  have only  limited
-liability. 
+liability.
 
 In this respect, the user's attention is drawn to the risks associated
 with loading,  using,  modifying and/or developing or reproducing the
@@ -28,42 +28,31 @@ that may mean  that it is complicated to manipulate,  and  that  also
 therefore means  that it is reserved for developers  and  experienced
 professionals having in-depth computer knowledge. Users are therefore
 encouraged to load and test the software's suitability as regards their
-requirements in conditions enabling the security of their systems and/or 
-data to be ensured and,  more generally, to use and operate it in the 
-same conditions as regards security. 
+requirements in conditions enabling the security of their systems and/or
+data to be ensured and,  more generally, to use and operate it in the
+same conditions as regards security.
 
 The fact that you are presently reading this means that you have had
 knowledge of the CeCILL-C license and that you accept its terms.
 */
-import { EventEmitter, Injectable, Output } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { SedaData, SedaElementConstants, SedaCardinalityConstants } from '../../profile/edit-profile/classes/seda-data';
-import { FileNode, TypeConstants,FileNodeInsertParams, FileNodeInsertAttributeParams } from '../../profile/edit-profile/classes/file-node';
-import { PastisDialogConfirmComponent } from '../../shared/pastis-dialog/pastis-dialog-confirm/pastis-dialog-confirm.component';
-import { ProfileService } from './profile.service';
-import { PastisDialogData } from 'projects/pastis/src/app/shared/pastis-dialog/classes/pastis-dialog-data';
-import { SedaService } from './seda.service';
-import { FileTreeMetadataService } from '../../profile/edit-profile/file-tree-metadata/file-tree-metadata.service';
-import { PuaService } from './pua.service';
-import { ComponentType } from '@angular/cdk/portal';
+import {Injectable} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {SedaCardinalityConstants, SedaData, SedaElementConstants} from '../../profile/edit-profile/classes/seda-data';
+import {FileNode, TypeConstants} from '../../profile/edit-profile/classes/file-node';
+import {PastisDialogConfirmComponent} from '../../shared/pastis-dialog/pastis-dialog-confirm/pastis-dialog-confirm.component';
+import {ProfileService} from './profile.service';
+import {PastisDialogData} from 'projects/pastis/src/app/shared/pastis-dialog/classes/pastis-dialog-data';
+import {SedaService} from './seda.service';
+import {FileTreeMetadataService} from '../../profile/edit-profile/file-tree-metadata/file-tree-metadata.service';
+import {PuaService} from './pua.service';
+import {ComponentType} from '@angular/cdk/portal';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class FileService  {
-
-  @Output()
-  public addNode: EventEmitter<FileNode> = new EventEmitter<FileNode>();
-  @Output()
-  public insertItem: EventEmitter<FileNodeInsertParams> = new EventEmitter<FileNodeInsertParams>();
-  @Output()
-  public insertAttributes: EventEmitter<FileNodeInsertAttributeParams> = new EventEmitter<FileNodeInsertAttributeParams>();
-  @Output()
-  public removeNode: EventEmitter<FileNode> = new EventEmitter<FileNode>();
-  @Output()
-  public renderChanges: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   dataChange = new BehaviorSubject<FileNode[]>([]);
   profile = new BehaviorSubject<any>([]);
@@ -79,7 +68,7 @@ export class FileService  {
   tabChildrenRulesChange = new BehaviorSubject<string[][]>([]);
 
 
-  
+
   parentNodeMap = new Map<FileNode, FileNode>();
 
   constructor(private profileService: ProfileService,  private fileMetadataService: FileTreeMetadataService,
@@ -88,6 +77,10 @@ export class FileService  {
   getCurrentFileTree(): Observable<FileNode[]> {
       console.log("On file service : ", this.dataChange.getValue())
       return this.dataChange;
+  }
+
+  reinitialisaDataChange() {
+    this.dataChange = new BehaviorSubject<FileNode[]>([]);
   }
 
   addSedaMetadataToFileTree(id:number){
@@ -116,7 +109,7 @@ export class FileService  {
   return this.dataChange;
   }
 
-  
+
 
   sedaDataArchiveUnit : SedaData;
 
@@ -125,9 +118,9 @@ export class FileService  {
    *
    * Les nodes correspondant aux ArchivesUnit
    * se réfèrent à la définition SEDA de l'ArchiveUnit mère (ils sont récursifs...)
-   * @param parent 
-   * @param _nodes 
-   * @param sedaData 
+   * @param parent
+   * @param _nodes
+   * @param sedaData
    */
   linkFileNodeToSedaData(parent: FileNode, _nodes: FileNode[], sedaData: SedaData[]){
     Array.prototype.forEach.call((_nodes: any,node: any) => {
@@ -202,7 +195,7 @@ export class FileService  {
 
   openPopup(popData: PastisDialogData){
     const dialogConfirmRef = this.dialog.open(PastisDialogConfirmComponent, {
-      width: popData.width, 
+      width: popData.width,
       height: popData.height,
       data: popData,
       panelClass: 'pastis-popup-modal-box'
@@ -232,7 +225,7 @@ export class FileService  {
       }
     }
   }
-  
+
   setCollectionName(collectionName:string){
     this.collectionName.next(collectionName);
   }
@@ -240,12 +233,12 @@ export class FileService  {
   setTabRootMetadataName(rootTabMetadataName:string){
     this.rootTabMetadataName.next(rootTabMetadataName);
   }
-  
+
 
   openDialogWithTemplateRef(templateRef: ComponentType<unknown>) {
     this.dialog.open(templateRef);
   }
-  
+
   setNewChildrenRules(rules:string[][]){
       this.tabChildrenRulesChange.next(rules);
   }
@@ -271,7 +264,7 @@ export class FileService  {
     updateItem(node: FileNode) {
       this.dataChange.next(node[0]);
       console.log("Node updated to : ", this.dataChange.getValue())
-  
+
     }
 
     removeItem(nodesToBeDeleted: FileNode[], root: FileNode) {
@@ -286,7 +279,7 @@ export class FileService  {
             if (index !== -1) {
               parentNode.children.splice(index, 1);
               this.parentNodeMap.delete(nodeToBeDeleted);
-            } 
+            }
             console.log("Deleted node : ", nodeToBeDeleted, "and his parent : ", parentNode);
           }
         }
@@ -388,11 +381,11 @@ export class FileService  {
 
    getComplexSedaChildrenAsFileNode(sedaElement:SedaData):FileNode[] {
     // Insert all children of complex elements based on SEDA definition
-    if (sedaElement.Element === SedaElementConstants.complex && 
+    if (sedaElement.Element === SedaElementConstants.complex &&
       sedaElement.Children.length > 0) {
           let fileNodeComplexChildren : FileNode[] = [];
           sedaElement.Children.forEach((child: { Cardinality: string; Name: string; Type: string; }) => {
-                if (child.Cardinality === SedaCardinalityConstants.one || 
+                if (child.Cardinality === SedaCardinalityConstants.one ||
                     child.Cardinality === SedaCardinalityConstants.oreOrMore) {
                       let aFileNode : FileNode = {} as FileNode;
                       aFileNode.name = child.Name;
@@ -400,13 +393,13 @@ export class FileService  {
                       aFileNode.children = [];
                       aFileNode.type = TypeConstants[child.Type as keyof typeof TypeConstants];
                       fileNodeComplexChildren.push(aFileNode);
-                } 
+                }
               })
               return fileNodeComplexChildren
             }
 
     }
-    
+
     updateMedataTable(node:FileNode){
       //let isNodeComplex = this.sedaService.checkSedaElementType(node.name,this.sedaService.selectedSedaNodeParent.getValue())
       let rulesFromService = this.tabChildrenRulesChange.getValue()
@@ -415,7 +408,7 @@ export class FileService  {
       this.sedaService.selectedSedaNode.next(node.sedaData);
       let dataTable = this.fileMetadataService.fillDataTable(node.sedaData, node, tabChildrenToInclude, tabChildrenToExclude);
       let hasAtLeastOneComplexChild = node.children.some(el=> el.type  === TypeConstants.element);
-  
+
       if(node.sedaData.Element === SedaElementConstants.complex){
         this.fileMetadataService.shouldLoadMetadataTable.next(hasAtLeastOneComplexChild);
         console.log("The the current tab root node is : ", node)

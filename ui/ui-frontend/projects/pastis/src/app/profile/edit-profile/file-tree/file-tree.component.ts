@@ -1,25 +1,25 @@
 /*
-Copyright © CINES - Centre Informatique National pour l'Enseignement Supérieur (2020) 
+Copyright © CINES - Centre Informatique National pour l'Enseignement Supérieur (2020)
 
 [dad@cines.fr]
 
-This software is a computer program whose purpose is to provide 
-a web application to create, edit, import and export archive 
+This software is a computer program whose purpose is to provide
+a web application to create, edit, import and export archive
 profiles based on the french SEDA standard
 (https://redirect.francearchives.fr/seda/)
 
 
 This software is governed by the CeCILL-C  license under French law and
-abiding by the rules of distribution of free software.  You can  use, 
+abiding by the rules of distribution of free software.  You can  use,
 modify and/ or redistribute the software under the terms of the CeCILL-C
 license as circulated by CEA, CNRS and INRIA at the following URL
-"http://www.cecill.info". 
+"http://www.cecill.info".
 
 As a counterpart to the access to the source code and  rights to copy,
 modify and redistribute granted by the license, users are provided only
 with a limited warranty  and the software's author,  the holder of the
 economic rights,  and the successive licensors  have only  limited
-liability. 
+liability.
 
 In this respect, the user's attention is drawn to the risks associated
 with loading,  using,  modifying and/or developing or reproducing the
@@ -28,27 +28,27 @@ that may mean  that it is complicated to manipulate,  and  that  also
 therefore means  that it is reserved for developers  and  experienced
 professionals having in-depth computer knowledge. Users are therefore
 encouraged to load and test the software's suitability as regards their
-requirements in conditions enabling the security of their systems and/or 
-data to be ensured and,  more generally, to use and operate it in the 
-same conditions as regards security. 
+requirements in conditions enabling the security of their systems and/or
+data to be ensured and,  more generally, to use and operate it in the
+same conditions as regards security.
 
 The fact that you are presently reading this means that you have had
 knowledge of the CeCILL-C license and that you accept its terms.
 */
-import { CdkTextareaAutosize } from '@angular/cdk/text-field';
-import { NestedTreeControl } from '@angular/cdk/tree';
-import { Component, Input, ViewChild, } from '@angular/core';
-import { MatTreeNestedDataSource } from '@angular/material/tree';
-import { BehaviorSubject, throwError } from 'rxjs';
-import { SedaData, SedaElementConstants, SedaCardinalityConstants } from '../classes/seda-data';
-import { SedaService } from '../../../core/services/seda.service';
-import { NotificationService } from '../../../core/services/notification.service';
-import { FileService } from '../../../core/services/file.service';
-import { CardinalityConstants, FileNode, TypeConstants, DataTypeConstants, FileNodeInsertParams, FileNodeInsertAttributeParams } from '../classes/file-node';
-import { FileTreeMetadataService } from '../file-tree-metadata/file-tree-metadata.service';
-import { UserActionAddMetadataComponent } from '../../../user-actions/add-metadata/add-metadata.component';
-import { PastisDialogData } from '../../../shared/pastis-dialog/classes/pastis-dialog-data';
-import { UserActionRemoveMetadataComponent } from '../../../user-actions/remove-metadata/remove-metadata.component';
+import {CdkTextareaAutosize} from '@angular/cdk/text-field';
+import {NestedTreeControl} from '@angular/cdk/tree';
+import {Component, Input, ViewChild,} from '@angular/core';
+import {MatTreeNestedDataSource} from '@angular/material/tree';
+import {BehaviorSubject, throwError} from 'rxjs';
+import {SedaCardinalityConstants, SedaData, SedaElementConstants} from '../classes/seda-data';
+import {SedaService} from '../../../core/services/seda.service';
+import {NotificationService} from '../../../core/services/notification.service';
+import {FileService} from '../../../core/services/file.service';
+import {CardinalityConstants, DataTypeConstants, FileNode, TypeConstants} from '../classes/file-node';
+import {FileTreeMetadataService} from '../file-tree-metadata/file-tree-metadata.service';
+import {UserActionAddMetadataComponent} from '../../../user-actions/add-metadata/add-metadata.component';
+import {PastisDialogData} from '../../../shared/pastis-dialog/classes/pastis-dialog-data';
+import {UserActionRemoveMetadataComponent} from '../../../user-actions/remove-metadata/remove-metadata.component';
 
 @Component({
   selector: 'pastis-file-tree',
@@ -108,20 +108,6 @@ export class FileTreeComponent {
         this.sedaService.selectedSedaNode.next(data[0]);
         this.sedaService.selectedSedaNodeParent.next(this.sedaData);
         console.log("Init seda node on file tree : %o", this.sedaService.selectedSedaNode.getValue(), " on tab : ", this.rootElementName);
-      })
-      this.fileService.addNode.subscribe((node: FileNode) => {
-        this.addNewItem(node)
-      })
-      this.fileService.insertItem.subscribe((params: FileNodeInsertParams) => {
-        console.log("Params : ", params)
-        this.insertItem(params.node, params.elementsToAdd)
-      })
-      this.fileService.insertAttributes.subscribe((params: FileNodeInsertAttributeParams) => {
-        console.log("Params in attributes : ", params)
-        this.insertAttributes(params.node, params.elementsToAdd)
-      })
-      this.fileService.removeNode.subscribe((node: FileNode) => {
-        this.remove(node)
       })
       this.fileService.tabChildrenRulesChange.subscribe(rules => {
         this.rulesChange = rules;
@@ -226,7 +212,7 @@ export class FileTreeComponent {
           sedaChild.Children.filter((c: { Element: any; }) => c.Element === SedaElementConstants.attribute).forEach((child: { Name: string; Element: any; Cardinality: any; }) => {
             let isAttributeAlreadyIncluded = newNode.children.some(nodeChild => nodeChild.name.includes(child.Name));
             // If the added node contains an obligatory attribute,
-            // on its seda definition and the attribute is not already part of the node, 
+            // on its seda definition and the attribute is not already part of the node,
             // we then, build an attribute node based on the seda atribute defintion
             if (child.Element === SedaElementConstants.attribute &&
               child.Cardinality === SedaCardinalityConstants.one &&
@@ -254,7 +240,7 @@ export class FileTreeComponent {
       this.sendNodeMetadata(parent);
       console.log("New fileNode data is : %o", this.nestedDataSource.data)
 
-      // 6. No more nodes to add  
+      // 6. No more nodes to add
     } else {
       console.log('No More Nodes can be inserted : No node was selected or node name is invalid');
     }
@@ -323,7 +309,7 @@ export class FileTreeComponent {
 
 
   // Refresh Tree by opening an given node (option)
-  // If the a node name is not prodived, the function will open the root tab element 
+  // If the a node name is not prodived, the function will open the root tab element
   renderChanges(node: FileNode, nodeIdToExpand?: number) {
     let data: FileNode;
     if (nodeIdToExpand) {
@@ -388,7 +374,7 @@ export class FileTreeComponent {
         let nodeLevel = (FileTreeComponent.archiveUnits.children.indexOf(node) + 1);
         let parent = this.fileService.getFileNodeById(FileTreeComponent.archiveUnits,node.parentId)
         let parentLevel = parent.level - 2
-  
+
         let archiveUnilNumber = nodeLevel > 0 ? nodeLevel : parentLevel
         let archiveUnitDecimal = parentLevel === 0 ? "" :  "." +parentLevel;
         return 'UA ' + archiveUnilNumber + archiveUnitDecimal ;
@@ -494,16 +480,16 @@ export class FileTreeComponent {
   }
 
   // Checks if a node belongs to the clicked tab collection.
-  // For a given node, searches the required node in the seda.json file and 
+  // For a given node, searches the required node in the seda.json file and
   // returns true if the node's value of "Collection" is equal to the clicked tab
   isPartOfCollection(node: FileNode): boolean {
-    return this.collectionName === node.sedaData.Collection.valueOf();   
+    return this.collectionName === node.sedaData.Collection.valueOf();
   }
 
   shouldBeOnTab(node: FileNode): boolean {
     let rootNodeName = this.fileService.rootTabMetadataName.getValue();
     let filteredNode = Object.assign({} as FileNode, this.nestedDataSource.data[0]);
-    
+
     let includedDataObjectPackageChildren = ['DataObjectGroup', 'BinaryDataObject', 'PhysicalDataObject']
     if (rootNodeName === 'DataObjectPackage' && !includedDataObjectPackageChildren.includes(node.name)) {
       filteredNode.children = filteredNode.children.filter(child => child.name !== 'DescriptiveMetadata' &&
