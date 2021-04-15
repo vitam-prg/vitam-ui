@@ -1,0 +1,5 @@
+<button class="pastis-toggle-button-container" (click) = "changeStatus()">
+    <div [ngClass]="{circleOui:statusToggle,circleNon:!statusToggle}"></div>
+    <label [ngClass]="{statusOui:statusToggle,statusNon:!statusToggle}">{{statusToggle ? 'OUI' : 'NON'}}</label>
+</button>
+

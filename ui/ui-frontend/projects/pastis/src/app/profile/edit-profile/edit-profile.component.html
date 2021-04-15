@@ -1,0 +1,95 @@
+<div class="pastis-edit-profile-header">
+
+    <mat-icon svgIcon="close-sidenav" class="pastis-ico-close-sidenav" (click)="closeSideNav()"></mat-icon>
+
+    <div>
+        <span class="pastis-edit-profile-header-name">Nom du profil d'archivage</span>
+    </div>
+
+    <div class="pastis-edit-profile-header-id">Identifiant : {{profileId}}</div>
+</div>
+<mat-tab-group
+        [selectedIndex]="activeTabIndex"
+        disableRipple="true"
+        (selectedTabChange)="loadProfile($event)"
+        fxFill>
+
+    <mat-tab label="{{puaMode ? tabLabels[5] : tabLabels[0]}}" *ngIf="canShowOnPuaMode(0)">
+        <div class="pastis-tab-container">
+            <ng-template matTabContent *ngIf="puaMode">
+            </ng-template>
+            <pastis-under-construction style="background: darkgray;" *ngIf="!puaMode"></pastis-under-construction>
+        </div>
+    </mat-tab>
+
+    <mat-tab label="{{tabLabels[1]}}" *ngIf="canShowOnPuaMode(1)">
+        <div class="pastis-tab-container" >
+            <ng-template matTabContent>
+
+                <pastis-file-tree [nestedTreeControl]="nestedTreeControl"
+                                  [nestedDataSource]="nestedDataSource"
+                                  [rootElementName] = "rootNames[1]"
+                                  [rootElementShowName]="displayedRootNames[1]"
+                                  [childrenListToExclude]="headerTabChildrenToExclude"
+                                  [shouldLoad]="isTabClicked(1)"
+                                  [collectionName]="collectionNames[1]">
+                </pastis-file-tree>
+            </ng-template>
+
+        </div>
+    </mat-tab>
+
+    <mat-tab label="{{tabLabels[2]}}" *ngIf="canShowOnPuaMode(2)">
+        <div class="pastis-tab-container">
+            <ng-template matTabContent>
+
+                <pastis-file-tree [nestedTreeControl]="nestedTreeControl"
+                                  [nestedDataSource]="nestedDataSource"
+                                  [rootElementName]="rootNames[2]"
+                                  [rootElementShowName]="displayedRootNames[2]"
+                                  [childrenListToInclude]="rulesTabChildrenToInclude"
+                                  [childrenListToExclude]="rulesTabChildrenToExclude"
+                                  [shouldLoad]="isTabClicked(2)"
+                                  [collectionName]="collectionNames[2]">
+                </pastis-file-tree>
+            </ng-template>
+
+        </div>
+    </mat-tab>
+
+    <mat-tab label="{{tabLabels[3]}}" *ngIf="canShowOnPuaMode(3)">
+        <div class="pastis-tab-container">
+            <ng-template matTabContent>
+                <pastis-file-tree [nestedTreeControl]="nestedTreeControl"
+                                  [nestedDataSource]="nestedDataSource"
+                                  [rootElementName]="rootNames[3]"
+                                  [rootElementShowName]="displayedRootNames[3]"
+                                  [childrenListToInclude]="treeTabChildrenToInclude"
+                                  [childrenListToExclude]="treeTabChildrenToExclude"
+                                  [shouldLoad]="isTabClicked(3)"
+                                  [collectionName]="collectionNames[3]">
+                </pastis-file-tree>
+            </ng-template>
+        </div>
+    </mat-tab>
+
+    <mat-tab label="{{tabLabels[4]}}" *ngIf="canShowOnPuaMode(4)">
+        <div class="pastis-tab-container">
+            <ng-template matTabContent>
+
+                <pastis-file-tree [nestedTreeControl]="nestedTreeControl"
+                                  [nestedDataSource]="nestedDataSource"
+                                  [rootElementName]="rootNames[4]"
+                                  [rootElementShowName]="displayedRootNames[4]"
+                                  [childrenListToInclude]="objectTabChildrenToInclude"
+                                  [childrenListToExclude]="objectTabChildrenToExclude"
+                                  [shouldLoad]="isTabClicked(4)"
+                                  [collectionName]="collectionNames[4]">
+                </pastis-file-tree>
+            </ng-template>
+
+        </div>
+    </mat-tab>
+
+
+</mat-tab-group>

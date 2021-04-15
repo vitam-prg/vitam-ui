@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Pastis</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.2">
+  <link rel="icon" type="image/x-icon" href="./favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.10/d3.min.js"></script>
+  <script src="./assets/js/class-diagram.js"></script>
+  <script src="./assets/js/multiline-text.js"></script>
+  <app-root>
+    <!-- loading layout replaced by app after startupp -->
+    <div class="app-loading">
+      <div class="logo"></div>
+      <svg class="spinner" viewBox="25 25 50 50">
+        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10">
+        </circle>
+      </svg>
+    </div>
+  </app-root>
+</body>
+<script>
+  // Used for fix aspect zoom ratio of page
+  //if(window.devicePixelRatio >= 1 )
+    //var body = document.getElementsByTagName("BODY")[0];
+    //var newZoomRatio = 100 - ((window.devicePixelRatio * 100) - 100) + '%'
+    //body.style.setProperty('zoom', newZoomRatio);
+    //console.error("new devicePixelRatio is  : " , devicePixelRatio);
+    //body.classList.addClass("zoom2x")
+</script>
+
+</html>

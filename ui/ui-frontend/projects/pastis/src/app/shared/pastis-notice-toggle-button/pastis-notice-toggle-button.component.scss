@@ -1,0 +1,72 @@
+.pastis-toggle-button-container{
+  width: 70px;
+  height: 30px;
+  left: 660px;
+  top: 733px;
+  background: #474D4A;
+  border-radius: 30px;
+  display: inline-flex;
+  }
+  
+.circleOui{
+  position: relative;
+  left: 34px;
+  width: 22px;
+  height: 22px;
+  /* White — 500* */
+  background: #FFFFFF;
+  border-radius: 12px;
+}
+  
+.statusOui{
+  position: relative;
+  left: -18px;
+  height: 22px;  
+  font-family: Mulish;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 22px;
+  /* identical to box height, or 157% */
+  
+  display: flex;
+  align-items: center;
+  text-align: right;
+  letter-spacing: 0.1px;
+  text-transform: uppercase;
+  
+  /* White — 500* */
+  
+  color: #FFFFFF;
+}
+  
+.circleNon{
+  position: relative;
+  right: 2px;
+  width: 22px;
+  height: 22px;
+  /* White — 500* */
+  background: #FFFFFF;
+  border-radius: 12px;
+}
+  
+.statusNon{
+  position: relative;
+  left: 3px;
+  height: 22px;  
+  font-family: Mulish;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 22px;
+  /* identical to box height, or 157% */
+
+  align-items: center;
+  text-align: right;
+  letter-spacing: 0.1px;
+  text-transform: uppercase;
+  
+  /* White — 500* */
+  
+  color: #FFFFFF;
+}

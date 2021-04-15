@@ -1,0 +1,112 @@
+@import '../../../assets/css/mixins';
+@import '../../../assets/css/font';
+
+.filter-input-text {
+    width: 50%;
+    text-indent: 30px;
+    @extend .pastis-input-enabled;
+    box-shadow: 0px 0px 20px rgba(169, 169, 169, 0.3);
+}
+
+.filter-input-text::placeholder {
+    @extend .pastis-input-placeholder-text;
+}
+
+.paragraph-metadata-subtitle{
+    margin-bottom: 26px;
+    margin-left: 0.4125em;
+    @extend .pastis-input-text;
+}
+
+
+.list-box{
+    background: #FFFFFF;
+    border: 1px solid #DFDFDF;
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding-top: 0px;
+    max-height: 256px;
+    overflow: auto;
+    outline: none;
+}
+
+.list-item{
+    border-bottom:  1px solid #ECECEC;
+    //max-height: 50px;
+    padding-top: 0px;
+
+}
+
+.list-item:last-child{
+    border-bottom : none;
+}
+
+.item-text{
+    vertical-align: middle;
+    padding-left: 4px;
+}
+
+
+.selected-items-box {
+    @extend .pastis-font-menu;
+    padding: 15px;
+    background-color:#65B2E4;
+    border: 1px solid #65B2E4;
+    box-sizing: border-box;
+    color: white;
+    border-radius: 5px;
+    vertical-align: middle;
+
+    // Positioning
+    margin: 0.4125em 0 0 0.4125em;
+    display: inline-flex;
+    text-align: center;
+    text-justify: auto;
+    vertical-align: middle;
+    color: #FFFFFF; 
+    max-width: 100%;
+}
+
+.selected-items-close{
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.selected-items-close:hover {
+   @extend .pastis-black-medium;
+}
+
+
+.list-box-content{
+    @extend .pastis-font-add-metadata-items;
+    margin-left: 59px;
+    color: #808080;
+}
+
+.ajouter {
+    @extend .pastis-font-add-metadata-items;
+    @extend .pastis-secondary-300;
+    float: right;
+    margin-right: 33px;
+    cursor:pointer;
+    text-decoration:underline;
+    height: 50px;
+}
+
+.ajouter:hover {
+    text-decoration:none;
+    //text-shadow: 1px 1px 1px #555;
+}
+
+.pastis-ico-complex-element{
+    margin-left: -39px;
+    margin-right: 10px;
+    vertical-align: middle;
+    display: inline-flex;
+}

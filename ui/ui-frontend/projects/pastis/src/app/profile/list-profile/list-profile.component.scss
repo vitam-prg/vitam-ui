@@ -1,0 +1,234 @@
+@import "../../../assets/css/mixins";
+@import "../../../assets/css/layout";
+@import "../../../assets/css/colors";
+@import "../../../assets/css/font";
+@import "../../../assets/css/buttons";
+
+
+
+.search-and-create-container {
+    margin-right: 126px;
+    margin-left: 126px;
+}
+
+.navigation-links-container {
+    margin-left: 126px;
+    margin-top: 60px;
+}
+
+.profile-list-container {
+    margin-left: 126px;
+    margin-right: 126px;
+    margin-top: 39px;
+    max-height: 365px;
+    overflow: auto;
+}
+
+.profile-cards-container {
+    margin-left: 126px;
+}
+
+
+
+.btn-search {
+    margin-left: -40px;
+    vertical-align: middle;
+    @extend .pastis-btn-rounded-mini-primary;
+}
+
+.btn-back{
+    border-width: 0px;
+    margin-right: 10px;
+    @extend .pastis-btn-rounded-mini-primary;
+}
+
+
+.btn-edit-profile {
+    display: inline-block;
+    margin: 5px;
+    margin-left: 100px;
+    @extend .pastis-btn-rounded-mini-primary;
+}
+
+
+.btn-menu {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 5px;
+    @extend .pastis-btn-rounded-mini-neutral;
+    
+}
+
+.btn-create-profile {
+    width: 27%;
+    height: 50px;
+    margin-left: 50px;
+    display: flex;
+    flex-direction: row;
+    
+    @extend .pastis-font-button-icon;
+    @extend .pastis-btn-primary-enabled;
+}
+
+
+.btn-create-profile:hover {
+    @extend .pastis-btn-primary-hover;
+}
+
+.btn-create-profile:disabled {
+    @extend .pastis-btn-primary-disabled;
+}
+
+.btn-create-profile:active {
+    @extend .pastis-btn-primary-focus;
+}
+
+.btn-import-profile {
+    width: 27%;
+    height: 50px;
+    margin-left: 50px;
+    display: flex;
+    flex-direction: row;
+    @extend .pastis-font-button-icon;
+    @extend .pastis-btn-secondary-enabled;
+}
+
+.btn-import-profile:hover {
+    @extend .pastis-btn-secondary-hover;
+}
+
+.btn-import-profile:disabled {
+    @extend .pastis-btn-secondary-disabled;
+}
+
+.btn-import-profile:active {
+    @extend .pastis-btn-secondary-focus;
+}
+
+
+
+.filter-input-text {
+    width: 100%;
+    text-indent: 30px;
+    @extend .pastis-input-enabled;
+    box-shadow: 0px 0px 20px rgba(169, 169, 169, 0.3);
+}
+
+.filter-input-text::placeholder {
+    @extend .pastis-input-placeholder-text;
+}
+
+
+
+.total-pa-pua-card{
+    @extend .pastis-panel-radius-5;
+    display: inline-block;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    position: static;
+    width: 123px;
+    height: 69px;
+    margin:0px 10px;
+    margin-left: 0px;
+}
+
+.total-profile-card{
+    @extend .total-pa-pua-card;
+    @extend .pastis-bgcolor-primary-500;
+    @extend .pastis-panel-shadow-primary-500;
+}
+
+.pa-pua-card{
+    @extend .total-pa-pua-card;
+    @extend .pastis-bgcolor-white-highlight;
+    @extend .pastis-panel-shadow;
+}
+.profile-label{
+    position: static;
+    width: 93px;
+    height: 16px;
+    left: calc(50% - 93px/2);
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+    margin-left: 15px;
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
+
+.profile-num-label {
+    position: static;
+    width: 37px;
+    height: 28px;
+    left: calc(50% - 37px/2 - 28px);
+    bottom: 10px;
+    margin-left: 15px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+.total-profile-label{
+    @extend .profile-label;
+    @extend .pastis-primary-50;
+    @extend .pastis-font-caption-bold;
+}
+
+.total-profilenum-label{
+    @extend .profile-num-label;
+    @extend .pastis-white-highlight;
+    @extend .pastis-font-text-large-bold;
+}
+
+.pa-pua-label{
+    @extend .profile-label;
+    @extend .pastis-grey-600;
+    @extend .pastis-font-caption-bold;
+}
+
+.pa-pua-num-label{
+    @extend .profile-num-label;
+    @extend .pastis-font-text-large-bold;
+    @extend .pastis-grey-900;
+}
+
+
+
+.ico-setting {
+    @extend .pastis-ico-svg;
+  }
+
+.pastis-ico-arrow-back {
+    @extend .pastis-white-highlight;
+    cursor: pointer;
+    font-size: 24px;
+    vertical-align: middle;
+    margin-left: -2px;
+}
+
+.btn-icon-left{
+    position: static;
+}
+
+
+
+.pastis-ico-chevron-down {
+    height: 7.410000801086426px;
+    width: 12px;
+    left: 6px;
+    top: 8.58984375px;
+    float: right;
+    margin-right: 25px;
+
+}
+
+.button-container{
+    position: static;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0px;
+    width: 100%;
+    height: 50px;
+}
+

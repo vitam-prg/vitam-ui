@@ -1,0 +1,33 @@
+<ngx-ui-loader></ngx-ui-loader>
+
+<button *ngIf="!opened"
+        mat-button class="pastis-btn-show-profile"
+        disableRipple="true"
+        (click)="openSideNav()">
+    <mat-icon class="pastis-icon-show-profile">keyboard_arrow_right</mat-icon>
+</button>
+
+<mat-sidenav-container class="pastis-page-container">
+    <mat-sidenav #sidenav mode="side" [(opened)]="opened" (opened)="events.push('open!')"
+                 (closed)="events.push('close!')"
+                 class='pastis-side-nav'>
+        <pastis-edit-profile [profileId]="profileId"></pastis-edit-profile>
+    </mat-sidenav>
+    <mat-sidenav-content >
+        <div class="pastis-entete-bandeau"></div>
+        <div>
+            <pastis-file-tree-metadata style="text-align: center;" *ngIf="!noticeDisplay" (insertItem)="insertionItem($event)"
+                                       (addNode)="addNode($event)"
+                                       (insertAttributes)="insertAttribute($event)"
+                                       (removeNode)="removeNode($event)">
+            </pastis-file-tree-metadata>
+
+            <pastis-notice *ngIf="noticeDisplay"></pastis-notice>
+
+            <!--Check font.scss-->
+            <div toastContainer class="pastis-toaster-font"></div>
+        </div>
+
+    </mat-sidenav-content>
+
+</mat-sidenav-container>
