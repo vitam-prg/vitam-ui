@@ -78,6 +78,8 @@ export class ListProfileComponent implements OnInit {
 
   buttonIsClicked: boolean;
 
+  data = ["portail"]
+
   constructor(private profileService: ProfileService,private fileService: FileService, 
     private ngxLoader:NgxUiLoaderService, private router:Router, private noticeService : NoticeService) { }
 
