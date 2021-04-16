@@ -44,12 +44,6 @@
 
     <repositories>
         <!-- <id>vitam</id> to be defined in Profiles -->
-        <repository>
-          <id>vitamui-maven</id>
-            <url>
-                http://download.programmevitam.fr/vitam_repository/4.0.0/mvn_repo/
-            </url>
-        </repository>
     </repositories>
 
     <distributionManagement>
@@ -139,7 +133,7 @@
         <spring.security.version>5.3.1.RELEASE</spring.security.version>
         <swagger.version>2.9.2</swagger.version>
         <trang.version>20181222</trang.version>
-        <vitam.version>4.0.0</vitam.version>
+        <vitam.version>3.0.1</vitam.version>
         <xml.apis-version>2.0.2</xml.apis-version>
         <xml.resolver.version>1.2</xml.resolver.version>
         <xom.version>1.3.4</xom.version>
