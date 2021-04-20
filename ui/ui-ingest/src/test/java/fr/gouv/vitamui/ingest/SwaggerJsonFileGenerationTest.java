@@ -4,6 +4,8 @@ import fr.gouv.vitamui.commons.api.identity.ServerIdentityConfiguration;
 import fr.gouv.vitamui.commons.rest.RestExceptionHandler;
 import fr.gouv.vitamui.commons.rest.configuration.SwaggerConfiguration;
 import fr.gouv.vitamui.commons.test.rest.AbstractSwaggerJsonFileGenerationTest;
+import fr.gouv.vitamui.ingest.service.AccessContractTempService;
+import fr.gouv.vitamui.ingest.service.ArchivesSearchService;
 import fr.gouv.vitamui.ingest.service.IngestService;
 import fr.gouv.vitamui.ui.commons.security.SecurityConfig;
 import org.junit.runner.RunWith;
@@ -31,6 +33,12 @@ public class SwaggerJsonFileGenerationTest extends AbstractSwaggerJsonFileGenera
 
     @MockBean
     private IngestService ingestService;
+
+    @MockBean
+    private ArchivesSearchService archivesSearchService;
+
+    @MockBean
+    private AccessContractTempService accessContractTempService;
 
 
 }
