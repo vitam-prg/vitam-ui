@@ -15,7 +15,7 @@ public class PuaMetadataDetails {
     JSONObject properties;
     List<String> required;
     PuaMetadata items;
-    List<String> enumerations;
+    List<String> enums;
 
     public String getType() {
         return type;
@@ -82,10 +82,10 @@ public class PuaMetadataDetails {
     }
 
     public List<String> getEnumerations() {
-        return enumerations;
+        return enums;
     }
 
     public void setEnumerations(List<String> enumerations) {
-        this.enumerations = enumerations;
+        this.enums = enumerations;
     }
 }

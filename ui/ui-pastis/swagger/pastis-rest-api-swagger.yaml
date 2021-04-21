@@ -1,0 +1,271 @@
+openapi: 3.0.1
+info:
+  title: Pastis Rest Api
+#  description:
+  license:
+    name: CeCCIL-C
+    url: https://cecill.info/
+  version: v0
+servers:
+  - url: http://{hostname}:{port}
+    description: local server
+    variables:
+      hostname:
+        default: localhost
+        description: API hostname
+      port:
+        default: '8080'
+        description: API port
+  - url: https://{hostname}:{port}
+    description: production server
+    variables:
+      hostname:
+        default: localhost
+        description: API hostname
+      port:
+        default: '8080'
+        description: API port
+paths:
+  /new:
+    post:
+      tags:
+        - profile
+      operationId: loadProfileFromFile
+      description: Load profile from file
+      summary: Load profile from file
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /getarchiveunitprofile:
+    post:
+      tags:
+        - profile
+      operationId: getArchiveUnitProfile
+      description: Return archive unit profile
+      summary: Return archive unit profile
+      requestBody:
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: '#/components/schemas/ElementProperties'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /getarchiveprofile:
+    post:
+      tags:
+        - profile
+      operationId: getArchiveProfile
+      description: Return archive profile
+      summary: Return archive profile
+      requestBody:
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: '#/components/schemas/ElementProperties'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/xml:
+              schema:
+                type: string
+  /edit:
+    post:
+      tags:
+        - profile
+      operationId: loadProfile
+      description: Get specifique profile
+      summary: Get specifique profile
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /createprofilefromfile:
+    post:
+      tags:
+        - profile
+      operationId: createprofilefromfile
+      description: Import profile (rng or pua)
+      summary: Import profile (rng or pua)
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /test:
+    get:
+      tags:
+        - profile
+      operationId: test
+      description: Just for test
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /getprofiles:
+    get:
+      tags:
+        - profile
+      operationId: getFiles
+      description: Get all profiles
+      summary: Get all profiles
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PastisProfile'
+  /getfile:
+    get:
+      tags:
+        - profile
+      operationId: getFile
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+  /createprofile:
+    get:
+      tags:
+        - profile
+      operationId: createprofile
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+components:
+  schemas:
+    ElementProperties:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        cardinality:
+          type: string
+        groupOrChoice:
+          type: string
+        valueOrData:
+          type: string
+        dataType:
+          type: string
+        value:
+          type: string
+        documentation:
+          type: string
+        level:
+          type: integer
+          format: int32
+        id:
+          type: integer
+          format: int64
+        parentId:
+          type: integer
+          format: int64
+        choices:
+          type: array
+          items:
+            $ref: '#/components/schemas/ElementProperties'
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/ElementProperties'
+        puaData:
+          allOf:
+            - $ref: '#/components/schemas/PuaData'
+    PuaData:
+      type: object
+      properties:
+        maximum:
+          type: integer
+          format: int32
+        minimum:
+          type: integer
+          format: int32
+        enum:
+          type: array
+          items:
+            type: string
+        pattern:
+          type: string
+        exclusiveMaximum:
+          type: boolean
+        additionalProperties:
+          type: boolean
+        exclusiveMinimum:
+          type: boolean
+        minLenght:
+          type: integer
+          format: int32
+        maxLenght:
+          type: integer
+          format: int32
+    PastisProfile:
+      type: object
+      properties:
+        type:
+          type: string
+        id:
+          type: integer
+          format: int64
+        fileName:
+          type: string
+        baseName:
+          type: string
+        status:
+          type: string
+        lastModified:
+          type: string
