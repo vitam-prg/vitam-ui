@@ -71,16 +71,6 @@
     verbe: "Stopping"
     etat: "stopped"
 
-- hosts: hosts_ui_archive_search
-  gather_facts: no
-  roles:
-    - service_state
-    # - check_port
-  vars:
-    service_name: "{{ vitamui.archive_search.service_name }}"
-    verbe: "Stopping"
-    etat: "stopped"
-
 - hosts: hosts_ui_identity_admin
   gather_facts: no
   roles:

@@ -215,15 +215,6 @@
     verbe: "Starting"
     etat: "started"
 
-- hosts: hosts_ui_archive_search
-  gather_facts: no
-  roles:
-    - service_state
-    # - check_port
-  vars:
-    service_name: "{{ vitamui.archive_search.service_name }}"
-    verbe: "Starting"
-    etat: "started"
 
 # ########################################################
 # # ZONE Data
