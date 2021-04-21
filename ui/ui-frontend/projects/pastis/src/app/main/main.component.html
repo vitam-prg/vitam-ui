@@ -16,7 +16,8 @@
     <mat-sidenav-content >
         <div class="pastis-entete-bandeau"></div>
         <div>
-            <pastis-file-tree-metadata style="text-align: center;" *ngIf="!noticeDisplay" (insertItem)="insertionItem($event)"
+            <pastis-file-tree-metadata style="text-align: center;" *ngIf="!noticeDisplay"
+                                       (insertItem)="insertionItem($event)"
                                        (addNode)="addNode($event)"
                                        (insertAttributes)="insertAttribute($event)"
                                        (removeNode)="removeNode($event)">

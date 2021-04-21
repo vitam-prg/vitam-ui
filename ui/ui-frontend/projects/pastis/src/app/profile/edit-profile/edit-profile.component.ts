@@ -44,13 +44,15 @@ import { FileNode } from './classes/file-node';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { NestedTreeControl } from '@angular/cdk/tree';
-import { BehaviorSubject} from 'rxjs';
+import { BehaviorSubject, Subscription} from 'rxjs';
 import { FileTreeComponent } from './file-tree/file-tree.component';
 import { SedaData } from './classes/seda-data';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ProfileService } from 'projects/pastis/src/app/core/services/profile.service';
 import { Router } from '@angular/router';
 import { ProfileDescription } from '../list-profile/models/profile-description.model';
+import { NoticeService } from 'projects/pastis/src/app/core/services/notice.service';
+import { NoticeProfile } from './classes/profile-response';
 
 export interface UploadedProfileResponse {
   profile: FileNode[];
@@ -86,6 +88,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   tabRootElementName: string;
 
   puaMode: boolean;
+  notice: NoticeProfile;
 
   tabRulesMap: Map<string, Map<string, string[]>>;
   nodeParentChildMap: Map<string, string[]>;
@@ -117,6 +120,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   elementRules: string[][] = [];
 
   profile: FileNode[];
+  noticeSub: Subscription;
 
   @ViewChild(FileTreeComponent, { static: false }) fileTreeComponent: FileTreeComponent;
   noticeSelected: boolean;
@@ -124,8 +128,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
 
   constructor(private sedaService: SedaService, private fileService: FileService, private router: Router,
               private sideNavService: ToggleSidenavService, private profileService: ProfileService,
-              private loaderService: NgxUiLoaderService) {
-
+              private loaderService: NgxUiLoaderService, private noticeService: NoticeService) {
 
     let uploadedProfileResponse = this.router.getCurrentNavigation().extras.state;
 
@@ -203,6 +206,16 @@ export class EditProfileComponent implements OnInit, OnDestroy {
         }
         console.log("Init file tree node on file tree : %o", this.dataChange.getValue());
       });
+      this.noticeSub = this.noticeService.getNotice().subscribe(
+        (value: any) => {
+          this.notice = value;
+          console.log(value)
+        },
+        (error) => {
+          console.log(error)
+        }
+      );
+
     } else {
       this.fileService.addSedaMetadataFromFileToFileTree(this.profile).subscribe(response => {
         this.nodeToSend = response[0];
@@ -305,6 +318,8 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    if(this.noticeSub){this.noticeSub.unsubscribe();}
+    this.noticeSelected = false;
   }
 
 }
