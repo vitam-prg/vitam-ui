@@ -237,10 +237,14 @@ tr:hover .pastis-btn-appear {
 }
 
 .pastis-table-container {
-  top: 280px;
-  max-height: 425px;
   overflow: auto;
   overflow-x: hidden;
+  max-height: 425px;
+  width: 60%;
+  left: 450px;
+  padding-top: 60px;
+  top: 0%;
+  position: relative;
 }
 
 .button-container {
@@ -256,10 +260,9 @@ tr:hover .pastis-btn-appear {
   @extend .pastis-panel-radius-10;
   @extend .pastis-panel-shadow;
   position: relative;
-  width: 80%;
-  margin-left: 120px;
-  margin-right: 120px;
-  top: 63px;
+  width: 60%;
+  top: 20px;
+  left: 450px;
   height: 116px;
 }
 
@@ -286,7 +289,7 @@ tr:hover .pastis-btn-appear {
 }
 
 .pastis-btn-rounded-arrow-back {
-  
+
   width: 30px;
   height: 30px;
    @extend .pastis-btn-rounded-mini-primary;

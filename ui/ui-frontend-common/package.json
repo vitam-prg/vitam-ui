@@ -11,7 +11,7 @@
     "start": "ng serve --aot --proxy-config proxy.conf.json --disable-host-check --ssl --ssl-key $npm_package_pki_path/$npm_package_pki_asset.key --ssl-cert $npm_package_pki_path/$npm_package_pki_asset.crt",
     "build": "ng build --prod --build-optimizer=false --optimization=false",
     "build:dev": "ng build --prod --sourceMap=false --build-optimizer=false --optimization=false",
-    "build:prod": "export NODE_OPTIONS=--max_old_space_size=4096; ng build --prod",
+    "build:prod": "set NODE_OPTIONS=--max_old_space_size=4096; ng build --prod",
     "analyze": "ng build --prod --stats-json ; webpack-bundle-analyzer dist/ui-frontend-common/stats.json",
     "test": "ng test --watch=false",
     "test:conf-ci": "ng test --watch=false --karma-config=karma.conf.ci.js",

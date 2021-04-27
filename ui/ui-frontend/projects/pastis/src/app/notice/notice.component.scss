@@ -7,15 +7,18 @@ mat-icon{
   width: 400px;
 
 }
-
+.pastis-metadata-option-container {
+  position: relative;
+  width: 60%;
+  top: 20px;
+  left: 450px;
+  height: 116px;
+}
 .pastis-notice-container {
-  margin-left: 120px;
-  margin-right: 170px;
-  margin-top: 100px;
-  width: 800px;
-  height: 500px;
-  left: 0px;
-  top: 0px;
+  position: relative;
+  width: 60.5%;
+  left: 450px;
+  margin-top: 60px;
   background: #FFFFFF;
   border-radius: 5px;
 }
@@ -52,7 +55,6 @@ mat-icon{
   right: 0%;
   top: 0%;
   bottom: 0%;
-  background: #F8F8F8;
   border-radius: 3px;
   width: 200px;
   height: 50px;
@@ -65,9 +67,6 @@ mat-icon{
   font-size: 13px;
   line-height: 146.48%;
   /* or 19px */
-
-
-  color: #474D4A;
 }
 .pastis-notice-id-value{
   left: 7%;
@@ -99,24 +98,12 @@ mat-icon{
   /* or 154% */
 
 
-  color: #A6A6A6;
+  color: var(--vitamui-primary);
 }
 .pastis-notice-container-intitule {
-  margin-left: 40px;
-  margin-top: 20px;
-  width: 200px;
-  height: 50px;
-  left: 0%;
-  right: 0%;
-  top: 0%;
-  bottom: 0%;
-  background: #FFFFFF;
-  border: 1px solid #F0F0F0;
-  box-sizing: border-box;
-  box-shadow: 0px 0px 20px rgba(169, 169, 169, 0.3);
-  border-radius: 87px;
-  padding-left: 20px;
-  padding-top: 5px;
+  position: relative;
+  top: 20px;
+  left: 40px;
 }
 .pastis-notice-intitule-key {
   font-family: Roboto;
@@ -126,7 +113,7 @@ mat-icon{
   line-height: 15px;
   display: flex;
   align-items: center;
-  color: #A6A6A6;
+  color: var(--vitamui-primary);
 }
 .pastis-notice-intitule {
   font-family: Roboto;
@@ -138,20 +125,12 @@ mat-icon{
   align-items: center;
 }
 .pastis-notice-container-description {
-  margin-left: 40px;
-  margin-top: 20px;
-  width: 420px;
-  height: 161px;
-  left: 40px;
-  top: 221px;
 
-  background: #FFFFFF;
-  border: 1px solid #F0F0F0;
-  box-sizing: border-box;
-  box-shadow: 0px 0px 20px rgba(169, 169, 169, 0.3);
-  border-radius: 10px;
-  padding-top: 25px;
-  padding-left: 26px;
+  position: relative;
+  top: 20px;
+  width: 420px;
+  left: 40px;
+
 }
 .pastis-notice-description-label {
   @extend .pastis-notice-intitule;
@@ -183,7 +162,7 @@ mat-icon{
 }
 
 .pastis-notice-chart {
-  width: 270px;
+  width: 275px;
   height: 19px;
   padding-left: 5px;
   font-family: Roboto;
@@ -194,6 +173,6 @@ mat-icon{
   color: #474D4A;
 }
 .pastis-notice-container-chart {
-  width: 280px;
+  width: 285px;
   height: 40px;
 }

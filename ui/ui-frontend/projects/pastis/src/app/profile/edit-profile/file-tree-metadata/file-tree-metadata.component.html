@@ -1,15 +1,15 @@
-<div>
-  <!--Top panels container-->
+<mat-sidenav-container [autosize]="true" [hasBackdrop]="false">
+  <mat-sidenav-content >
+      <!--Top panels container-->
   <div class="pastis-metadata-option-container">
     <!-- Top left panel container -->
     <div class="pastis-metadata-option-entete-1">
       <!--Arrow button conainer-->
       <div class="pastis-position-btn-arrow-back">
-        <button class="pastis-btn-rounded-arrow-back" tooltip="Retour vers la liste des profils" placement="bottom"
-          show-delay="0" tooltip-class="pastis-tooltip-class" (click)="goBack()">
-          <mat-icon class="pastis-ico-arrow-back">arrow_back
-          </mat-icon>
-        </button>
+        <button class="btn btn-circle primary small" tooltip="Retour vers la liste des profils" placement="bottom"
+                    show-delay="0" tooltip-class="pastis-tooltip-class" (click)="goBack()">
+                <i class="material-icons">arrow_back</i>
+            </button>
       </div>
       <!--Panel content separator-->
       <div class="pastis-entete-1-separator"></div>
@@ -19,17 +19,17 @@
         <div class="pastis-entete-1-text-body-1">
           Créer et gérer un profil d'archivage<mat-icon  class="pastis-ico-arrow-right">arrow_right_alt</mat-icon>...<span class="pastis-entete-1-text-body-2"><mat-icon  class="pastis-ico-arrow-right">arrow_right_alt</mat-icon>{{resolveCurrentNodeName()}}</span>
         </div>
-        
+
       </div>
     </div>
 
     <!--Top right panel container-->
     <div class="pastis-metadata-option-entete-2">
       <!--Button open-->
-      <div class="panel-buttons" tooltip="Importer un profil" placement="top" show-delay="0"
+      <!-- <div class="panel-buttons" tooltip="Importer un profil" placement="top" show-delay="0"
         tooltip-class="pastis-tooltip-class">
         <pastis-user-action-upload></pastis-user-action-upload>
-      </div>
+      </div> -->
       <!--Button save-->
       <div class="panel-buttons" tooltip="Enregistrer le profil" placement="top" show-delay="0"
         tooltip-class="pastis-tooltip-class">
@@ -43,7 +43,6 @@
     </div>
 
   </div>
-
   <!--Metatada table container-->
   <div class="pastis-table-container">
     <table mat-table [dataSource]="matDataSource" *ngIf="shouldLoadMetadataTable(); else complexElementWithouChild" class="list-profile-table">
@@ -165,11 +164,11 @@
   </ng-template>
 
   <!--Button add metadata-->
-  <div class="button-container">
+<!--   <div class="button-container">
     <button *ngIf="checkElementType()" class="pastis-btn-add-tag"
       (click)="onAddNode()">{{resolveButtonLabel(clickedNode)}}
     </button>
     <br><br>
-  </div>
-
-</div>
+  </div> -->
+  </mat-sidenav-content>
+</mat-sidenav-container>

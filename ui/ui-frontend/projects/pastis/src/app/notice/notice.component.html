@@ -1,6 +1,5 @@
-<mat-sidenav-container class="pastis-page-container">
+<mat-sidenav-container [autosize]="true" [hasBackdrop]="false">
   <mat-sidenav-content >
-    <div class="pastis-entete-bandeau"></div>
     <div>
       <!--<pastis-file-tree-metadata style="text-align: center;"></pastis-file-tree-metadata>-->
       <!--Top panels container-->
@@ -9,17 +8,16 @@
         <div class="pastis-metadata-option-entete-1">
           <!--Arrow button conainer-->
           <div class="pastis-position-btn-arrow-back">
-            <button class="pastis-btn-rounded-arrow-back" tooltip="Retour vers la liste des profils" placement="bottom"
+            <button class="btn btn-circle primary small" tooltip="Retour vers la liste des profils" placement="bottom"
                     show-delay="0" tooltip-class="pastis-tooltip-class" (click)="goBack()">
-              <mat-icon class="pastis-ico-arrow-back" style="color: #FFFFFF">arrow_back
-              </mat-icon>
+                <i class="material-icons">arrow_back</i>
             </button>
           </div>
           <!--Panel content separator-->
           <div class="pastis-entete-1-separator"></div>
           <!--Text cotopntainer-->
           <div class="pastis-entete-1-text">
-            <div class="pastis-entete-1-text-titre">{{keys[0]}}</div>
+            <div class="pastis-entete-1-text-titre"><p class="text medium bold">{{keys[0]}}</p></div>
             <div class="pastis-entete-1-text-body-1">
               Créer et gérer un profil d'unité archivistique<mat-icon  style="color: #474D4A" class="pastis-ico-arrow-right">arrow_right_alt</mat-icon>
               <span class="pastis-entete-1-text-body-2" *ngIf="notice">{{notice.Name}}</span>
@@ -52,23 +50,22 @@
       </div>
       <div>
         <div class="pastis-notice-container-id">
-          <div class="pastis-notice-id-label">Type</div>
-          <div class="pastis-notice-id-value">Profil d'unité archivistique</div>
+          <div class="pastis-notice-id-label"><p class="text caption bold" style="color:var(--vitamui-primary)">Type</p></div>
+          <div class="pastis-notice-id-value"><p class="text normal">Profil d'unité archivistique</p></div>
         </div>
         <div class="pastis-notice-container-id">
-          <div class="pastis-notice-id-label">Identifiant</div>
-          <div class="pastis-notice-id-value">{{ notice ? notice.Identifier : '-- --'}}</div>
+          <div class="pastis-notice-id-label"><p class="text caption bold" style="color:var(--vitamui-primary)" style="color:var(--vitamui-primary)">Identifiant</p></div>
+          <div class="pastis-notice-id-value"><p class="text normal bold">{{ notice ? notice.Identifier : '-- --'}}</p></div>
         </div>
       </div>
       <div class="pastis-notice-container-intitule">
-        <label class="pastis-notice-intitule-key">Intitulé <span style="color:#E7304D;font-weight:bold;margin-left: 5px;">*</span></label>
-        <input type="text" style="border: none" *ngIf="notice" [(ngModel)]="notice.Name" (change)="changeNotice()">
+        <!-- <label><p class="text caption bold" style="color:var(--vitamui-primary)">Intitulé</p> <span style="color:var(--vitamui-primary);font-weight:bold;margin-left: 5px;">*</span></label>
+        <input type="text" style="border: none" *ngIf="notice" [(ngModel)]="notice.Name" (change)="changeNotice()"> -->
+        <vitamui-common-input [(ngModel)]="notice.Name" placeholder="Intitulé"></vitamui-common-input>
       </div>
       <div class="pastis-notice-container-description">
-        <div class="pastis-notice-description">
-          <label class="pastis-notice-description-label"> Description</label>
-          <textarea class="pastis-notice-description-value" *ngIf="notice" [(ngModel)]="notice.Description" (change)="changeNotice()">{{notice.Description}}</textarea>
-        </div>
+          <vitamui-common-textarea *ngIf="notice" [(ngModel)]="notice.Description" placeholder="Description" (change)="changeNotice()">
+          </vitamui-common-textarea>
       </div>
       <div class="pastis-notice-footer">
         <pastis-notice-toggle-button></pastis-notice-toggle-button>
