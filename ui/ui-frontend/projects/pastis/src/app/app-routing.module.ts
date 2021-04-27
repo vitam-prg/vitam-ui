@@ -35,20 +35,19 @@ same conditions as regards security.
 The fact that you are presently reading this means that you have had
 knowledge of the CeCILL-C license and that you accept its terms.
 */
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { SedaVisualizerComponent } from './seda-visualizer/seda-visualizer.component';
-import { MainComponent } from './main/main.component';
-import { ListProfileComponent } from './profile/list-profile/list-profile.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {SedaVisualizerComponent} from './seda-visualizer/seda-visualizer.component';
+import {MainComponent} from './main/main.component';
+import {ListProfileComponent} from './profile/list-profile/list-profile.component';
 
-import { PastisUnderConstructionComponent } from './shared/pastis-under-construction/pastis-under-construction.component';
-import { ProfileVisualizerComponent } from './profile-visualizer/profile-visualizer.component';
-import {AppGuard, AuthGuard} from "ui-frontend-common";
+import {PastisUnderConstructionComponent} from './shared/pastis-under-construction/pastis-under-construction.component';
+import {ProfileVisualizerComponent} from './profile-visualizer/profile-visualizer.component';
 
 const routes: Routes = [
   {path: 'sedaview', component: SedaVisualizerComponent},
   {path: 'profileview', component: ProfileVisualizerComponent},
-  {path: '', component: ListProfileComponent, canActivate: [AuthGuard, AppGuard],data:{appId: 'PASTIS_APP'}},
+  {path: '', component: ListProfileComponent, data:{appId: 'PASTIS_APP'}},
   {path: 'edit/:id', component: MainComponent},
   {path: 'new', component: MainComponent},
   {path: '**', component: PastisUnderConstructionComponent},

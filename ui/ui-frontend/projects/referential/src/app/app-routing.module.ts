@@ -89,7 +89,7 @@ const routes: Routes = [
   {
     path: 'pastis',
     loadChildren: () => import('./../../../pastis/src/app/app.module').then(m => m.AppModule),
-    canActivate: [AuthGuard, AppGuard],
+    //canActivate: [AuthGuard, AppGuard],
     data: {appId: 'PASTIS_APP'}
   },
   // =====================================================
