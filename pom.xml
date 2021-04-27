@@ -73,7 +73,7 @@
         <apache.pdfbox.xmpbox.version>2.0.16</apache.pdfbox.xmpbox.version>
         <asciidoctorj.pdf.version>1.5.3</asciidoctorj.pdf.version>
         <assertj.version>3.15.0</assertj.version>
-        <bouncycastle.version>1.65</bouncycastle.version>
+        <bouncycastle.version>1.68</bouncycastle.version>
         <cas.version>6.1.6</cas.version>
         <commons.beanutils.version>1.9.4</commons.beanutils.version>
         <commons.collections.version>3.2.2</commons.collections.version>
@@ -87,7 +87,7 @@
         <cucumber.version>5.6.0</cucumber.version>
         <easymock.version>4.2</easymock.version>
         <embedded.mongo.version>2.2.0</embedded.mongo.version>
-		<fake.sftp.server.rule.version>2.0.1</fake.sftp.server.rule.version>
+        <fake.sftp.server.rule.version>2.0.1</fake.sftp.server.rule.version>
         <glassfish.javax.el.version>2.2.6</glassfish.javax.el.version>
         <gson.version>2.8.6</gson.version>
         <guava.version>29.0-jre</guava.version>
@@ -95,6 +95,7 @@
         <http.core.version>4.4.13</http.core.version>
         <glassfish.jaxb.version>2.3.2</glassfish.jaxb.version>
         <jackson.version>2.11.0.rc1</jackson.version>
+        <jaeger.tracing.version>3.2.2</jaeger.tracing.version>
         <jakarta.xml.binding.version>2.3.2</jakarta.xml.binding.version>
         <javax.el.version.version>3.0.1-b06</javax.el.version.version>
         <javax.servlet.version>4.0.1</javax.servlet.version>
@@ -131,17 +132,17 @@
         <spring.version>5.2.5.RELEASE</spring.version>
         <spring.cloud.consul.version>2.2.2.RELEASE</spring.cloud.consul.version>
         <spring.security.version>5.3.1.RELEASE</spring.security.version>
-        <swagger.version>2.9.2</swagger.version>
+        <swagger.version>3.0.0</swagger.version>
         <trang.version>20181222</trang.version>
         <vitam.version>4.0.0</vitam.version>
         <xml.apis-version>2.0.2</xml.apis-version>
         <xml.resolver.version>1.2</xml.resolver.version>
         <xom.version>1.3.4</xom.version>
-		<xdocreport.version>2.0.2</xdocreport.version>
-		<xerces.version>2.12.0</xerces.version>
+        <xdocreport.version>2.0.2</xdocreport.version>
+        <xerces.version>2.12.0</xerces.version>
         <esapi.version>2.1.0.1</esapi.version>
         <antisamy.version>1.5.8</antisamy.version>
-        <json-sanitize.version>1.2.0</json-sanitize.version>
+        <json-sanitize.version>1.2.2</json-sanitize.version>
         <freemarker.upgraded.version>2.3.30</freemarker.upgraded.version>
 
         <!-- Web Pack -->
@@ -200,6 +201,7 @@
         <skipAllFrontendTests>true</skipAllFrontendTests>
 
         <itCoverageAgent></itCoverageAgent>
+        <opencsv.version>5.4</opencsv.version>
     </properties>
 
     <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
@@ -524,6 +526,11 @@
                 <artifactId>spring-tx</artifactId>
                 <version>${spring.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.opentracing.contrib</groupId>
+                <artifactId>opentracing-spring-jaeger-web-starter</artifactId>
+                <version>${jaeger.tracing.version}</version>
+            </dependency>
 
             <!-- Security -->
             <dependency>
@@ -666,8 +673,8 @@
                 <version>${vitam.version}</version>
             </dependency>
             <dependency>
-				<groupId>fr.gouv.vitam</groupId>
-				<artifactId>logbook-common</artifactId>
+                <groupId>fr.gouv.vitam</groupId>
+                <artifactId>logbook-common</artifactId>
                 <version>${vitam.version}</version>
             </dependency>
             <dependency>
@@ -707,11 +714,11 @@
             <!-- APACHE ODFtoolKit-->
 
             <!-- Utils -->
-			<dependency>
-			    <groupId>org.synchronoss.cloud</groupId>
-			    <artifactId>nio-multipart-parser</artifactId>
-			    <version>${nio.multipart.parser.version}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.synchronoss.cloud</groupId>
+                <artifactId>nio-multipart-parser</artifactId>
+                <version>${nio.multipart.parser.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
@@ -920,12 +927,12 @@
                 <artifactId>jlibs-xsd</artifactId>
                 <version>${jlibs.version}</version>
             </dependency>
-			<!-- convert to PDF -->
+            <!-- convert to PDF -->
             <!-- Do not reuse Apache FOP since its usage is deprecated -->
-			<dependency>
-				<groupId>org.apache.xmlgraphics</groupId>
-				<artifactId>fop</artifactId>
-				<version>2.4</version>
+            <dependency>
+                <groupId>org.apache.xmlgraphics</groupId>
+                <artifactId>fop</artifactId>
+                <version>2.4</version>
                 <exclusions>
                     <exclusion>
                         <groupId>javax.media</groupId>
@@ -936,7 +943,7 @@
                         <artifactId>jai-codec</artifactId>
                     </exclusion>
                 </exclusions>
-			</dependency>
+            </dependency>
             <!-- Security -->
             <dependency>
                 <groupId>org.owasp.antisamy</groupId>
@@ -1055,11 +1062,11 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
-			    <groupId>org.assertj</groupId>
-			    <artifactId>assertj-core</artifactId>
-			    <version>${assertj.version}</version>
-			    <scope>test</scope>
-			</dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>${assertj.version}</version>
+                <scope>test</scope>
+            </dependency>
             <dependency>
                 <groupId>org.apache.pdfbox</groupId>
                 <artifactId>pdfbox</artifactId>
@@ -1143,6 +1150,12 @@
                 <groupId>fr.opensagres.xdocreport</groupId>
                 <artifactId>fr.opensagres.xdocreport.template.velocity</artifactId>
                 <version>${xdocreport.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.opencsv</groupId>
+                <artifactId>opencsv</artifactId>
+                <version>${opencsv.version}</version>
             </dependency>
 
         </dependencies>
@@ -1383,7 +1396,10 @@
                             <phase>process-sources</phase>
                             <configuration>
                                 <skip>${skipAllFrontend}</skip>
-                                <arguments>run build${angular.build.profile} -- --project=${angular.build.project} --output-path=${project.basedir}/target/www --base-href=${angular.base.href} --deploy-url=${angular.base.href}</arguments>
+                                <arguments>run build${angular.build.profile} -- --project=${angular.build.project}
+                                    --output-path=${project.basedir}/target/www --base-href=${angular.base.href}
+                                    --deploy-url=${angular.base.href}
+                                </arguments>
                             </configuration>
                         </execution>
                         <execution>
@@ -1394,7 +1410,9 @@
                             </goals>
                             <configuration>
                                 <skip>${skipAllFrontendTests}</skip>
-                                <arguments>run test${angular.test.profile} -- --project=${angular.build.project} ${angular.additional.test.informations}</arguments>
+                                <arguments>run test${angular.test.profile} -- --project=${angular.build.project}
+                                    ${angular.additional.test.informations}
+                                </arguments>
                             </configuration>
                         </execution>
                     </executions>
@@ -1826,7 +1844,9 @@
                 <!-- TODO: This properties need to bo specify by the user who execute
                 the report (ex: Jenkins or developper) -->
                 <sonar.login/>
-                <sonar.typescript.lcov.reportPaths>${main.basedir}/ui/ui-frontend/target/coverage/commons/lcov.info,${main.basedir}/ui/ui-frontend/target/coverage/flow/lcov.info,${main.basedir}/ui/ui-frontend/target/coverage/identity/lcov.info,${main.basedir}/ui/ui-frontend/target/coverage/portal/lcov.info</sonar.typescript.lcov.reportPaths>
+                <sonar.typescript.lcov.reportPaths>
+                    ${main.basedir}/ui/ui-frontend/target/coverage/commons/lcov.info,${main.basedir}/ui/ui-frontend/target/coverage/flow/lcov.info,${main.basedir}/ui/ui-frontend/target/coverage/identity/lcov.info,${main.basedir}/ui/ui-frontend/target/coverage/portal/lcov.info
+                </sonar.typescript.lcov.reportPaths>
             </properties>
 
         </profile>
@@ -1869,15 +1889,17 @@
                                 <version>${maven.swagger2markup.plugin.version}</version>
                             </dependency>
                         </dependencies>
-						<configuration>
-							<swaggerInput>${main.basedir}/tools/swagger/docs/${swagger.dir}/${project.artifactId}/swagger.json</swaggerInput>
-							<outputDir>${project.build.directory}/generated-sources/swagger/</outputDir>
-							<config>
-								<swagger2markup.markupLanguage>ASCIIDOC</swagger2markup.markupLanguage>
-								<swagger2markup.outputLanguage>FR</swagger2markup.outputLanguage>
-								<swagger2markup.generatedExamplesEnabled>TRUE</swagger2markup.generatedExamplesEnabled>
-								<swagger2markup.pathsGroupedBy>TAGS</swagger2markup.pathsGroupedBy>
-							</config>
+                        <configuration>
+                            <swaggerInput>
+                                ${main.basedir}/tools/swagger/docs/${swagger.dir}/${project.artifactId}/swagger.json
+                            </swaggerInput>
+                            <outputDir>${project.build.directory}/generated-sources/swagger/</outputDir>
+                            <config>
+                                <swagger2markup.markupLanguage>ASCIIDOC</swagger2markup.markupLanguage>
+                                <swagger2markup.outputLanguage>FR</swagger2markup.outputLanguage>
+                                <swagger2markup.generatedExamplesEnabled>TRUE</swagger2markup.generatedExamplesEnabled>
+                                <swagger2markup.pathsGroupedBy>TAGS</swagger2markup.pathsGroupedBy>
+                            </config>
                             <skip>${swagger.skip}</skip>
                         </configuration>
                         <executions>
@@ -1899,20 +1921,21 @@
                                 <artifactId>asciidoctorj-pdf</artifactId>
                                 <version>${asciidoctorj.pdf.version}</version>
                             </dependency>
-							<dependency>
-								<groupId>org.jruby</groupId>
-								<artifactId>jruby-complete</artifactId>
-								<version>${jruby.complete.version}</version>
-							</dependency>
-						</dependencies>
-						<configuration>
-							<sourceDirectory>${main.basedir}/tools/swagger/config/</sourceDirectory>
-							<sourceDocumentName>index.adoc</sourceDocumentName>
-							<backend>html5</backend>
-							<outputDirectory>${main.basedir}/tools/swagger/docs/${swagger.dir}/${project.artifactId}</outputDirectory>
-							<attributes>
-								<toc>left</toc>
-								<toclevels>3</toclevels>
+                            <dependency>
+                                <groupId>org.jruby</groupId>
+                                <artifactId>jruby-complete</artifactId>
+                                <version>${jruby.complete.version}</version>
+                            </dependency>
+                        </dependencies>
+                        <configuration>
+                            <sourceDirectory>${main.basedir}/tools/swagger/config/</sourceDirectory>
+                            <sourceDocumentName>index.adoc</sourceDocumentName>
+                            <backend>html5</backend>
+                            <outputDirectory>${main.basedir}/tools/swagger/docs/${swagger.dir}/${project.artifactId}
+                            </outputDirectory>
+                            <attributes>
+                                <toc>left</toc>
+                                <toclevels>3</toclevels>
                                 <numbered></numbered>
                                 <hardbreaks></hardbreaks>
                                 <sectlinks></sectlinks>
@@ -1937,7 +1960,9 @@
                                 </goals>
                                 <configuration>
                                     <backend>pdf</backend>
-                                    <outputDirectory>${main.basedir}/tools/swagger/docs/${swagger.dir}/${project.artifactId}</outputDirectory>
+                                    <outputDirectory>
+                                        ${main.basedir}/tools/swagger/docs/${swagger.dir}/${project.artifactId}
+                                    </outputDirectory>
                                 </configuration>
                             </execution>
                         </executions>
@@ -1981,7 +2006,7 @@
                 <site>
                     <id>${project.artifactId}-site</id>
                     <url>${project.baseUri}</url>
-                 </site>
+                </site>
             </distributionManagement>
 
 

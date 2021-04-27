@@ -34,7 +34,7 @@
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL-C license and that you accept its terms.
  */
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, LOCALE_ID, Inject } from '@angular/core';
 import { ArchiveApiService } from '../core/api/archive-api.service';
 import { SearchService } from 'ui-frontend-common';
@@ -44,6 +44,8 @@ import { FilingHoldingSchemeNode } from './models/node.interface';
 import { PagedResult, ResultFacet, SearchCriteriaDto } from './models/search.criteria';
 import { Unit } from './models/unit.interface';
 import { SearchResponse } from './models/search-response.interface';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { VitamUISnackBarComponent } from './shared/vitamui-snack-bar';
 
 
 @Injectable({
@@ -54,7 +56,8 @@ export class ArchiveService extends SearchService<any> {
   constructor(
     private archiveApiService: ArchiveApiService,
     http: HttpClient,
-    @Inject(LOCALE_ID) private locale: string
+    @Inject(LOCALE_ID) private locale: string,
+    private snackBar: MatSnackBar,
   ) {
     super(http, archiveApiService, 'ALL');
   }
@@ -120,9 +123,41 @@ export class ArchiveService extends SearchService<any> {
     return out;
   }
 
+  exportCsvSearchArchiveUnitsByCriteria(criteriaDto: SearchCriteriaDto, accessContract: string) {
+    let headers = new HttpHeaders().append('Content-Type', 'application/json');
+    headers = headers.append('X-Access-Contract-Id', accessContract);
+
+    return this.archiveApiService.exportCsvSearchArchiveUnitsByCriteria(criteriaDto, headers).subscribe(
+      file => {
+        const element = document.createElement('a');
+        element.href = window.URL.createObjectURL(file);
+        element.download = 'export-archive-units.csv';
+        element.style.visibility = 'hidden';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+      },
+      (errors: HttpErrorResponse) => {
+        if(errors.status === 413){
+          console.log("Please update filter to reduce size of response" + errors.message);
+
+          this.snackBar.openFromComponent(VitamUISnackBarComponent, {
+            panelClass: 'vitamui-snack-bar',
+            data: { type: 'exportCsvLimitReached'},
+            duration: 10000
+          });
+        }
+      }
+    );
+  }
 
 
-  searchArchiveUnitsByCriteria(criteriaDto: SearchCriteriaDto, headers?: HttpHeaders): Observable<PagedResult> {
+
+  searchArchiveUnitsByCriteria(criteriaDto: SearchCriteriaDto, accessContract: string): Observable<PagedResult> {
+
+    let headers = new HttpHeaders().append('Content-Type', 'application/json');
+    headers = headers.append('X-Access-Contract-Id', accessContract);
+
     return this.archiveApiService.searchArchiveUnitsByCriteria(criteriaDto, headers).pipe(
    //   timeout(TIMEOUT_SEC),
       catchError((error) => {
@@ -137,7 +172,7 @@ export class ArchiveService extends SearchService<any> {
   }
 
   private buildPagedResults(response: SearchResponse): PagedResult {
-    let pagedResult: PagedResult = { results: response.$results, totalResults: response.$hits.total, pageNumbers: +response.$hits.size !== 0 ? Math.floor(+response.$hits.total / +response.$hits.size) : 0 };
+    let pagedResult: PagedResult = { results: response.$results, totalResults: response.$hits.total, pageNumbers: +response.$hits.size !== 0 ? Math.floor(+response.$hits.total / +response.$hits.size) + (+response.$hits.total % +response.$hits.size === 0 ? 0: 1) : 0 };
     let resultFacets: ResultFacet[] = [];
     if(response.$facetResults && response.$facetResults){
       for(let facet of response.$facetResults){

@@ -32,6 +32,7 @@ import fr.gouv.vitamui.archives.search.common.dto.VitamUIArchiveUnitResponseDto;
 import fr.gouv.vitamui.archives.search.common.rest.RestApi;
 import fr.gouv.vitamui.archives.search.service.ArchivesSearchService;
 import fr.gouv.vitamui.commons.api.CommonConstants;
+import fr.gouv.vitamui.commons.api.ParameterChecker;
 import fr.gouv.vitamui.commons.api.logger.VitamUILogger;
 import fr.gouv.vitamui.commons.api.logger.VitamUILoggerFactory;
 import fr.gouv.vitamui.commons.rest.AbstractUiRestController;
@@ -77,6 +78,7 @@ public class ArchivesSearchController extends AbstractUiRestController {
     @Consumes(MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public VitamUIArchiveUnitResponseDto searchArchiveUnits(@RequestBody final SearchCriteriaDto searchQuery) {
+        ParameterChecker.checkParameter("The Query is a mandatory parameter: ", searchQuery);
         LOGGER.debug("search archives Units by criteria = {}", searchQuery);
         VitamUIArchiveUnitResponseDto archiveResponseDtos = new VitamUIArchiveUnitResponseDto();
         ArchiveUnitsDto archiveUnits = archivesSearchService.findArchiveUnits(searchQuery, buildUiHttpContext());
@@ -100,6 +102,7 @@ public class ArchivesSearchController extends AbstractUiRestController {
     @GetMapping(RestApi.ARCHIVE_UNIT_INFO + CommonConstants.PATH_ID)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<ResultsDto> findUnitById(final @PathVariable("id") String id){
+        ParameterChecker.checkParameter("The Identifier is a mandatory parameter: ", id);
         LOGGER.debug("Find the Archive Unit with ID {}", id);
         return archivesSearchService.findUnitById(id, buildUiHttpContext());
     }
@@ -108,10 +111,26 @@ public class ArchivesSearchController extends AbstractUiRestController {
     @GetMapping(RestApi.DOWNLOAD_ARCHIVE_UNIT + CommonConstants.PATH_ID)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Resource> downloadObjectFromUnit(final @PathVariable("id") String id) {
-        LOGGER.debug("Donwload the Archive Unit Object with ID {}", id);
+        ParameterChecker.checkParameter("The Identifier is a mandatory parameter: ", id);
+        LOGGER.debug("Download the Archive Unit Object with ID {}", id);
         Resource body = archivesSearchService.downloadObjectFromUnit(id, buildUiHttpContext()).getBody();
         return ResponseEntity.ok()
             .contentType(MediaType.APPLICATION_OCTET_STREAM).header("Content-Disposition", "attachment")
             .body(body);
+    }
+
+
+    @ApiOperation(value = "export into csv format archive units by criteria")
+    @PostMapping(RestApi.EXPORT_CSV_SEARCH_PATH)
+    @Consumes(MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Resource> exportCsvArchiveUnitsByCriteria(@RequestBody final SearchCriteriaDto searchQuery) {
+        LOGGER.debug("Export search archives Units by criteria into csv format = {}", searchQuery);
+        Resource exportedCsvResult =
+            archivesSearchService.exportCsvArchiveUnitsByCriteria(searchQuery, buildUiHttpContext()).getBody();
+        return ResponseEntity.ok()
+            .contentType(MediaType.APPLICATION_OCTET_STREAM)
+            .header("Content-Disposition", "attachment")
+            .body(exportedCsvResult);
     }
 }
