@@ -72,7 +72,11 @@ public class ExportSearchResultParam {
             this.patternDate = EN_PATTERN_DATE;
             this.descriptionLevelMap = Map.of(
                 "File", "File",
+<<<<<<< HEAD
                 "Item", "File",
+=======
+                "File", "File",
+>>>>>>> Revert "rollback wrong modifs"
                 "RecordGrp", "RecordGrp",
                 "Fonds", "Fonds",
                 "Subfonds", "Subfonds",
