@@ -189,7 +189,7 @@ vitamui:
     port_service: 8101
     port_admin: 7101
     secure: true
-    read_timeout: 20
+    read_timeout: 2
     jvm_log: false
     logging_level: "INFO"
     log:
@@ -211,7 +211,7 @@ vitamui:
     jvm_log: false
     logging_level: "INFO"
     gdpr_alert_readonly: true
-    read_timeout: 20
+    read_timeout: 2
     log:
       logback_max_file_size: "10MB"
       logback_max_history: 30
