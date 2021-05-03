@@ -22,6 +22,7 @@ ui-identity:
     server-host: localhost
     server-port: 8083
     secure: false
+    read-time-out: 10
     ssl-configuration:
       keystore:
         key-path: "@project.build.testOutputDirectory@/keystore_sae-app.p12"

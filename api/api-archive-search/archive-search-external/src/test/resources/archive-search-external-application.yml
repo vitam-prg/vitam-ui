@@ -22,6 +22,7 @@ archive-search-external:
     server-host: localhost
     server-port: 7083
     secure: false
+    read-time-out: 10
   archive-search-internal-client:
     server-host: localhost
     server-port: 7089

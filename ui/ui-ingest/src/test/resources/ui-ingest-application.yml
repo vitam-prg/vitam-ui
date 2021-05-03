@@ -21,6 +21,7 @@ ui-ingest:
     server-host: localhost
     server-port: 8083
     secure: true
+    read-time-out: 10
     ssl-configuration:
       keystore:
         key-path: src/main/config/ui-ingest.jks

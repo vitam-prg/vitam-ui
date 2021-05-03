@@ -22,7 +22,7 @@ iam-external:
     server-host: localhost
     server-port: 7083
     secure: false
-
+    read-time-out: 10
 server-identity:
   identityName: vitamui-test
   identityRole: iam

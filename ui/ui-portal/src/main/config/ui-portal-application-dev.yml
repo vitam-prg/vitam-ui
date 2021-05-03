@@ -51,6 +51,7 @@ ui-portal:
     server-host: localhost
     server-port: 8083
     secure: true
+    read-time-out: 10
     ssl-configuration:
       keystore:
         key-path: ../../dev-deployment/environments/keystores/server/localhost/keystore_ui-portal.jks

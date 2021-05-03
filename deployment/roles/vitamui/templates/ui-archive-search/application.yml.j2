@@ -56,6 +56,7 @@ ui-archive-search:
   iam-external-client:
     server-host: {{ vitamui.iam_external.host }}
     server-port: {{ vitamui.iam_external.port_service }}
+    read-time-out: {{ vitamui.iam_external.read_timeout|10 }}
 {% if vitamui.iam_external.secure|lower == "true" %}
     secure: true
     ssl-configuration:

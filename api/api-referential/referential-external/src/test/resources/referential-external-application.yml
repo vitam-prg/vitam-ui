@@ -22,6 +22,7 @@ referential-external:
     server-host: localhost
     server-port: 7083
     secure: false
+    read-time-out: 10
   referential-internal-client:
     server-host: localhost
     server-port: 7087

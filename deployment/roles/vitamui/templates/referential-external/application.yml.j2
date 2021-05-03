@@ -68,6 +68,7 @@ referential-external:
   iam-internal-client:
     server-host: {{ vitamui.iam_internal.host }}
     server-port: {{ vitamui.iam_internal.port_service }}
+    read-time-out: {{ vitamui.iam_internal.read_timeout|10 }}
 {% if vitamui.iam_internal.secure|lower == "true" %}
     secure: {{ vitamui.iam_internal.secure|lower }}
     ssl-configuration:
