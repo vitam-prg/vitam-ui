@@ -37,7 +37,7 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { IngestApiService } from '../api/ingest-api.service';
-import { retry } from 'rxjs/operators';
+import { retry, timeout } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { IngestInfo, IngestList, IngestStatus } from './ingest-list';
 
@@ -87,7 +87,7 @@ export class UploadService {
     const request = this.generateIngestRequest(tenantIdentifier, contextId, action, start, end, totalSize, file);
 
     this.ingestApiService.upload(request)
-      .pipe( retry(MAX_RETRIES) )
+      .pipe(timeout(7000), retry(MAX_RETRIES) )
       .subscribe(
         (event) => {
           if (event instanceof HttpResponse) {
