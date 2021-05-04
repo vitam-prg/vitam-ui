@@ -127,6 +127,9 @@ public class BaseRestClientFactory implements RestClientFactory {
             .setConnectionManager(connectionManager)
             .setDefaultRequestConfig(requestConfig)
             .build();
+        LOGGER.info("--------------------------------------------------------------------");
+        LOGGER.info("The read time out defined is {} ", restClientConfig.getReadTimeOut());
+        LOGGER.info("--------------------------------------------------------------------");
 
         restTemplate =
             restTemplateBuilder.setReadTimeout(Duration.ofSeconds(restClientConfig.getReadTimeOut()))
