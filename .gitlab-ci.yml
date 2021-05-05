@@ -1,0 +1,32 @@
+variables:
+  GIT_SSL_NO_VERIFY: "true"
+
+stages:
+  - tata
+
+.machine: &tata
+    tags: 
+        - caux, fr
+
+test_tata:
+  stage: tata
+  only:
+    - main
+  <<: *tata
+  script:
+    - ls
+    # Pour éviter de faire des modifications à distance accidentellement, on supprime le lien vers le référentiel d'origine, on détache la branche  de sa remote.
+    - git remote rm origin
+    # On clean
+    - git reset --hard
+    - git gc --aggressive 
+    - git prune
+    - git clean -fd
+    # La commande "git remote add" est utilisée pour créer un dépôt distant. Le premier argument est le nom du dépôt distant et le deuxième son URL
+    - git remote add origin https://$TOKEN:x-oauth-basic@$LIEN_CIBLE
+    # on se place dans la branche du dépôt distant
+    - git checkout -b $BRANCHE_CIBLE
+    # on met à jour la branche distante (Logiquement, elle devrait toujours être au même niveau que la master local)
+    - git pull origin $BRANCHE_CIBLE
+    # on push sur github sur la branche choisie 
+    - git push --set-upstream origin $BRANCHE_CIBLE
