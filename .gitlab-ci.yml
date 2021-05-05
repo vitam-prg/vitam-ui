@@ -4,15 +4,15 @@ variables:
 stages:
   - tata
 
-.machine: &tata
+.machine: &runner-shell
     tags: 
-        - caux, fr
+        - vitamui, shell
 
 test_tata:
   stage: tata
   only:
     - main
-  <<: *tata
+  <<: *runner-shell
   script:
     - ls
     # Pour éviter de faire des modifications à distance accidentellement, on supprime le lien vers le référentiel d'origine, on détache la branche  de sa remote.
