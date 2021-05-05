@@ -1,0 +1,90 @@
+@import '../../../../assets/css/mixins';
+@import '../../../../assets/css/font';
+
+.pastis-dialog-confirm{
+    border-radius: 20px;
+    background-color: white;
+}
+.pastis-dialog-confirm-divider {
+    position: relative;
+    max-width: 90%;
+    margin-left: 5%;
+    margin-top: 37px;
+    height: 3px;
+    border-radius: 20px;
+    border: none;
+    @extend .pastis-bg-primary-300;
+}
+
+.pastis-dialog-title{
+    @extend .pastis-font-popup-title;
+    /* Positioning */
+    position: relative;
+    margin-left: 5%;
+    margin-right: 40px; 
+    margin-top: 10px;
+}
+
+.pastis-dialog-subtitle {
+    @extend .pastis-font-popup-subtitle;
+    /* Positioning */
+    position: relative;
+    margin-left: 5%;
+    margin-right: 40px; 
+    margin-bottom: 0px;
+}
+
+.pastis-dialog-content{
+    margin-right: 5%;
+    margin-left: 5%;
+    overflow: hidden;
+  }
+
+.pastis-dialog-confirm-buttons{
+    position: relative;
+    margin-left: 5%;
+    margin-bottom: 10px;
+}
+
+.pastis-btn-oui-dialog-confirm{
+    padding-left: 30px;
+    padding-right: 30px;
+    min-width: 92px;
+    height: 50px;
+    @extend .pastis-btn-primary-enabled;
+}
+.pastis-btn-oui-dialog-confirm:hover:not([disabled]){
+    @extend .pastis-btn-primary-hover;
+}
+.pastis-btn-oui-dialog-confirm:active{
+    @extend .pastis-btn-primary-focus;
+}
+.pastis-btn-oui-dialog-confirm:disabled{
+    @extend .pastis-btn-primary-disabled;
+}
+.pastis-btn-non-dialog-confirm{
+    padding-left: 30px;
+    padding-right: 30px;
+    min-width: 92px;
+    height: 50px;
+    margin-left: 24px;
+    @extend .pastis-btn-variant-enabled;
+}
+.pastis-btn-non-dialog-confirm:hover{
+    @extend .pastis-btn-variant-hover;
+}
+.pastis-btn-non-dialog-confirm:active{
+    @extend .pastis-btn-variant-focus;
+}
+
+.pastis-close-popup{
+    text-align: right;
+    margin-top: -13px; 
+    margin-right: -3%; 
+    float:right;
+}
+
+.barre-et-croix{
+    max-width: 95%;
+    cursor: pointer;
+}

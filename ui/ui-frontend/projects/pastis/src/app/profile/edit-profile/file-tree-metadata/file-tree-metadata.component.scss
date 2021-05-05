@@ -1,0 +1,403 @@
+@import "../../../../assets/css/mixins";
+@import "../../../../assets/css/layout";
+@import "../../../../assets/css/colors";
+@import "../../../../assets/css/font";
+@import "../../../../assets/css/buttons";
+@import "../../../../assets/css/input";
+
+td {
+  padding-right: 6px !important;
+}
+
+.metadata-form {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: white;
+}
+
+.item-metadata {
+  margin-top: 35px;
+}
+
+.item-definition-icon {
+  position: relative;
+  top: 5px;
+}
+
+// Inital content
+.mat-select {
+  @extend .dropdown;
+  @extend .pastis-dropdown-border-button1-enabled;
+}
+
+// Inital content text
+.mat-select-value {
+  vertical-align: middle;
+  @extend .pastis-dropdown-text-button1-enabled;
+}
+
+/////////////################ Select trigger - Text + arrow
+.mat-select-arrow {
+  background: url(../../../../assets/svg/icons/drop-box-arrow.svg) no-repeat 100% 50%;
+  background-size: 24px 24px;
+  border: none !important;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  outline-width: 0;
+  padding: 4px 4px 24px 24px;
+  display: block;
+  margin: 0px -10px 0px 0px !important;
+}
+
+.mat-select-value-text {
+  @extend .pastis-font-roboto-medium;
+  vertical-align: middle;
+  margin-left: 25px;
+  max-width: 200px;
+}
+
+
+// Cardinality dropdown
+
+// Overhide mat-select-panel default min-size : calc(100%) + 32px;
+.mat-select-panel {
+  min-width: 100% !important;
+}
+
+// Hover on select
+.cardinality-dropdown .mat-select-panel {
+  left: 0%;
+  right: 0%;
+  top: 10%;
+  bottom: 0%;
+  max-height: 205px;
+  max-width: 100px;
+}
+
+// The select dropdown box
+.cardinality-dropdown {
+  border: 1px solid #65b2e4;
+  margin-left: 20px;
+}
+
+// The selected option
+.cardinality-dropdown .mat-option.mat-selected:not(.mat-option-disabled) {
+  @extend .pastis-font-roboto-regular;
+  @extend .pastis-black-medium;
+  background: url(../../../../assets/svg/icons/check.svg) no-repeat 100% 50%;
+  //background:yellow;
+  background-position: 10px 12px;
+}
+
+//The hovered option
+.cardinality-dropdown .mat-option:hover {
+  @extend .pastis-bg-secondary-200;
+  @extend .pastis-font-roboto-regular;
+  @extend .pastis-black-height;
+}
+
+// The text on dropdown
+.cardinality-text {
+  margin-left: 12px;
+  float: left;
+}
+
+.item-definition {
+  text-align: left;
+  position: relative;
+  color: #4c4a37;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 18px;
+  line-height: 32px;
+  margin: 0 0 24px;
+}
+
+.value-text-area {
+  padding: 0px;
+  width: 80%;
+  @extend .pastis-text-area;
+  @extend .pastis-table-input-border;
+}
+
+.select-border{
+  @extend .pastis-table-input-border;
+}
+
+.comment-text-area {
+  @extend .value-text-area;
+  @extend .pastis-textarea-comment;
+  padding: 0px;
+  float: left;
+  text-align: left;
+  text-indent: 10px;
+  overflow: hidden;
+  width: 80%;
+  overflow-y: hidden;
+
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+}
+
+.radio-button {
+  margin: 5px;
+}
+
+
+table {
+  width: 100%;
+}
+
+.pastis-btn-add-tag {
+  width: 210px;
+  float: left;
+  height: 50px;
+  @extend .pastis-btn-primary-enabled;
+}
+
+.pastis-btn-add-tag:hover {
+  @extend .pastis-btn-primary-hover;
+}
+
+.pastis-btn-add-tag:disabled {
+  @extend .pastis-btn-primary-disabled;
+}
+
+.pastis-btn-add-tag:active {
+  @extend .pastis-btn-primary-focus;
+}
+
+
+
+thead {
+  border-radius: 5px !important;
+}
+
+table {
+  border-radius: 5px !important;
+  border-spacing: 0 5px !important;
+}
+
+
+
+tr:hover .pastis-btn-appear {
+  display: block;
+}
+
+.pastis-btn-appear {
+  display: none;
+}
+
+.pastis-item-menu {
+  margin-top: -7px;
+  border: 1px solid #9E9E9E;
+  float: right !important;
+  /* Elevation 3 */
+  box-shadow: 0px 11px 15px rgba(0, 0, 0, 0.1), 0px 9px 46px rgba(0, 0, 0, 0.06), 0px 24px 38px rgba(0, 0, 0, 0.07);
+  border-radius: 10px !important;
+  @extend .pastis-bg-white-highlight;
+}
+
+.pastis-item-menu-text {
+  color: #212121;
+  @extend .pastis-body-2;
+}
+
+.pastis-btn-metadata-options {
+  @extend .pastis-btn-rounded-mini-neutral-enabled;
+  border: 1px solid map-get($colors, 'primary-500') !important;
+  float: right;
+  width: 40px;
+  height: 40px;
+  z-index: 10;
+}
+
+.pastis-btn-metadata-options-active {
+  @extend .pastis-btn-rounded-mini-neutral-enabled;
+  background: map-get($colors, 'white-highlight' );
+  position: absolute !important;
+  margin-left: 5px !important;
+  width: 40px;
+  height: 40px;
+  border: 1px solid map-get($colors, 'primary-500') !important;
+}
+
+
+.pastis-ico-menu-active {
+  color: map-get($colors , 'primary-500' ) !important;
+}
+
+.pastis-ico-menu-inactive {
+  @extend .pastis-primary-500;
+}
+
+.pastis-table-container {
+  overflow: auto;
+  overflow-x: hidden;
+  max-height: 425px;
+  width: 60%;
+  left: 450px;
+  padding-top: 60px;
+  top: 0%;
+  position: relative;
+}
+
+.button-container {
+  position: absolute;
+  width: 230px;
+  height: 50px;
+  left: 120px;
+  top: 745px;
+}
+
+
+.pastis-metadata-option-container {
+  @extend .pastis-panel-radius-10;
+  @extend .pastis-panel-shadow;
+  position: relative;
+  width: 60%;
+  top: 20px;
+  left: 450px;
+  height: 116px;
+}
+
+.pastis-metadata-option-entete-1 {
+  position: relative;
+  width: 70%;
+  height: 117px;
+  float: left;
+}
+
+.pastis-metadata-option-entete-2 {
+  position: relative;
+  width: 30%;
+  height: 117px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.pastis-position-btn-arrow-back {
+  position: absolute;
+  left: 36px;
+  top: 46px;
+  @extend .pastis-btn-rounded-mini-neutral;
+}
+
+.pastis-btn-rounded-arrow-back {
+
+  width: 30px;
+  height: 30px;
+   @extend .pastis-btn-rounded-mini-primary;
+}
+
+
+.pastis-ico-arrow-back {
+  @extend .pastis-white-highlight;
+  cursor: pointer;
+  font-size: 24px;
+  margin-left: -5px;
+}
+
+
+.pastis-entete-1-text {
+  margin-top: 33px;
+  margin-left: 12%;
+  text-align: left;
+}
+
+.pastis-entete-1-text-titre {
+  position: absolute;
+  left: 123px;
+  right: 5.06%;
+  top: 25.64%;
+  bottom: 50.43%;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.pastis-entete-1-text-body-1 {
+  position: absolute;
+  width: 500px;
+  height: 20px;
+  left: 123px;
+  top: 68px;
+
+  @extend .pastis-font-roboto-regular;
+  @extend .pastis-primary-500;
+}
+
+.pastis-entete-1-text-body-2 {
+  @extend .pastis-font-roboto-regular;
+  @extend .pastis-grey-900;
+}
+
+
+// Right top panel : Buttons style definition //
+
+.panel-buttons {
+  text-align: center;
+  margin-top: 33px;
+  margin-inline: 5px;
+  margin-inline-end: 20px;
+}
+
+
+.pastis-ico-open {
+  @extend .pastis-ico-svg;
+  color: white;
+}
+
+.pastis-ico-complex-element {
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+
+dp-date-picker {
+  display: flex !important;
+}
+
+dp-day-calendar .dp-day-calendar-container {
+  border-radius: 20px !important;
+  box-shadow: 0px 11px 15px rgba(0, 0, 0, 0.1), 0px 9px 46px rgba(0, 0, 0, 0.06), 0px 24px 38px rgba(0, 0, 0, 0.07) !important;
+}
+
+.dp-selected {
+  background: blueviolet !important;
+}
+
+.dp-current-day {
+  border: 1px solid blueviolet !important;
+}
+
+
+.pastis-metadata-table-col-large .mat-select,
+.pastis-metadata-table-col-large .mat-select:focus {
+  width: 80%;
+}
+
+
+
+.pastis-metadata-table-col-large textarea {
+  height: 40px;
+  text-indent: 10px;
+
+}
+
+.pastis-metadata-table-col-large textarea:focus {
+  height: 200px;
+
+}
+
+.pastis-metadata-table-col-small .mat-select {
+  max-width: 106px;
+}
+
+.complex-element-no-child {
+  text-align: left;
+}

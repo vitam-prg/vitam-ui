@@ -1,0 +1,80 @@
+<mat-tree *ngIf="nestedTreeControl && nestedDataSource" [dataSource]="nestedDataSource"
+  [treeControl]="nestedTreeControl" #treeSelector class="pastis-tree">
+
+  <!-- Nested tree node-->
+
+  <mat-nested-tree-node *matTreeNodeDef="let node;when:hasNestedChild">
+    <ng-container *ngIf="!isAttribute(node) && shouldBeOnTab(node) && node" >
+      <mat-list-item 
+        class="list-item" (mouseover)="hover=node.children.length" (click)="updateMedataTable(node);nestedTreeControl.expand(node)"
+        style="margin-left:40px;margin-right:40px">
+        
+        <!--Root node name-->
+        <span *ngIf="node.name === rootElementName" class="pastis-tree-node-root-name">
+            <span [ngStyle]="{'margin-left': calculateNodePosition(node) + 'px'}">
+              {{rootElementShowName}}
+            </span>
+            <span *ngIf="node.name === rootElementName && node.name === 'DescriptiveMetadata'" >
+              <span class="pastis-add-ua-text" (click)= "addArchiveUnit(node)"> Ajouter&nbsp;une&nbsp;UA 
+                <!--Button plus-->
+                <!--<mat-icon svgIcon="plus-blue" 
+                          class="pastis-ico-plus-blue"
+                          (click)= "addArchiveUnit(node)">
+                </mat-icon>-->
+                  <button class="pastis-btn-rounded-ua pastis-btn-add-ua">
+                    <mat-icon class="pastis-ico-plus">add</mat-icon>
+                  </button>
+              </span>
+            </span>
+            <mat-divider class="pastis-divider"></mat-divider>
+        </span>
+
+        <!--Root children without children-->
+        <span *ngIf="!node.children.length && node.name !== rootElementName 
+                    && isPartOfCollection(node) && shouldBeOnTab(node) && !isAttribute(node)"  
+                    class="pastis-tree-node-name" (click)="updateMedataTable(node)"
+          [ngStyle]="{'margin-left': calculateNodePosition(node)  + 'px'}">
+          <span>{{onResolveName(node)}}</span>
+          <mat-divider class="pastis-divider"></mat-divider>
+        </span>
+
+        <!--Root children with children-->
+        <span *ngIf="node.children.length && node.name !== rootElementName
+                    && isPartOfCollection(node) && shouldBeOnTab(node) && !isAttribute(node)"
+              [ngStyle]="{'margin-left': calculateNodePosition(node)  + 'px'}" (click)="updateMedataTable(node)">
+          
+              <button *ngIf="isElementComplexAndHasChildren(node)"
+                  mat-icon-button matTreeNodeToggle 
+                  class="pastis-chevron-icon" 
+                  (click)="updateMedataTable(node)">
+                  <mat-icon>{{nestedTreeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}</mat-icon>
+              </button>
+              <span class="pastis-tree-node-name">
+                  <span>{{onResolveName(node)}}</span>
+                  <span *ngIf="node.name === 'ArchiveUnit'"
+                                style="float: right;"
+                                tooltip="Ajouter une UA"
+                                tooltip-class="pastis-tooltip-class">
+                      <!--Button plus-->
+                      <button class="pastis-btn-rounded-ua-grey pastis-btn-add-ua">
+                        <mat-icon class="pastis-ico-plus" (click)= "addArchiveUnit(node)">add</mat-icon>
+                    </button>
+                  </span>
+              </span>
+              <mat-divider class="pastis-divider"></mat-divider>
+        </span>
+        
+      </mat-list-item>
+      
+
+
+
+
+    <ul [hidden]="!nestedTreeControl.isExpanded(node)" class="pastis-tree-ul">
+      <ng-container matTreeNodeOutlet></ng-container>
+    </ul>
+</ng-container>
+  </mat-nested-tree-node>
+
+
+</mat-tree>

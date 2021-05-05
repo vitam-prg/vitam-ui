@@ -1,0 +1,10 @@
+{
+    "apiPastisUrl": "http://vps795748.ovh.net:8080/rest",
+    "getProfileUrl": "/createprofile",
+    "uploadProfileUrl": "/new",
+    "getFileUrl": "/getfile",
+    "getAllProfilesUrl": "/getprofiles",
+    "savePAasFileUrl": "/getarchiveprofile",
+    "savePUAasFileUrl": "/getarchiveunitprofile",
+    "editProfileUrl": "/edit"
+}

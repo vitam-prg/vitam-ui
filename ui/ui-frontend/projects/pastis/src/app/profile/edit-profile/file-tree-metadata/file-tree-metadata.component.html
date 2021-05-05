@@ -1,0 +1,174 @@
+<mat-sidenav-container [autosize]="true" [hasBackdrop]="false">
+  <mat-sidenav-content >
+      <!--Top panels container-->
+  <div class="pastis-metadata-option-container">
+    <!-- Top left panel container -->
+    <div class="pastis-metadata-option-entete-1">
+      <!--Arrow button conainer-->
+      <div class="pastis-position-btn-arrow-back">
+        <button class="btn btn-circle primary small" tooltip="Retour vers la liste des profils" placement="bottom"
+                    show-delay="0" tooltip-class="pastis-tooltip-class" (click)="goBack()">
+                <i class="material-icons">arrow_back</i>
+            </button>
+      </div>
+      <!--Panel content separator-->
+      <div class="pastis-entete-1-separator"></div>
+      <!--Text cotopntainer-->
+      <div class="pastis-entete-1-text">
+        <div class="pastis-entete-1-text-titre">{{resolveCurrentNodeName()}}</div>
+        <div class="pastis-entete-1-text-body-1">
+          Créer et gérer un profil d'archivage<mat-icon  class="pastis-ico-arrow-right">arrow_right_alt</mat-icon>...<span class="pastis-entete-1-text-body-2"><mat-icon  class="pastis-ico-arrow-right">arrow_right_alt</mat-icon>{{resolveCurrentNodeName()}}</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!--Top right panel container-->
+    <div class="pastis-metadata-option-entete-2">
+      <!--Button open-->
+      <!-- <div class="panel-buttons" tooltip="Importer un profil" placement="top" show-delay="0"
+        tooltip-class="pastis-tooltip-class">
+        <pastis-user-action-upload></pastis-user-action-upload>
+      </div> -->
+      <!--Button save-->
+      <div class="panel-buttons" tooltip="Enregistrer le profil" placement="top" show-delay="0"
+        tooltip-class="pastis-tooltip-class">
+        <pastis-user-action-save-profile></pastis-user-action-save-profile>
+      </div>
+      <!--Button setting-->
+      <div class="panel-buttons" tooltip="Télécharger le manuel d'utilisation de PASTIS" placement="top" show-delay="0"
+        tooltip-class="pastis-tooltip-class">
+        <pastis-user-action-download-doc></pastis-user-action-download-doc>
+      </div>
+    </div>
+
+  </div>
+  <!--Metatada table container-->
+  <div class="pastis-table-container">
+    <table mat-table [dataSource]="matDataSource" *ngIf="shouldLoadMetadataTable(); else complexElementWithouChild" class="list-profile-table">
+      <!-- Name Column -->
+      <ng-container matColumnDef="nomDuChamp">
+        <th mat-header-cell *matHeaderCellDef class="pastis-font-table-header pastis-col">Nom de la métadonnée</th>
+        <td mat-cell *matCellDef="let element;index as j" class="pastis-metadata-table-col-large">
+          <span
+            [ngClass]="{'pastis-table-content': isSedaCardinalityConform(element.cardinalite,selectedCardinalities[j]),
+                                 'pastis-table-content-with-errors': !isSedaCardinalityConform(element.cardinalite,selectedCardinalities[j])}"
+            tooltip="{{getSedaDefinition(element.nomDuChamp)}}" placement="right" show-delay="0"
+            tooltip-class="pastis-tooltip-class">
+            <mat-icon *ngIf="isElementComplex(element.nomDuChamp)" svgIcon="complex-element"
+              class="pastis-ico-complex-element">
+            </mat-icon>
+            {{element.nomDuChamp}}
+            <mat-icon *ngIf="!isSedaCardinalityConform(element.cardinalite,selectedCardinalities[j])"
+              matTooltip="La cardinalité n'est pas conforme aux specifications du SEDA 2.1" matTooltipPosition="above"
+              matTooltipClass="pastis-table-content">
+              info
+            </mat-icon>
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Value Column -->
+      <ng-container matColumnDef="valeurFixe">
+        <th mat-header-cell *matHeaderCellDef class="pastis-font-table-header pastis-col">Valeur fixe</th>
+        <td mat-cell *matCellDef="let element;index as i" class="pastis-metadata-table-col-large">
+          <ng-container [ngSwitch]="getMetadataInputType(element)">
+            <ng-container *ngSwitchCase="'date'">
+              <input [ngModel]="element.valeurFixe" theme="dp-material" class="value-text-area pastis-table-content"
+                [dpDayPicker]="config" (ngModelChange)="setNodeValue(element,$event)">
+            </ng-container>
+            <ng-container *ngSwitchCase="'enumeration'">
+              <mat-select placeholder="Choisissez une valeur" [ngModel]="element.valeurFixe"
+                (ngModelChange)="setNodeValue(element,$event)" class="select-border">
+                <mat-option [value]=""></mat-option>
+                <mat-option *ngFor="let val of element.enumeration" [value]="val">{{val}}</mat-option>
+              </mat-select>
+            </ng-container>
+            <ng-container *ngIf="!checkElementType(element.nomDuChamp)">
+              <textarea matInput *ngSwitchDefault [ngModel]="element.valeurFixe"
+                (ngModelChange)="setNodeValue(element,$event)" class="value-text-area pastis-table-content">
+              </textarea>
+            </ng-container>
+          </ng-container>
+          <ng-template #simpleElement></ng-template>
+        </td>
+      </ng-container>
+
+      <!-- Cardinality Column -->
+      <ng-container matColumnDef="cardinalite">
+        <th mat-header-cell *matHeaderCellDef class="pastis-font-table-header pastis-col">Cardinalité </th>
+        <td mat-cell *matCellDef="let element;index as i" class="pastis-metadata-table-col-small">
+          <mat-select [ngModel]="selectedCardinalities[i]" panelClass="cardinality-dropdown "
+            (ngModelChange)="setNodeChildrenCardinalities(element,$event)" disableRipple="true" class="select-border">
+            <mat-option *ngFor="let c of element.cardinalite" [value]="c">
+              <span class="cardinality-text">{{c}}</span>
+            </mat-option>
+          </mat-select>
+        </td>
+      </ng-container>
+
+      <!-- Commnent Column -->
+      <ng-container matColumnDef="commentaire">
+        <th mat-header-cell *matHeaderCellDef class="pastis-font-table-header pastis-col"> Commentaire </th>
+        <td mat-cell *matCellDef="let element;index as i" class="pastis-metadata-table-col-large">
+          <textarea matInput [ngModel]="element.commentaire" (ngModelChange)="setDocumentation(element,$event)"
+            class="comment-text-area ">
+            </textarea>
+
+          <!--Menu options-->
+          <mat-menu #menu="matMenu" [overlapTrigger]="false" class="pastis-item-menu" xPosition="before"
+            yPosition="below">
+            <!-- Dupliquer-->
+            <button mat-menu-item>
+              <mat-icon style="color:#757575">filter_none</mat-icon>
+              <span class="pastis-item-menu-text">Dupliquer</span>
+            </button>
+            <!-- @Attributs-->
+            <mat-divider *ngIf="hasAttributes(element.nomDuChamp)" style="border-top-color:#E0E0E0;"></mat-divider>
+            <button *ngIf="hasAttributes(element.nomDuChamp);" (click)="onEditAttributesClick(element.id)"
+              mat-menu-item>
+              <mat-icon style="color:#757575">alternate_email</mat-icon>
+              <span class="pastis-item-menu-text">Attributs de métadonnée</span>
+            </button>
+            <!-- @Supprimer-->
+            <mat-divider *ngIf="!isSedaObligatory(element.nomDuChamp)" style="border-top-color:#E0E0E0;"></mat-divider>
+            <button *ngIf="!isSedaObligatory(element.nomDuChamp)" mat-menu-item (click)="onDeleteNode(element.id)">
+              <mat-icon style="color:#757575">delete</mat-icon>
+              <span class="pastis-item-menu-text">Supprimer</span>
+            </button>
+          </mat-menu>
+
+          <button id="menuBtn" *ngIf="isRowHovered(element.id)" mat-icon-button [matMenuTriggerFor]="menu"
+            (click)="onButtonClicked(element.id,$event)" disableRipple="true" (menuOpened)="rowIndex = i"
+            (menuClosed)="rowIndex = 100"
+            [ngClass]="{'pastis-btn-metadata-options-active': isButtonClicked(element.id,matDataSource.data[rowIndex]),
+                              'pastis-btn-metadata-options': !isButtonClicked(element.id,matDataSource.data[rowIndex]) }">
+            <mat-icon
+              [ngClass]="{'pastis-ico-menu-active': isButtonClicked(element.id,matDataSource.data[rowIndex]),
+                                'pastis-ico-menu-inactive': !isButtonClicked(element.id,matDataSource.data[rowIndex])}">
+              {{isButtonClicked(element.id,matDataSource.data[rowIndex]) ? 'close' : 'more_horiz'}}
+            </mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true" class="pastis-table-row-header"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="pastis-table-row" (mouseenter)="onMouseOver(row)"
+        (mouseleave)="onMouseLeave(row)"></tr>
+    </table>
+  </div>
+
+  <ng-template #complexElementWithouChild>
+    <div class="complex-element-no-child"> La métadonnée {{clickedNode.name}} ne contient pas de métadonnées filles.
+      Vous devez lui en ajouter au moins une pour pouvoir l'utiliser dans votre profil.</div>
+  </ng-template>
+
+  <!--Button add metadata-->
+<!--   <div class="button-container">
+    <button *ngIf="checkElementType()" class="pastis-btn-add-tag"
+      (click)="onAddNode()">{{resolveButtonLabel(clickedNode)}}
+    </button>
+    <br><br>
+  </div> -->
+  </mat-sidenav-content>
+</mat-sidenav-container>

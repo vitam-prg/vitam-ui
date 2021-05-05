@@ -1,0 +1,103 @@
+@import '../../../../../assets/css/colors';
+@import '../../../../../assets/css/dropdown';
+@import '../../../../../assets/css/layout';
+
+
+table{
+    background: none;
+    max-height: 454px;
+    border-spacing: 0 5px;
+    margin-bottom: 30px;
+}
+
+.table-container {
+    max-height: 270px;
+    overflow: auto;
+}
+
+th {
+    border: none;
+    background: white;
+}
+
+td{
+    border-radius: 5px;
+    border: none;
+}
+
+
+.col-nom{
+
+    width: 204px !important;
+}
+
+.input-valeur-fixe{
+    text-indent: 10px;
+    width: 130px !important; 
+}
+.input-comentaire{
+    width: 220px !important; 
+
+}
+.td-cardinalite{
+    width: 100px !important; 
+    text-align: center;
+    padding-left: 30px !important;
+    padding-right: 30px !important;
+}
+
+.check-box{
+    width: 150px;
+    padding-right: 39px !important;
+}
+
+.info-bulle{
+    padding-left: 28px; 
+    padding-right: 2px;
+    vertical-align: baseline;
+    font-size: 24px;
+    color:map-get($colors,'secondary-300');
+}
+
+.col-selection{
+    text-align: right; 
+    padding-right: 0px !important;
+}
+
+.select-dropdown{
+    text-align: left;
+}
+
+ // Pastis checkbox (enabled)
+::ng-deep .mat-checkbox.mat-accent {
+    .mat-checkbox-frame {
+      border: 1px solid map-get($colors,'secondary-300');
+      
+    }
+  
+    &.mat-checkbox-checked .mat-checkbox-background {
+      background-color: white;
+      border: 1px solid map-get($colors,'secondary-300');
+    }
+  
+    .mat-checkbox-checkmark-path {
+      stroke: map-get($colors,'secondary-300') !important;
+    }
+    
+  }
+
+  ::ng-deep  .mat-checkbox-ripple .mat-ripple{
+     display: none; 
+  }
+
+ // Pastis checkbox (disabled)
+ ::ng-deep .mat-checkbox-checked.mat-accent.mat-checkbox-disabled .mat-checkbox-background, 
+             .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+    border: 1px solid;
+    border-color: map-get($colors,'black-low');
+    background-color: white;
+
+    .mat-checkbox-checkmark-path {
+        stroke: map-get($colors,'black-low') !important;
+      }
+}

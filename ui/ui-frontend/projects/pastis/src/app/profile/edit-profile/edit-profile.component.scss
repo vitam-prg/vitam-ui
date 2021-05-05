@@ -1,0 +1,169 @@
+.pastis-edit-profile-header{
+  position: fixed;
+  top: 20px;
+}
+.mat-table{
+  position: fixed;
+  top: 220px;
+  height: 400px;
+  width: 400px;
+}
+.pastis-edit-profile-header-name{
+  position: absolute;
+  width: 350px;
+  height: 29px;
+  left: 40px;
+  top: 70px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 24px;
+  right: 186px;
+  color: #FFFFFF;
+}
+
+.pastis-edit-profile-header-id{
+    position: absolute;
+    width: 350px;
+    height: 17px;
+    left: 40px;
+    top: 110px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 20px;
+    /* or 154% */
+    color: #FFFFFF;
+}
+
+.pastis-edit-profile-header-button {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    left: 347px;
+    right: 83px;
+    top: 73px;
+
+    text-align: center;
+
+    font-size: 20px;
+
+
+    background: #FFFFFF;
+    border-radius: 67px;
+}
+
+.pastis-edit-profile-header-button-text {
+
+    font-family: Arial;
+    font-style: normal;
+    font-weight: bolder;
+    line-height: 23px;
+    margin-top: 11px;
+
+    /* identical to box height */
+
+    color: #5CBAA9;
+}
+
+// The tabs containers
+::ng-deep .mat-tab-header{
+    left: 40px ;
+    right: 40px;
+    bottom: 37px ;
+    height: 37px;
+    max-width: fit-content;
+    border:none;
+}
+
+
+
+// The tab
+::ng-deep.mat-tab-label{
+    @extend .pastis-font-label-historique !optional;
+    margin-right: 3px !important;
+    background: rgba(255, 255, 255, 0.3);
+    height: 37px !important;
+    padding: 0px !important;
+    min-width: fit-content !important;
+    opacity: unset !important;
+}
+
+//The tab hover
+::ng-deep.mat-tab-label:hover {
+    background: #FFFFFF!important;
+}
+
+// Tab hover and tab text hover
+::ng-deep.mat-tab-label:hover .mat-tab-label-content{
+    text-shadow: 0.5px 0  #5E5D5D;
+    background: rgba(255, 255, 255, 0.3) !important;
+    color: #5E5D5D !important;
+}
+
+
+// The active tab (Black and bold)
+::ng-deep .mat-tab-label-active{
+    text-shadow: 0.5px 0  #5E5D5D;
+    background: #FFFFFF !important;
+}
+
+// The tab content
+::ng-deep .mat-tab-label-content{
+    margin: 8px;
+    display: flex;
+    align-items: center;
+    color: #FFFFFF ;
+}
+
+
+// The content of the active tab
+::ng-deep .mat-tab-label-active .mat-tab-label-content{
+    @extend .pastis-font-informations  !optional;
+    color: var(--vitamui-primary) !important;
+}
+
+
+// The automatic tab pagination chevron
+::ng-deep .mat-tab-header-pagination-controls-enabled .mat-tab-header-pagination {
+    display: none !important;
+}
+
+::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar .pastis-ink-bar{
+    height: 0px;
+  }
+
+.mat-tab-group {
+    max-height: 500px;
+}
+
+.mat-tab-body .mat-tab-body-active {
+    overflow-x: auto !important;
+    overflow-y: auto !important;
+}
+
+.mat-tab-body-content {
+    overflow-x: auto !important;
+    overflow-y: auto !important;
+}
+
+.pastis-ico-close-sidenav{
+    position: absolute;
+    left: 90%;
+    top: 1.46%;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+
+ .pastis-btn-pa-pua-toggle{
+    float: right;
+    right: 60px;
+    top: 65px;
+    position: relative;
+}
+

@@ -1,0 +1,19 @@
+server:
+  host: dev.vitamui.com
+  port: 8051
+  scheme: https
+  ssl:
+    key-store: src/main/config/ui-pastis.jks
+    key-store-password: jkspasswd
+    key-password: jkspasswd
+
+
+logging:
+    level:
+        fr.gouv.vitamui: DEBUG
+        org.springframework.web: INFO
+
+management.endpoints.web.exposure.include: "*"
+# Uncomment if you want to use you specific logback config.
+#logging:
+config: src/main/config/logback.xml
