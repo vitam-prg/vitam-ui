@@ -2,16 +2,16 @@ variables:
   GIT_SSL_NO_VERIFY: "true"
 
 stages:
-  - tata
+  - pushToVitam
 
 .machine: &runner-shell
-    tags: 
+    tags:
         - vitamui, shell
 
 test_tata:
-  stage: tata
+  stage: pushToVitam
   only:
-    - main
+    - master
   <<: *runner-shell
   script:
     - ls
@@ -19,7 +19,7 @@ test_tata:
     - git remote rm origin
     # On clean
     - git reset --hard
-    - git gc --aggressive 
+    - git gc --aggressive
     - git prune
     - git clean -fd
     # La commande "git remote add" est utilisée pour créer un dépôt distant. Le premier argument est le nom du dépôt distant et le deuxième son URL
@@ -28,5 +28,5 @@ test_tata:
     - git checkout -b $BRANCHE_CIBLE
     # on met à jour la branche distante (Logiquement, elle devrait toujours être au même niveau que la master local)
     - git pull origin $BRANCHE_CIBLE
-    # on push sur github sur la branche choisie 
+    # on push sur github sur la branche choisie
     - git push --set-upstream origin $BRANCHE_CIBLE
