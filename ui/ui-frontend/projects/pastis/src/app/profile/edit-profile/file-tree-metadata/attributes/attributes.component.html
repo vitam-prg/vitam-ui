@@ -1,0 +1,75 @@
+<div class="table-container">
+
+ <table mat-table [dataSource]="matDataSource">
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="nomDuChamp">
+      <th mat-header-cell *matHeaderCellDef class="pastis-font-table-header col-nom">Nom de l'attribut</th>
+      <td mat-cell *matCellDef="let element" class="pastis-metadata-table-col-large"> 
+        <span [ngClass]=""
+        matTooltip="{{getSedaDefinition(element.nomDuChamp)}}"
+        matTooltipPosition="right">
+          {{element.nomDuChamp}}
+        </span>
+      </td>
+    </ng-container>
+  
+    <!-- Value Column -->
+    <ng-container matColumnDef="valeurFixe">
+      <th mat-header-cell *matHeaderCellDef class="pastis-font-table-header">Valeur fixe</th>
+      <td mat-cell *matCellDef="let element" class="pastis-metadata-table-col-small"> 
+        <ng-container [ngSwitch]="getAttributeInputType(element)">
+          <ng-container *ngSwitchDefault>
+            <input matInput 
+            [(ngModel)]="element.valeurFixe"
+            class="value-text-area pastis-table-content input-valeur-fixe">
+            <ng-template #simpleElement></ng-template>
+          </ng-container>
+          <ng-container *ngSwitchCase="'enumeration'">
+            <mat-select [(ngModel)]="element.valeurFixe">
+              <mat-option [value]="val"></mat-option>
+              <mat-option *ngFor="let val of element.enumeration" [value]="val">{{val}}</mat-option>
+            </mat-select>
+          </ng-container>
+        </ng-container>
+      </td>
+    </ng-container>
+  
+           
+    <!-- Comment Column -->
+    <ng-container matColumnDef="commentaire">
+        <th mat-header-cell *matHeaderCellDef class="pastis-font-table-header">Commentaire</th>
+        <td mat-cell *matCellDef="let element" class="pastis-metadata-table-col-large ">
+          <input matInput
+                [ngModel]="element.commentaire"
+                (ngModelChange)="setElementComment(element.nomDuChamp,$event)"
+                class="comment-text-area pastis-table-content input-comentaire"
+                style="float:left">
+        </td>
+    </ng-container>
+
+    <!-- Selected Column -->
+    <ng-container matColumnDef="selected">
+      <th mat-header-cell *matHeaderCellDef class="pastis-font-table-header col-selection" >
+        Tout sélectionner
+        <mat-checkbox 
+        (click)="$event.stopPropagation()"
+        (change)="toggleAllAttributes($event)"
+        [checked]="isChecked()">
+        </mat-checkbox>
+        <span class="info-bulle">&nbsp;</span>
+
+      </th>
+      <td mat-cell *matCellDef="let element;index as i;" class="pastis-metadata-table-col-large check-box"> 
+        <mat-checkbox 
+              [(ngModel)]="element.selected "
+              style="float:right"
+              [disabled]=isSedaObligatory(element) 
+              [ngStyle]="{'mat-checkbox-checkmark-path': isSedaObligatory(element) ? 'grey' : ''}"></mat-checkbox>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" style="background: white;"></tr>
+  </table>
+</div>

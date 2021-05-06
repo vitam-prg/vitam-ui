@@ -1,0 +1,221 @@
+@import "../../../../assets/css/mixins";
+@import "../../../../assets/css/layout";
+@import "../../../../assets/css/colors";
+
+
+
+.main-card {
+    /*max-width: 1024px;*/
+    margin: 5px;
+  }
+  
+.file-tree{
+  width: 100%;
+  height: 94%; 
+  margin-top: 10px;
+  position: absolute;
+  white-space: nowrap; 
+  left: 0px;
+  top: 45px;
+}  
+
+
+.grid-tile-main {
+  border: solid 1px lightgray;
+  border-radius: 25px;
+ }
+
+.grid-title {
+ position:absolute;
+ left: 10px; 
+ top: 10px;
+ font-size: 95%;
+}
+
+.toolbar {
+  position:absolute;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  top:0px;
+  font-size: 95%;
+  max-height: 55px;
+ }
+
+.grid-title-icon {
+  position: relative;
+  top: 5px;
+}
+
+.buttons {
+  position: relative;
+  height: 35px;
+ }
+ .buttons-container {
+  position:absolute;
+  left: 10px; 
+  top: 60px;
+ }
+ .buttons-divider{
+  width:20px;
+  height:auto;
+  display:inline-block;
+}
+
+.buttons-icon{
+  width: 20px
+}
+
+.example-form {
+  min-width: 150px;
+  max-width: 40px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 10%;
+}
+
+.text-inside-grid {
+  position: absolute;
+  left: 5px;
+}
+
+.pastis-btn-node-element{
+  background:none;
+  border:none;
+}
+.pastis-tree-node-root-name{
+  @extend .pastis-black-height;
+  @extend .pastis-font-headline-6;
+  line-height: 50px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-bottom: -15px;
+}
+
+.pastis-tree-node-name{
+  @extend .pastis-surface-snackbar;
+  @extend .pastis-font-label;
+  line-height: 50px;
+  cursor: pointer;
+}
+
+.pastis-tree-divider{
+  max-width: 400px !important;
+  max-height: 3px !important;
+ // margin: 0px 0px 0px 0px !important;
+  
+  opacity: 0.3 !important;
+  border: 1px solid #979797 !important;
+}
+
+.pastis-chevron-icon{
+  @extend .pastis-surface-snackbar;
+  text-align-last:left;
+}
+.pastis-chevron-icon svg {
+  @extend .pastis-surface-snackbar;
+}
+
+.pastis-divider{
+  max-width: 400px;
+  height: 1px;
+  //float: right;
+  //margin-top: -4px;
+}
+
+.pastis-btn-add-metadata{
+  margin-left: 220px;
+}
+
+
+/* PASTIS File tree Item list*/
+.mat-list-item{
+  display:block !important;
+  text-align-last:left;
+}
+
+
+.list-item-no-children:hover{
+  background: rgba(92, 186, 169, 0.15);
+
+}
+
+.list-item:hover{
+  background: rgba(101, 178, 228, 0.2);
+}
+
+
+.pastis-tree-ul {
+  padding-left: 0px;
+  margin: 0px;
+}
+
+.pastis-add-ua-text {
+  @extend .pastis-secondary-300;
+  float: right;
+  text-align: right;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  left: 70%;
+  right: 1%;
+}
+
+.pastis-add-ua-text:hover{
+  font-weight: bold;
+}
+
+.pastis-ico-plus {
+  cursor: pointer;
+  color:white;
+  font-size: 20px !important;
+}
+
+.pastis-btn-rounded-ua {
+  @extend .pastis-btn-rounded-standard-secondary-enabled;
+  width: 20px;
+  height: 20px;
+  padding: 0%;
+  vertical-align: text-bottom;
+}
+
+.pastis-btn-rounded-ua:hover {
+  @extend .pastis-btn-rounded-ua;
+  @extend .pastis-btn-rounded-standard-secondary-hover;
+}
+
+.pastis-btn-rounded-ua:active {
+  @extend .pastis-btn-rounded-ua;
+  @extend .pastis-btn-rounded-standard-secondary-focus;
+}
+
+.pastis-ico-add-ua {
+  @extend .pastis-ico-svg;
+
+}
+
+
+.pastis-btn-rounded-ua-grey {
+  @extend .pastis-btn-rounded-standard-secondary-enabled;
+  width: 20px;
+  height: 20px;
+  padding: 0%;
+  vertical-align: text-bottom;
+  background: #A3A3A3;
+}
+
+.pastis-btn-rounded-ua-grey:hover {
+  @extend .pastis-btn-rounded-ua-grey;
+  @extend .pastis-btn-rounded-standard-secondary-hover;
+}
+
+.pastis-btn-rounded-ua-grey:active {
+  @extend .pastis-btn-rounded-ua-grey;
+  @extend .pastis-btn-rounded-standard-secondary-focus;
+}
+
+.pastis-ico-add-ua-grey {
+  @extend .pastis-ico-svg;
+}

@@ -40,6 +40,16 @@ customer-init:
         - ROLE_GET_CONTEXTS
         - ROLE_CREATE_CONTEXTS
         - ROLE_UPDATE_CONTEXTS
+
+    - name: Profil pour la gestion des pua/pa de pastis
+      description: Gestion de Pastis dans Vitam
+      app-name: PASTIS_APP
+      level:
+      roles:
+          - ROLE_GET_PASTIS
+          - ROLE_CREATE_PASTIS
+          - ROLE_UPDATE_PASTIS
+          - ROLE_DELETE_PASTIS
   #- name: profileName
   #  description: desc
   #  level: 1

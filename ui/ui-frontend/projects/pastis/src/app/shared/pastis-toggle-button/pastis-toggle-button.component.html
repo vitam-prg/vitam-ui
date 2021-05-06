@@ -1,0 +1,22 @@
+<!--    <label class="switch" *ngIf="status; else puaOff">
+        <input type="checkbox" checked (change)="checkToggle($event)">
+        <div>
+            <span>{{profileType}}</span>
+        </div>
+    </label>
+
+<ng-template #puaOff>
+    <label class="switch">
+        <input type="checwkbox" (change)="checkToggle($event)">
+        <div>
+            <span>{{profileType}}</span>
+        </div>
+    </label>
+</ng-template>
+-->
+
+<div class="button b2" id="button-16" style="top:20px">
+        <input type="checkbox" class="checkbox" (change)="checkToggle($event)">
+        <div class="knobs" [attr.text-on]=nameOn [attr.text-off]=nameOff></div>
+        <div class="layer"></div>
+</div>

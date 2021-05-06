@@ -1,0 +1,162 @@
+
+// @import '../../assets/css/colors';
+// @import '../../assets/css/layout';
+// @import '../../assets/css/font';
+
+
+// .main-card {
+//     /*max-width: 1024px;*/
+//     margin: 5px;
+//   }
+
+// .grid-tile-main {
+//   border: solid 1px lightgray;
+//   //border-radius: 25px;
+//  }
+
+// .grid-title {
+//  position:absolute;
+//  left: 10px;
+//  top: 10px;
+//  font-size: 95%;
+// }
+
+// .toolbar {
+//   position:absolute;
+//   //border-top-left-radius: 25px;
+//   //border-top-right-radius: 25px;
+//   top:0px;
+//   font-size: 95%;
+//   max-height: 55px;
+//  }
+
+// .grid-title-icon {
+//   position: relative;
+//   top: 5px;
+// }
+
+// .buttons {
+//   position: relative;
+//   height: 35px;
+//  }
+//  .buttons-container {
+//   position:absolute;
+//   left: 10px;
+//   top: 60px;
+//  }
+//  .buttons-divider{
+//   width:20px;
+//   height:auto;
+//   display:inline-block;
+// }
+
+// .buttons-icon{
+//   width: 20px
+// }
+
+// .example-form {
+//   min-width: 150px;
+//   max-width: 40px;
+//   width: 100%;
+// }
+
+// .example-full-width {
+//   width: 10%;
+// }
+
+
+
+// /* Absolute Center Spinner */
+// .loading-indicator {
+//   position: absolute;
+//   z-index: 999;
+//   height: 2em;
+//   width: 2em;
+//   overflow: show;
+//   margin: auto;
+//   top: 0;
+//   left: 0;
+//   bottom: 0;
+//   right: 0;
+// }
+
+// /* Transparent Overlay */
+// .loading-indicator:before {
+//   content: '';
+//   display: block;
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+//   background-color: rgba(0,0,0,0.3);
+// }
+
+
+// .example-container {
+//   position: absolute;
+//   top: 0;
+//   bottom: 0;
+//   left: 0;
+//   right: 0;
+// }
+
+// .mat-sidenav {
+//   width: 100% !important;
+//   @extend .pastis-slide-nav-profile;
+// }
+
+// ::ng-deep .mat-drawer-inner-container {
+//   overflow: hidden !important;
+// }
+
+// .pastis-btn-show-profile{
+//   position: absolute;
+//   width: 70px;
+//   height: 70px;
+//   left: -1px;
+//   top: 280px;
+//   z-index: 10001;
+//   background-color: #604379;
+//   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+//   transition-property: all;
+// 	transition-duration: .5s;
+// 	transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+// }
+
+// .pastis-icon-show-profile{
+//   color: #FFFFFF;
+//   margin-bottom: 14px;
+//   margin-right: 14px;
+//   font-size: 40px;
+//   //box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+// }
+// .pastis-entete-bandeau {
+//   @extend .pastis-bg-surface-tabs;
+//   position: relative;
+//   width: 100%;
+//   height: 80px;
+//   left: 0px;
+//   top: 0px;
+// }
+
+// .bandeau-cloche {
+//   position: absolute;
+//   left: 50%;
+//   right: 16.67%;
+//   top: 10.42%;
+//   bottom: 8.33%;
+//   background: #FFFFFF;
+// }
+
+// .pastis-separator-bandeau {
+//   position: absolute;
+//   height: 11px;
+//   left: 74.86%;
+//   right: 24.93%;
+//   top: 35px;
+
+//   /* White -- Hight */
+//   border: 2px solid #FFFFFF;
+// }

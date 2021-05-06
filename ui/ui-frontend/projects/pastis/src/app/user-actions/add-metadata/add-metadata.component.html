@@ -1,0 +1,52 @@
+<div>
+    <!-- The input search -->
+    <div style="margin-bottom: 20px;">
+        <input [(ngModel)]="filterName" placeholder="Chercher le nom de la métadonnée" class="filter-input-text">
+    </div>
+
+    <!-- The selected items -->
+    <div *ngIf="addedItems?.length > 0" style="text-align:justify">
+        <div style="display: inline-flex" *ngFor="let item of addedItems;let i =index">
+            <div  class="selected-items-box">
+                <span>
+                    <mat-icon *ngIf="isElementComplex(item)" 
+                    svgIcon="complex-element-white2"
+                    style="vertical-align: middle;">
+                    </mat-icon>
+                    <span class="item-text">{{item}}</span>
+                </span>
+                <span class="selected-items-close" (click)="onRemoveSelectedElement(item)">&times;</span> 
+            </div>
+        </div>
+    </div>
+
+    <!-- The list of items to be selected-->
+       <mat-list  *ngIf="allowedChildren?.length; else noItemsLeftToAdd" >
+        <p class="paragraph-metadata-subtitle"
+        [ngStyle]="{'margin-top': atLeastOneIsSelected ? '40px' : '0px'}">Les métadonnées à ajouter</p> 
+        <mat-selection-list [disableRipple]="true" [ngModel]="addedItems"
+            (ngModelChange)="selectSedaElement($event)" class="list-box">
+            <mat-list *ngFor="let elementName of allowedChildrenNames | filterByName:filterName;"
+                             class="list-item">
+                            <span class="list-box-content">
+                                <mat-icon *ngIf="isElementComplex(elementName)" 
+                                svgIcon="complex-element-white2" 
+                                class="pastis-ico-complex-element">
+                                </mat-icon>
+                                <span 
+                                tooltip={{getDefinition(elementName)}}
+                                 placement="right" 
+                                 show-delay="0" 
+                                 tooltip-class="pastis-tooltip-class">{{elementName}}</span>
+                            </span>
+                             <span class="ajouter" (click)="onAddSelectedElement(elementName)">Ajouter</span>
+
+            </mat-list>
+        </mat-selection-list>
+    </mat-list>
+
+    <ng-template #noItemsLeftToAdd>
+        <p class="paragraph-metadata-subtitle" style="margin-top: 40px;">Il n'y a plus de métadonnées à ajouter</p>
+    </ng-template>
+
+</div>

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ArchiveTransfer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="fr:gouv:culture:archivesdefrance:seda:v2.1 file:/C:/Users/picka/OneDrive/Bureau/SEDA/seda-2.1-main.xsd"
+    xmlns="fr:gouv:culture:archivesdefrance:seda:v2.1">
+    <Date>2019-01-17T12:00:00</Date>
+    <MessageIdentifier>identifier1</MessageIdentifier>
+    <ArchivalAgreement>IC-000001</ArchivalAgreement>
+    <CodeListVersions>
+        <MessageDigestAlgorithmCodeListVersion>https://francearchives.fr/sherpa/43214</MessageDigestAlgorithmCodeListVersion>
+        <MimeTypeCodeListVersion>https://francearchives.fr/sherpa/43215</MimeTypeCodeListVersion>
+        <EncodingCodeListVersion>https://francearchives.fr/sherpa/11210</EncodingCodeListVersion>
+        <FileFormatCodeListVersion>https://francearchives.fr/sherpa/43215</FileFormatCodeListVersion>
+        <AppraisalRuleCodeListVersion>https://francearchives.fr/sherpa/7204</AppraisalRuleCodeListVersion>
+        <AccessRuleCodeListVersion>https://francearchives.fr/sherpa/7205</AccessRuleCodeListVersion>
+        <DisseminationRuleCodeListVersion>https://francearchives.fr/sherpa/7206</DisseminationRuleCodeListVersion>
+    </CodeListVersions>
+    <DataObjectPackage>
+        <DataObjectGroup id="ID10">
+            <BinaryDataObject id="ID11">
+                <DataObjectVersion>BinaryMaster_1</DataObjectVersion>
+                <Uri>Content/CRS.pdf</Uri>
+                <MessageDigest algorithm="SHA-512"
+                    >fe4a9bb15dd6721cbc62464bf2d707ceeb8010b7473f4839294eda2a40bbcdae1dbe53a197df0e7ece5e591e58d3b61feb728413fb89d5f8bf12692993d04719</MessageDigest>
+                <Size>18743</Size>
+                <FormatIdentification>
+                    <FormatLitteral>Acrobat PDF 1.4 - Portable Document Format</FormatLitteral>
+                    <MimeType>application/pdf</MimeType>
+                    <FormatId>fmt/18</FormatId>
+                </FormatIdentification>
+                <FileInfo>
+                    <Filename>CRS.pdf</Filename>
+                    <CreatingApplicationName>Appli de création</CreatingApplicationName>
+                    <LastModified>2019-01-17T14:19:02</LastModified>
+                </FileInfo>
+            </BinaryDataObject>
+        </DataObjectGroup>
+        <DataObjectGroup id="ID110">
+            <BinaryDataObject id="ID111">
+                <DataObjectVersion>BinaryMaster_1</DataObjectVersion>
+                <Uri>Content/CRS1.pdf</Uri>
+                <MessageDigest algorithm="SHA-512"
+                    >fe4a9bb15dd6721cbc62464bf2d707ceeb8010b7473f4839294eda2a40bbcdae1dbe53a197df0e7ece5e591e58d3b61feb728413fb89d5f8bf12692993d04719</MessageDigest>
+                <Size>18743</Size>
+                <FormatIdentification>
+                    <FormatLitteral>Acrobat PDF 1.4 - Portable Document Format</FormatLitteral>
+                    <MimeType>application/pdf</MimeType>
+                    <FormatId>fmt/18</FormatId>
+                </FormatIdentification>
+                <FileInfo>
+                    <Filename>CRS.pdf</Filename>
+                    <CreatingApplicationName>Appli de création</CreatingApplicationName>
+                    <LastModified>2019-01-17T14:19:02</LastModified>
+                </FileInfo>
+            </BinaryDataObject>
+        </DataObjectGroup>
+        <DescriptiveMetadata>
+            <ArchiveUnit id="ID001">
+                <Management>
+                    <UpdateOperation>
+                        <ArchiveUnitIdentifierKey>
+                            <MetadataName>Title</MetadataName>
+                            <MetadataValue>Clinique</MetadataValue>
+                        </ArchiveUnitIdentifierKey>
+                    </UpdateOperation>
+                </Management>
+                <Content>
+                    <DescriptionLevel>File</DescriptionLevel>
+                    <Title>Clinique</Title>
+                </Content>
+                <ArchiveUnit id="ID100">
+                    <ArchiveUnitProfile>AUP-000002</ArchiveUnitProfile>
+                    <Content>
+                        <DescriptionLevel>File</DescriptionLevel>
+                        <Title>Patient Robin Nichele</Title>
+                        <Patient>
+                            <FirstName>Robin</FirstName>
+                            <BirthName>Nichele</BirthName>
+                            <FullName>Nichele</FullName>
+                            <BirthDate>1995-11-28</BirthDate>
+                            <IppPatient>Ipp_123456</IppPatient>
+                        </Patient>
+                    </Content>
+                    <ArchiveUnit id="ID101">
+                        <Content>
+                            <DescriptionLevel>File</DescriptionLevel>
+                            <Title>Dossier de patient informatisé</Title>
+                            <IppFile>CLI001123456</IppFile>
+                        </Content>
+                        <ArchiveUnit id="ID102">
+                            <ArchiveUnitProfile>AUP-000001</ArchiveUnitProfile>
+                            <Content>
+                                <DescriptionLevel>Item</DescriptionLevel>
+                                <Title>CRS.pdf</Title>
+                                <DocumentType>CS</DocumentType>
+                                <OriginatingAgency>
+                                    <Identifier>Identifier0</Identifier>
+                                </OriginatingAgency>
+                                <Writer>
+                                    <FirstName>Patrick</FirstName>
+                                    <FullName>Ribaud</FullName>
+                                    <Gender>Monsieur</Gender>
+                                    <Identifier>7891011</Identifier>
+                                    <Function>Docteur</Function>
+                                </Writer>
+                                <CreatedDate>2018-12-24</CreatedDate>
+                                <Speciality>Neurologie</Speciality>
+                                <Validator>
+                                    <FirstName>Solenne</FirstName>
+                                    <FullName>Billard</FullName>
+                                    <Gender>Monsieur</Gender>
+                                    <Identifier>12131415</Identifier>
+                                    <Function>Docteur</Function>
+                                </Validator>
+                                <Visit>
+                                    <IepNumber>IEP1</IepNumber>
+                                    <EffectiveDate>2018-12-24</EffectiveDate>
+                                    <ExitDate>2018-12-30</ExitDate>
+                                </Visit>
+                            </Content>
+                            <DataObjectReference>
+                                <DataObjectGroupReferenceId>ID10</DataObjectGroupReferenceId>
+                            </DataObjectReference>
+                        </ArchiveUnit>
+                        <ArchiveUnit id="ID103">
+                            <ArchiveUnitProfile>AUP-000001</ArchiveUnitProfile>
+                            <Content>
+                                <DescriptionLevel>Item</DescriptionLevel>
+                                <Title>CRS1.pdf</Title>
+                                <DocumentType>CS</DocumentType>
+                                <OriginatingAgency>
+                                    <Identifier>Identifier0</Identifier>
+                                </OriginatingAgency>
+                                <Writer>
+                                    <FirstName>Patrick</FirstName>
+                                    <FullName>Ribaud</FullName>
+                                    <Gender>Monsieur</Gender>
+                                    <Identifier>7891011</Identifier>
+                                    <Function>Docteur</Function>
+                                </Writer>
+                                <CreatedDate>2018-12-24</CreatedDate>
+                                <Speciality>Neurologie</Speciality>
+                                <Validator>
+                                    <FirstName>Solenne</FirstName>
+                                    <FullName>Billard</FullName>
+                                    <Gender>Monsieur</Gender>
+                                    <Identifier>12131415</Identifier>
+                                    <Function>Docteur</Function>
+                                </Validator>
+                                <Visit>
+                                    <IepNumber>IEP1</IepNumber>
+                                    <EffectiveDate>2018-12-24</EffectiveDate>
+                                    <ExitDate>2018-12-30</ExitDate>
+                                </Visit>
+                            </Content>
+                            <DataObjectReference>
+                                <DataObjectGroupReferenceId>ID110</DataObjectGroupReferenceId>
+                            </DataObjectReference>
+                        </ArchiveUnit>
+                    </ArchiveUnit>
+                </ArchiveUnit>
+            </ArchiveUnit>
+        </DescriptiveMetadata>
+        <ManagementMetadata>
+            <OriginatingAgencyIdentifier>Identifier3</OriginatingAgencyIdentifier>
+        </ManagementMetadata>
+    </DataObjectPackage>
+    <ArchivalAgency>
+        <Identifier>Identifier1</Identifier>
+    </ArchivalAgency>
+    <TransferringAgency>
+        <Identifier>Identifier2</Identifier>
+    </TransferringAgency>
+</ArchiveTransfer>

@@ -98,6 +98,7 @@ export class SelectLanguageComponent implements OnInit, OnDestroy {
         case ApplicationId.SECURE_APP :
         case ApplicationId.AUDIT_APP :
         case ApplicationId.ONTOLOGY_APP :
+        case ApplicationId.PASTIS_APP :
         case ApplicationId.SECURITY_PROFILES_APP :
         case ApplicationId.CONTEXTS_APP :
         case ApplicationId.FILE_FORMATS_APP :

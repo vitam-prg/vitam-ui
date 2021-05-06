@@ -1,0 +1,29 @@
+
+
+<!-- Pastis dialog title qnd subtitle-->
+<h2 matDialogTitle class="pastis-dialog-config-title">
+    <div class="barre-et-croix">
+        <mat-divider class="pastis-dialog-confirm-divider"></mat-divider>
+        <mat-icon class="pastis-close-popup" mat-dialog-close svgIcon="close-popup" (click)="onNoClick()"></mat-icon>
+    </div>
+    <p class="pastis-dialog-subtitle"><b>{{dialogReceivedData.subTitleDialog}}</b></p>
+    <P class="pastis-dialog-title">{{dialogReceivedData.titleDialog}}</P>
+</h2>
+<!-- Pastis dialog dynamic content-->
+<mat-dialog-content *ngIf="portal" style="overflow: hidden;">
+    <p class="pastis-dialog-content">
+        <ng-template #dialogContent [cdkPortalOutlet]="portal"></ng-template>
+    </p>
+</mat-dialog-content>
+
+<!-- Pastis defaut dialog buttons-->
+    <mat-dialog-actions class="pastis-dialog-confirm-buttons" align="right">
+        <button class="pastis-btn-oui-dialog-confirm" 
+            [mat-dialog-close]="dataBeforeClose"
+            (click)="onYesClick()"
+            [disabled]="btnYesShouldBeDisabled">{{dialogReceivedData.okLabel}} 
+        </button>
+        <button class="pastis-btn-non-dialog-confirm" 
+            (click)="onNoClick()">{{dialogReceivedData.cancelLabel}}
+        </button>
+    </mat-dialog-actions>
