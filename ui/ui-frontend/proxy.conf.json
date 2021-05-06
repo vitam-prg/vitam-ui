@@ -21,12 +21,14 @@
     "target": "https://dev.vitamui.com:9008/",
     "secure": false,
     "pathRewrite": {},
-    "logLevel": "debug"
+    "logLevel": "debug",
+    "timeout": 360000
   },
   "/archive-search-api": {
     "target": "https://dev.vitamui.com:9009/",
     "secure": false,
     "pathRewrite": {},
-    "logLevel": "debug"
+    "logLevel": "debug",
+    "timeout": 360000
   }
 }
