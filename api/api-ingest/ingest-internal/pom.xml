@@ -204,14 +204,6 @@
             <artifactId>simple-odf</artifactId>
         </dependency>
         <!-- APACHE ODFtoolKit-->
-
-        <dependency>
-            <groupId>com.sun</groupId>
-            <artifactId>tools</artifactId>
-            <version>1.7</version>
-            <scope>system</scope>
-            <systemPath>C:\Users\descamps\Java\java-8\lib\tools.jar</systemPath>
-        </dependency>
     </dependencies>
 
     <build>
