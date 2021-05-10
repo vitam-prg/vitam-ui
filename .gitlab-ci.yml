@@ -14,14 +14,6 @@ test_tata:
     - master
   <<: *runner-shell
   script:
-    - ls
-    # Pour éviter de faire des modifications à distance accidentellement, on supprime le lien vers le référentiel d'origine, on détache la branche  de sa remote.
-    - git remote rm origin
-    # On clean
-    - git reset --hard
-    - git gc --aggressive
-    - git prune
-    - git clean -fd
     # La commande "git remote add" est utilisée pour créer un dépôt distant. Le premier argument est le nom du dépôt distant et le deuxième son URL
     - git remote add origin https://$TOKEN:x-oauth-basic@$LIEN_CIBLE
     # on se place dans la branche du dépôt distant
