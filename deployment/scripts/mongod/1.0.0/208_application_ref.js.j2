@@ -131,6 +131,22 @@ db.applications.insert({
 });
 
 db.applications.insert({
+    "identifier" : "PASTIS_APP",
+{% if vitamui.referential.base_url is defined %}
+ "url": "{{ vitamui.pastis.base_url }}/",
+{% endif %}
+    "icon" : "vitamui-icon vitamui-icon-ontologie",
+    "name" : "Pastis",
+    "category" : "referential",
+    "position" : 1,
+    "hasCustomerList" : false,
+    "hasTenantList" : false,
+    "hasHighlight" : false,
+    "tooltip" : "Accéder à Pastis",
+    "target" : "_self"
+});
+
+db.applications.insert({
     "identifier" : "AUDIT_APP",
 {% if vitamui.referential.base_url is defined %}
     "url": "{{ vitamui.referential.base_url }}/audit",
