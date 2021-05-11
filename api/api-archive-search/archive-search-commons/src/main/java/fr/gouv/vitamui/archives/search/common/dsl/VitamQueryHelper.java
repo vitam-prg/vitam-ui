@@ -57,6 +57,7 @@ import static fr.gouv.vitam.common.database.builder.query.QueryHelper.or;
 
 public class VitamQueryHelper {
     private static final VitamUILogger LOGGER = VitamUILoggerFactory.getInstance(VitamQueryHelper.class);
+    public static final String EV_DATE_TIME = "evDateTime";
 
 
     /*
@@ -100,27 +101,18 @@ public class VitamQueryHelper {
      * @return The JsonNode required by VITAM external API for a DSL query
      * @throws InvalidParseOperationException
      */
-    public static JsonNode createQueryDSL(List<String> unitTypes, List<String> nodes,
+    public static JsonNode createQueryDSL(List<String> unitTypes, List<String> nodes, boolean includeOrphans,
         Map<String, List<String>> searchCriteriaMap,
         final Integer pageNumber,
         final Integer size, final Optional<String> orderBy, final Optional<DirectionDto> direction)
         throws InvalidParseOperationException, InvalidCreateOperationException {
         boolean isValid = true;
-        final BooleanQuery query = and();
         final SelectMultiQuery select = new SelectMultiQuery();
-        //Handle roots
-        if (nodes != null && !nodes.isEmpty()) {
-            select.addRoots(nodes.toArray(new String[nodes.size()]));
-            select.addFacets(
-                FacetHelper.terms("COUNT_BY_NODE", UNITS_UPS, nodes.size() * FACET_SIZE_MILTIPLIER, FacetOrder.ASC));
-            query.setDepthLimit(DEFAULT_DEPTH);
-        }
-
         if (unitTypes == null || unitTypes.isEmpty()) {
             LOGGER.error("Error on validation of criteria , units types is mandatory ");
             throw new InvalidParseOperationException("Error on validation of criteria,  units types is mandatory ");
         }
-        addParameterCriteria(query, CRITERIA_OPERATORS.EQ, UNIT_TYPE, unitTypes);
+
         // Manage Filters
         if (orderBy.isPresent()) {
             if (direction.isPresent() && DirectionDto.DESC.equals(direction.get())) {
@@ -131,10 +123,42 @@ public class VitamQueryHelper {
         }
         select.setLimitFilter(pageNumber * size, size);
 
+        final BooleanQuery query = buildQuery(unitTypes, searchCriteriaMap);
+        BooleanQuery finalQuery = or();
+        if (includeOrphans) {
+            finalQuery.add(query);
+            final BooleanQuery nodesQuery = buildQuery(unitTypes, searchCriteriaMap);
+            //Handle roots
+            if (nodes != null && !nodes.isEmpty()) {
+                nodesQuery.add(in(UNITS_UPS, nodes.toArray(new String[nodes.size()])));
+                select.addFacets(
+                    FacetHelper
+                        .terms("COUNT_BY_NODE", UNITS_UPS, nodes.size() * FACET_SIZE_MILTIPLIER, FacetOrder.ASC));
+                finalQuery.add(nodesQuery);
+            }
+        } else {
+            finalQuery = query;
+            if (nodes != null && !nodes.isEmpty()) {
+                finalQuery.add(in(UNITS_UPS, nodes.toArray(new String[nodes.size()])));
+                select.addFacets(
+                    FacetHelper
+                        .terms("COUNT_BY_NODE", UNITS_UPS, nodes.size() * FACET_SIZE_MILTIPLIER, FacetOrder.ASC));
+            }
+        }
+
+        select.setQuery(finalQuery);
+        LOGGER.info("Final query: {}", select.getFinalSelect().toPrettyString());
+        return select.getFinalSelect();
+    }
+
+    private static BooleanQuery buildQuery(List<String> unitTypes, Map<String, List<String>> searchCriteriaMap)
+        throws InvalidParseOperationException, InvalidCreateOperationException {
+        boolean isValid = true;
+        final BooleanQuery query = and();
+        addParameterCriteria(query, CRITERIA_OPERATORS.EQ, UNIT_TYPE, unitTypes);
         // Manage Query
         if (!searchCriteriaMap.isEmpty()) {
             Set<Map.Entry<String, List<String>>> entrySet = searchCriteriaMap.entrySet();
-
             for (final Map.Entry<String, List<String>> entry : entrySet) {
                 final String searchKey = entry.getKey();
                 if (searchKey.startsWith("_")) {
@@ -169,9 +193,7 @@ public class VitamQueryHelper {
                 throw new InvalidParseOperationException("Error on validation of criteria ");
             }
         }
-        select.setQuery(query);
-        LOGGER.info("Final query: {}", select.getFinalSelect().toPrettyString());
-        return select.getFinalSelect();
+        return query;
     }
 
     private static boolean addParameterCriteria(BooleanQuery query, CRITERIA_OPERATORS operator, String searchKey,
@@ -307,10 +329,10 @@ public class VitamQueryHelper {
                         query.add(in(searchKey, stringValues.toArray(new String[] {})));
                         break;
                     case EV_DATE_TIME_START:
-                        query.add(gt("evDateTime", (String) entry.getValue()));
+                        query.add(gt(EV_DATE_TIME, (String) entry.getValue()));
                         break;
                     case EV_DATE_TIME_END:
-                        query.add(lt("evDateTime", (String) entry.getValue()));
+                        query.add(lt(EV_DATE_TIME, (String) entry.getValue()));
                         break;
                     default:
                         LOGGER.error("Can not find binding for key: {}", searchKey);

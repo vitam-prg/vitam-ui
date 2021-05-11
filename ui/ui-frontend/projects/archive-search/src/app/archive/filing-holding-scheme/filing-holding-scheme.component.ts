@@ -173,6 +173,7 @@ export class FilingHoldingSchemeComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -187,7 +188,10 @@ export class FilingHoldingSchemeComponent implements OnInit, OnChanges {
     this.archiveService
       .loadFilingHoldingSchemeTree(this.tenantIdentifier, this.accessContract)
       .subscribe(nodes => {
-        this.fullNodes = nodes;
+        this.fullNodes = [{ checked: false, title: 'WITHOUT', children: null, parents: null, type: '', vitamId: 'ORPHIN', id: '0' }];
+        for(let node of nodes){
+          this.fullNodes.push(node);
+        }
         this.nestedDataSourceFull.data = nodes;
         this.nestedTreeControlFull.dataNodes = nodes;
         this.loadingHolding = false;

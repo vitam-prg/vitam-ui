@@ -61,6 +61,7 @@ export interface SearchCriteriaEltDto{
 }
 export interface SearchCriteriaDto{
     criteriaList: SearchCriteriaEltDto[];
+    includeOrphans?: boolean;
     pageNumber: number;
     size: number;
     nodes?: String[];

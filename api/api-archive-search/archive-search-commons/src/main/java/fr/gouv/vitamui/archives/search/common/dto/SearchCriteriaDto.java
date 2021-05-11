@@ -46,6 +46,7 @@ public class SearchCriteriaDto implements Serializable {
      */
 
     private List<String> nodes = new ArrayList<>();
+    private boolean includeOrphans;
     private List<SearchCriteriaEltDto> criteriaList = new ArrayList<>();
     private List<String> fieldsList = new ArrayList<>();
     private SearchCriteriaSort sortingCriteria;

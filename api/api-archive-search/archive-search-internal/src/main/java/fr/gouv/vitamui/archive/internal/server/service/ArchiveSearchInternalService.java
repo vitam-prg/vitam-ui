@@ -169,7 +169,8 @@ public class ArchiveSearchInternalService {
                 orderBy = Optional.of(searchQuery.getSortingCriteria().getCriteria());
             }
             query = VitamQueryHelper
-                .createQueryDSL(archiveUnits, searchQuery.getNodes(), vitamCriteria, searchQuery.getPageNumber(),
+                .createQueryDSL(archiveUnits, searchQuery.getNodes(), searchQuery.isIncludeOrphans(), vitamCriteria,
+                    searchQuery.getPageNumber(),
                     searchQuery.getSize(), orderBy,
                     direction);
         } catch (InvalidCreateOperationException ioe) {

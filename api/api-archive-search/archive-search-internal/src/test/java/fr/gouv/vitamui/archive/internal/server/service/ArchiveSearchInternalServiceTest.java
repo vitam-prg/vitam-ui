@@ -108,7 +108,7 @@ public class ArchiveSearchInternalServiceTest {
         throws InvalidParseOperationException, InvalidCreateOperationException {
         Map<String, List<String>> searchCriteriaMap = new HashMap<>();
         VitamQueryHelper
-            .createQueryDSL(null, List.of("Test"), searchCriteriaMap, 0, 10, Optional.empty(),
+            .createQueryDSL(null, List.of("Test"), false, searchCriteriaMap, 0, 10, Optional.empty(),
                 Optional.empty());
     }
 
