@@ -57,9 +57,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.ws.rs.Consumes;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.Optional;
 
@@ -114,20 +112,6 @@ public class IngestInternalController {
         ParameterChecker.checkParameter("The action and the context ID are mandatory parameters: ", action, contextId);
         SanityChecker.isValidFileName(path.getOriginalFilename());
         return ingestInternalService.upload(path, contextId, action);
-    }
-
-    @PostMapping(value = CommonConstants.INGEST_UPLOAD + "-v2")
-    @Consumes(MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    public RequestResponseOK upload(
-        @RequestHeader(value = CommonConstants.X_ACTION) final String action,
-        @RequestHeader(value = CommonConstants.X_CONTEXT_ID) final String contextId,
-        @RequestHeader(value = "fileName") final String fileName,
-        InputStream inputStream)
-        throws IngestExternalException {
-        LOGGER.debug("[Internal] upload file : {}", fileName);
-        ParameterChecker.checkParameter("The action and the context ID are mandatory parameters: ", action, contextId);
-        SanityChecker.isValidFileName(fileName);
-        return ingestInternalService.uploadV2(inputStream, contextId, action);
     }
 
     @GetMapping(RestApi.INGEST_REPORT_ODT + CommonConstants.PATH_ID)

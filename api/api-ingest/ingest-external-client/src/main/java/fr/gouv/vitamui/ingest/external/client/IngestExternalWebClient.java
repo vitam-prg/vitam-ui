@@ -79,17 +79,17 @@ public class IngestExternalWebClient extends BaseWebClient<ExternalHttpContext> 
             throw new FileOperationException("The uploaded file stream is null.");
         }
 
-        final Path tmpFilePath =
+        final Path filePath =
             Paths.get(System.getProperty(CommonConstants.VITAMUI_TEMP_DIRECTORY), context.getRequestId());
         int length = 0;
         try {
             length = in.available();
-            Files.copy(in, tmpFilePath, StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(in, filePath, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             LOGGER
                 .debug("[IngestExternalWebClient] Error writing InputStream of length [{}] to temporary path {}",
                     length,
-                    tmpFilePath.toAbsolutePath());
+                    filePath.toAbsolutePath());
             throw new BadRequestException("ERROR: InputStream writing error : ", e);
         }
 
@@ -97,25 +97,9 @@ public class IngestExternalWebClient extends BaseWebClient<ExternalHttpContext> 
         headers.add(CommonConstants.X_CONTEXT_ID, contextId);
         headers.add(CommonConstants.X_ACTION, action);
 
-        ClientResponse response =
-            multipartDataFromFile(getPathUrl() + CommonConstants.INGEST_UPLOAD, HttpMethod.POST, context,
-                Optional.of(new AbstractMap.SimpleEntry<>(CommonConstants.MULTIPART_FILE_PARAM_NAME, tmpFilePath)),
-                headers);
-
-        if (response.statusCode().is2xxSuccessful()) {
-            deleteTempFiles(tmpFilePath);
-        }
-        return response;
-    }
-
-
-    private void deleteTempFiles(Path tmpFilePath) {
-        try {
-            LOGGER.info("Try to delete temp file {} ", tmpFilePath.getFileName());
-            Files.deleteIfExists(tmpFilePath);
-        } catch (IOException e) {
-            LOGGER.error("Error deleting temp file {} error {} ", tmpFilePath.getFileName(), e.getMessage());
-        }
+        return multipartDataFromFile(getPathUrl() + CommonConstants.INGEST_UPLOAD, HttpMethod.POST, context,
+            Optional.of(new AbstractMap.SimpleEntry<>(CommonConstants.MULTIPART_FILE_PARAM_NAME, filePath)),
+            headers);
     }
 
 

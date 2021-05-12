@@ -52,7 +52,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -96,16 +95,4 @@ public class IngestExternalRestClient
         return restTemplate.exchange(uriBuilder.build(id), HttpMethod.GET, request, byte[].class);
 
     }
-
-
-
-    public ResponseEntity<byte[]> uploadIngestV2(ExternalHttpContext context, String fileName,
-        InputStream inputStream) {
-        final UriComponentsBuilder uriBuilder =
-            UriComponentsBuilder.fromHttpUrl(getUrl() + CommonConstants.INGEST_UPLOAD + "-v2");
-        final HttpEntity<AuditOptions> request = new HttpEntity<>(buildHeaders(context));
-        return restTemplate.exchange(uriBuilder.build(id), HttpMethod.GET, request, byte[].class);
-
-    }
-
 }

@@ -48,7 +48,6 @@ import fr.gouv.vitamui.ingest.common.rest.RestApi;
 import org.springframework.http.HttpMethod;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -95,23 +94,10 @@ public class IngestInternalWebClient extends BaseWebClient<InternalHttpContext> 
         headers.add(CommonConstants.X_CONTEXT_ID, contextId);
         headers.add(CommonConstants.X_ACTION, action);
 
-        ClientResponse response =
-            multipartDataFromFile(getPathUrl() + CommonConstants.INGEST_UPLOAD, HttpMethod.POST, context,
-                Optional.of(new AbstractMap.SimpleEntry<>(CommonConstants.MULTIPART_FILE_PARAM_NAME, tmpFilePath)),
-                headers);
-        if (response.statusCode().is2xxSuccessful()) {
-            deleteTempFiles(tmpFilePath);
-        }
-        return response.bodyToMono(RequestResponseOK.class);
-    }
-
-    private void deleteTempFiles(Path tmpFilePath) {
-        try {
-            LOGGER.info("Try to delete temp file {} ", tmpFilePath.getFileName());
-            Files.deleteIfExists(tmpFilePath);
-        } catch (IOException e) {
-            LOGGER.error("Error deleting temp file {} error {} ", tmpFilePath.getFileName(), e.getMessage());
-        }
+        return multipartDataFromFile(getPathUrl() + CommonConstants.INGEST_UPLOAD, HttpMethod.POST, context,
+            Optional.of(new AbstractMap.SimpleEntry<>(CommonConstants.MULTIPART_FILE_PARAM_NAME, tmpFilePath)),
+            headers)
+            .bodyToMono(RequestResponseOK.class);
     }
 
     @Override

@@ -137,33 +137,6 @@ public class IngestInternalService {
 
     }
 
-    public RequestResponseOK uploadV2(InputStream is, String contextId, String action)
-        throws IngestExternalException {
-
-        final VitamContext vitamContext =
-            internalSecurityService.buildVitamContext(internalSecurityService.getTenantIdentifier());
-
-        RequestResponse<Void> ingestResponse = null;
-        try {
-            LOGGER.info("Upload EvIdAppSession : {} ", vitamContext.getApplicationSessionId());
-            ingestResponse = ingestService.ingest(vitamContext, is, contextId, action);
-            LOGGER.info("The recieved stream size : " + is.available() + " is sent to Vitam");
-
-            if (ingestResponse.isOk()) {
-                LOGGER.debug("Ingest passed successfully : " + ingestResponse.toString());
-            } else {
-                LOGGER.debug("Ingest failed with status : " + ingestResponse.getHttpCode());
-            }
-        } catch (IOException | IngestExternalException e) {
-            LOGGER.debug("Error sending upload to vitam ", e);
-            throw new IngestExternalException(e);
-        }
-
-        return (RequestResponseOK) ingestResponse;
-
-    }
-
-
     public PaginatedValuesDto<LogbookOperationDto> getAllPaginated(final Integer pageNumber, final Integer size,
         final Optional<String> orderBy, final Optional<DirectionDto> direction, VitamContext vitamContext,
         Optional<String> criteria) {
