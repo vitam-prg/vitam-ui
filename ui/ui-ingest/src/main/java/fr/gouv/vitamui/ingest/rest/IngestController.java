@@ -38,13 +38,11 @@ package fr.gouv.vitamui.ingest.rest;
 
 import fr.gouv.vitam.common.exception.InvalidParseOperationException;
 import fr.gouv.vitamui.common.security.SafeFileChecker;
-import fr.gouv.vitamui.common.security.SanityChecker;
 import fr.gouv.vitamui.commons.api.CommonConstants;
 import fr.gouv.vitamui.commons.api.ParameterChecker;
 import fr.gouv.vitamui.commons.api.domain.DirectionDto;
 import fr.gouv.vitamui.commons.api.domain.PaginatedValuesDto;
 import fr.gouv.vitamui.commons.api.exception.BadRequestException;
-import fr.gouv.vitamui.commons.api.exception.InternalServerException;
 import fr.gouv.vitamui.commons.api.logger.VitamUILogger;
 import fr.gouv.vitamui.commons.api.logger.VitamUILoggerFactory;
 import fr.gouv.vitamui.commons.rest.AbstractUiRestController;
@@ -54,7 +52,6 @@ import fr.gouv.vitamui.ingest.service.IngestService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -67,19 +64,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.RandomAccessFile;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -144,65 +132,26 @@ public class IngestController extends AbstractUiRestController {
         @RequestHeader(value = CommonConstants.X_TENANT_ID_HEADER) final String tenantId,
         @RequestHeader(value = CommonConstants.X_ACTION) final String xAction,
         @RequestHeader(value = CommonConstants.X_CONTEXT_ID) final String contextId,
-        @RequestHeader(value = CommonConstants.X_CHUNK_OFFSET) final String chunkOffset,
-        @RequestHeader(value = CommonConstants.X_SIZE_TOTAL) final String totalSize,
-        @RequestParam(CommonConstants.MULTIPART_FILE_PARAM_NAME) final MultipartFile file)
+        @RequestHeader(value = "fileName") final String fileName,
+        final InputStream inputStream)
         throws InvalidParseOperationException {
         ParameterChecker
             .checkParameter("The requestId, tenantId, xAction and contextId are mandatory parameters : ", requestId,
                 tenantId, xAction, contextId);
-        SafeFileChecker.checkSafeFilePath(file.getOriginalFilename());
-        SanityChecker.checkParameter(requestId);
-        LOGGER.debug("[{}] Upload File : {} - {} bytes", requestId, file.getOriginalFilename(), totalSize);
+        SafeFileChecker.checkSafeFilePath(fileName);
+        LOGGER.debug("[{}] Upload File : {} ", requestId, fileName);
         if (StringUtils.isEmpty(requestId)) {
             throw new BadRequestException("Unable to start the upload of the file: request identifer is not set.");
         }
 
-        if (!uploadMap.containsKey(requestId)) {
-            uploadMap.put(requestId, new AtomicLong(0));
-        }
+        LOGGER.debug("Start uploading file ...");
+        //Should return operation Id from Vitam
+        // String operationId =
 
-        long writtenDataSize = 0;
-        final long size = Long.parseLong(totalSize);
-        final long offset = Long.parseLong(chunkOffset);
+        service.upload(buildUiHttpContext(), inputStream, contextId, xAction, fileName);
 
-        InputStream in = null;
-        Path tmpFilePath = Paths.get(System.getProperty(CommonConstants.VITAMUI_TEMP_DIRECTORY), requestId);
-        FileChannel fileChannel = null;
-        try (RandomAccessFile randomAccessFile = new RandomAccessFile(tmpFilePath.toString(), "rw")) {
-            fileChannel = randomAccessFile.getChannel();
-            final int writtenByte = fileChannel.write(ByteBuffer.wrap(file.getBytes()), offset);
-            final AtomicLong writtenByteSize = uploadMap.get(requestId);
-            writtenDataSize = writtenByteSize.addAndGet(writtenByte);
-
-            if (writtenDataSize >= size) {
-                fileChannel.force(false);
-                uploadMap.remove(requestId);
-                in = new FileInputStream(tmpFilePath.toFile());
-            }
-
-            LOGGER.debug("Total upload : {} {} ...", writtenDataSize, size);
-            if (writtenDataSize >= size) {
-                LOGGER.debug("Start uploading file ...");
-                service.upload(buildUiHttpContext(), in, contextId, xAction, file.getOriginalFilename());
-            }
-            final HttpHeaders headers = new HttpHeaders();
-            headers.add(CommonConstants.X_REQUEST_ID_HEADER, requestId);
-            return new ResponseEntity<>(headers, HttpStatus.OK);
-        } catch (final IOException exception) {
-            try {
-                LOGGER.info("Try to delete temp file {} ", tmpFilePath);
-                Files.deleteIfExists(tmpFilePath);
-            } catch (IOException e) {
-                LOGGER.error("Error deleting temp file {} error {} ", tmpFilePath, e.getMessage());
-            }
-            final String message = String.format(
-                "An error occurred during the upload [Request id: %s - ChunkOffset : %s - Total size : %s] : %s",
-                requestId,
-                chunkOffset, totalSize, exception.getMessage());
-            throw new InternalServerException(message, exception);
-
-        }
+        //return new ResponseEntity<>(operationiId, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 }
