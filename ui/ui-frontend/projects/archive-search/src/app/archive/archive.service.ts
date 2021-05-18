@@ -125,7 +125,15 @@ export class ArchiveService extends SearchService<any> {
   exportCsvSearchArchiveUnitsByCriteria(criteriaDto: SearchCriteriaDto, accessContract: string) {
     let headers = new HttpHeaders().append('Content-Type', 'application/json');
     headers = headers.append('X-Access-Contract-Id', accessContract);
+    
+    if(criteriaDto.nodes && criteriaDto.nodes.length > 0 && criteriaDto.nodes.some(node => node === 'ORPHINS')){
+      criteriaDto.nodes = criteriaDto.nodes.filter(node => node !== 'ORPHINS');
+       criteriaDto.includeOrphans = true
+    }else {
+      criteriaDto.includeOrphans = false;
+    }
 
+     
     return this.archiveApiService.exportCsvSearchArchiveUnitsByCriteria(criteriaDto, headers).subscribe(
       file => {
         const element = document.createElement('a');
@@ -156,6 +164,15 @@ export class ArchiveService extends SearchService<any> {
 
     let headers = new HttpHeaders().append('Content-Type', 'application/json');
     headers = headers.append('X-Access-Contract-Id', accessContract);
+    console.log(criteriaDto.nodes);
+    if(criteriaDto.nodes && criteriaDto.nodes.length > 0 && criteriaDto.nodes.some(node => node === 'ORPHINS')) {
+      criteriaDto.nodes = criteriaDto.nodes.filter(node => node !== 'ORPHINS');
+      criteriaDto.includeOrphans = true
+      console.log('include orphans');
+      console.log(criteriaDto.nodes);
+    } else {
+      criteriaDto.includeOrphans = false;
+    }
 
     return this.archiveApiService.searchArchiveUnitsByCriteria(criteriaDto, headers).pipe(
    //   timeout(TIMEOUT_SEC),

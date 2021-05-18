@@ -489,7 +489,7 @@ emptyForm = {
     this.pending = true;
 
     let sortingCriteria = { criteria: this.orderBy , sorting: this.direction}
-    let searchCriteria = { includeOrphans: true, "nodes": this.searchedCriteriaNodesList , "criteriaList": this.searchedCriteriaList, "pageNumber": this.currentPage, size: PAGE_SIZE, 'sortingCriteria': sortingCriteria };
+    let searchCriteria = { "nodes": this.searchedCriteriaNodesList , "criteriaList": this.searchedCriteriaList, "pageNumber": this.currentPage, size: PAGE_SIZE, 'sortingCriteria': sortingCriteria };
     this.archiveService.searchArchiveUnitsByCriteria(searchCriteria, this.accessContract).subscribe(
       (pagedResult: PagedResult) => {
         if (this.currentPage === 0 ) {

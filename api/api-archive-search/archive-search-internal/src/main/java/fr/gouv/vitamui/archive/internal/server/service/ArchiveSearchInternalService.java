@@ -158,6 +158,7 @@ public class ArchiveSearchInternalService {
         Map<String, List<String>> vitamCriteria = new HashMap<>();
         JsonNode query;
         try {
+            LOGGER.info("Mapping request to dsl {} ", searchQuery);
             if (searchQuery != null && searchQuery.getCriteriaList() != null &&
                 !searchQuery.getCriteriaList().isEmpty()) {
                 searchQuery.getCriteriaList().stream()

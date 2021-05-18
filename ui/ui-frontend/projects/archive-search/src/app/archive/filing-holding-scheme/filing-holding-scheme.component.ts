@@ -173,7 +173,6 @@ export class FilingHoldingSchemeComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -188,12 +187,12 @@ export class FilingHoldingSchemeComponent implements OnInit, OnChanges {
     this.archiveService
       .loadFilingHoldingSchemeTree(this.tenantIdentifier, this.accessContract)
       .subscribe(nodes => {
-        this.fullNodes = [{ checked: false, title: 'WITHOUT', children: null, parents: null, type: '', vitamId: 'ORPHIN', id: '0' }];
+        this.fullNodes = [{ checked: false, title: 'ORPHINS', children: null, parents: null, type: '', vitamId: 'ORPHINS', id: 'ORPHINS' }];
         for(let node of nodes){
           this.fullNodes.push(node);
         }
-        this.nestedDataSourceFull.data = nodes;
-        this.nestedTreeControlFull.dataNodes = nodes;
+        this.nestedDataSourceFull.data = this.fullNodes;
+        this.nestedTreeControlFull.dataNodes = this.fullNodes;
         this.loadingHolding = false;
         this.filtered = false;
         this.archiveSharedDataServiceService.emitEntireNodes(this.convertNodesToList(nodes));
@@ -263,7 +262,7 @@ export class FilingHoldingSchemeComponent implements OnInit, OnChanges {
   }
 
   recursiveShowById(nodes: FilingHoldingSchemeNode[], checked: boolean, nodeId: string): boolean {
-    let found = false; 
+    let found = false;
     if (nodes.length !== 0){
     for (const node of nodes) {
       if (node.id === nodeId) {
