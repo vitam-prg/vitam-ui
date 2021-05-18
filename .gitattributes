@@ -1,0 +1,17 @@
+api/api-ingest/ingest-internal/pom.xml merge=ours
+.gitlab-ci.yml merge=ours
+pom.xml merge=ours
+ui/ui-frontend/proxy.conf.json merge=ours
+dev-deployment/* merge=ours
+api/api-security/security-internal/src/main/config/*.yml merge=ours
+api/api-iam/iam-external/src/main/config/*.yml merge=ours
+api/api-iam/iam-internal/src/main/config/*.yml merge=ours
+api/api-iam/iam-internal/src/main/config/dev-vitamui/* merge=ours
+cas/cas-server/src/main/config/*.yml merge=ours
+ui/ui-portal/src/main/config/*.yml merge=ours
+ui/ui-identity/src/main/config/*.yml merge=ours
+ui/ui-pastis/src/main/config/*.yml merge=ours
+ui/ui-frontend/proxy.conf.json merge=ours
+Dockerfile merge=ours
+run-images.sh merge=ours
+tag-images.sh merge=ours
