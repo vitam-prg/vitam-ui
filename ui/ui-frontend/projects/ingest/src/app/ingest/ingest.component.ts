@@ -56,6 +56,8 @@ export class IngestComponent extends SidenavPage<any> implements OnInit {
   search: string;
   progressPercent = 0;
   uploadError = false;
+
+  uploadSucces= false;
   uploadInProgress = false;
 
   tenantIdentifier: string;
@@ -192,6 +194,7 @@ export class IngestComponent extends SidenavPage<any> implements OnInit {
                 //this.uploadStatus.emit({ status: ProgressStatusEnum.COMPLETE });
                 this.uploadInProgress = false;
                 this.uploadError = false;
+                this.uploadSucces = true;
                 break;
             }
           }
@@ -201,6 +204,7 @@ export class IngestComponent extends SidenavPage<any> implements OnInit {
           console.log('ERROR: ', error);
           this.uploadInProgress = false;
           this.uploadError = true;
+          this.uploadSucces = false;
           //this.uploadStatus.emit({ status: ProgressStatusEnum.ERROR });
         }
       );

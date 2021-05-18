@@ -70,11 +70,8 @@
       </div>
       
       
-      <div class="progress" *ngIf="uploadInProgress">
-        <div class="progress-bar" role="progressbar" aria-valuenow="{{progressPercent}}" aria-valuemin="0" aria-valuemax="100"
-          [ngStyle]="{width: progressPercent + '%'}">
-          {{progressPercent}}%
-        </div>
+      <div class="progress" *ngIf="uploadInProgress">       
+          {{progressPercent}} %      
       </div>
       
       
@@ -83,7 +80,7 @@
       <div *ngIf="!uploadInProgress && uploadError" class="alert alert-danger" role="alert">
         Error on uploading
       </div>
-      <div *ngIf="!uploadInProgress && !uploadError" class="alert alert-primary" role="alert">
+      <div *ngIf="!uploadInProgress && uploadSucces" class="alert alert-primary" role="alert">
         uploading on success
       </div>
     </div> <br>
