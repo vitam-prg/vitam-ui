@@ -1,17 +1,19 @@
 package fr.gouv.vitamui.ingest.thread;
 
 import fr.gouv.vitamui.commons.api.CommonConstants;
+import fr.gouv.vitamui.commons.api.exception.BadRequestException;
 import fr.gouv.vitamui.commons.api.logger.VitamUILogger;
 import fr.gouv.vitamui.commons.api.logger.VitamUILoggerFactory;
 import fr.gouv.vitamui.commons.rest.client.ExternalHttpContext;
 import fr.gouv.vitamui.ingest.external.client.IngestExternalWebClient;
 import fr.gouv.vitamui.ingest.service.IngestService;
-import org.springframework.web.reactive.function.client.ClientResponse;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 /**
  * Thread that send the uploaded stream to vitamui ingest-external through it's client
@@ -43,6 +45,8 @@ public class IngestThread extends Thread {
 
     @Override
     public void run() {
+
+        /*
         ClientResponse response = null;
         try {
             response = client.upload(context, in, contextId, action, originalFilename);
@@ -59,6 +63,21 @@ public class IngestThread extends Thread {
             }
         } catch (final Exception e) {
             LOGGER.debug("ERROR : Upload of [{}] failed.\n [{}]", originalFilename, e.getMessage());
+        }
+
+
+         */
+
+        final Path tmpFilePath =
+            Paths.get(System.getProperty("java.io.tmpdir"), originalFilename);
+        int length = 0;
+        try {
+            length = in.available();
+            Files.copy(in, tmpFilePath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            LOGGER.debug("[IngestInternalWebClient] Error writing InputStream of length [{}] to temporary path {}",
+                length, tmpFilePath.toAbsolutePath());
+            throw new BadRequestException("ERROR: InputStream writing error : ", e);
         }
     }
 

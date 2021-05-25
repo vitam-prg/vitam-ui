@@ -52,12 +52,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.InputStream;
 import java.util.List;
 
 /**
  * A REST client to get logbooks for an External API.
  */
-public class IngestExternalRestClient extends BasePaginatingAndSortingRestClient<LogbookOperationDto, ExternalHttpContext> {
+public class IngestExternalRestClient
+    extends BasePaginatingAndSortingRestClient<LogbookOperationDto, ExternalHttpContext> {
 
     private static final VitamUILogger LOGGER = VitamUILoggerFactory.getInstance(IngestExternalRestClient.class);
 
@@ -70,22 +72,40 @@ public class IngestExternalRestClient extends BasePaginatingAndSortingRestClient
         return RestApi.V1_INGEST;
     }
 
-    @Override protected Class<LogbookOperationDto> getDtoClass() {
+    @Override
+    protected Class<LogbookOperationDto> getDtoClass() {
         return LogbookOperationDto.class;
     }
 
-    @Override protected ParameterizedTypeReference<List<LogbookOperationDto>> getDtoListClass() {
-        return new ParameterizedTypeReference<List<LogbookOperationDto>>() {};
+    @Override
+    protected ParameterizedTypeReference<List<LogbookOperationDto>> getDtoListClass() {
+        return new ParameterizedTypeReference<List<LogbookOperationDto>>() {
+        };
     }
 
-    @Override protected ParameterizedTypeReference<PaginatedValuesDto<LogbookOperationDto>> getDtoPaginatedClass() {
-        return new ParameterizedTypeReference<PaginatedValuesDto<LogbookOperationDto>>() {};
+    @Override
+    protected ParameterizedTypeReference<PaginatedValuesDto<LogbookOperationDto>> getDtoPaginatedClass() {
+        return new ParameterizedTypeReference<PaginatedValuesDto<LogbookOperationDto>>() {
+        };
     }
 
     public ResponseEntity<byte[]> generateODTReport(ExternalHttpContext context, String id) {
-        final UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(getUrl() + RestApi.INGEST_REPORT_ODT + CommonConstants.PATH_ID );
+        final UriComponentsBuilder uriBuilder =
+            UriComponentsBuilder.fromHttpUrl(getUrl() + RestApi.INGEST_REPORT_ODT + CommonConstants.PATH_ID);
         final HttpEntity<AuditOptions> request = new HttpEntity<>(buildHeaders(context));
         return restTemplate.exchange(uriBuilder.build(id), HttpMethod.GET, request, byte[].class);
 
     }
+
+
+
+    public ResponseEntity<byte[]> uploadIngestV2(ExternalHttpContext context, String fileName,
+        InputStream inputStream) {
+        final UriComponentsBuilder uriBuilder =
+            UriComponentsBuilder.fromHttpUrl(getUrl() + CommonConstants.INGEST_UPLOAD + "-v2");
+        final HttpEntity<AuditOptions> request = new HttpEntity<>(buildHeaders(context));
+        return restTemplate.exchange(uriBuilder.build(id), HttpMethod.GET, request, byte[].class);
+
+    }
+
 }

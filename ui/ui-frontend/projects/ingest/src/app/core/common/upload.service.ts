@@ -35,7 +35,7 @@
  * knowledge of the CeCILL-C license and that you accept its terms.
  */
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpRequest, HttpHeaders, HttpResponse, HttpEvent, HttpClient } from '@angular/common/http';
 import { IngestApiService } from '../api/ingest-api.service';
 import { retry, timeout } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -56,7 +56,7 @@ export class UploadService {
 
   uploadStatus = new BehaviorSubject<IngestList>(new IngestList());
 
-  constructor( private ingestApiService: IngestApiService) {
+  constructor(private ingestApiService: IngestApiService, private httpClient: HttpClient) {
   }
 
   filesStatus(): BehaviorSubject<IngestList> {
@@ -150,6 +150,8 @@ export class UploadService {
     headers = headers.set(totalSizeKey, totalSize.toString());
     headers = headers.set(contextIdKey, contextId);
     headers = headers.set(actionKey, action);
+    headers = headers.set("reportProgress", "true");
+    headers = headers.set("fileName", file.name);
     if (requestId) {
       headers = headers.set(requestIdKey, requestId);
     }
@@ -160,4 +162,28 @@ export class UploadService {
     return new HttpRequest('POST', this.ingestApiService.getBaseUrl() + '/ingest/upload', formdata, { headers });
   }
 
+
+
+  public uploadFileV2(  tenantIdentifier: string,
+                        contextId: string,
+                        action: string,
+                        file: Blob, fileName: string ): Observable<HttpEvent<void>> {  
+    
+ let headers = new HttpHeaders();
+    headers = headers.set(tenantKey, tenantIdentifier.toString());
+    headers = headers.set(contextIdKey, contextId);
+    headers = headers.set(actionKey, action);
+    headers = headers.set("Content-Type", "application/octet-stream");
+    headers = headers.set("reportProgress", "true");
+    headers = headers.set("fileName", fileName);
+
+    const options = { headers: headers, responseType: 'text' as 'text', reportProgress: true };
+
+    return this.httpClient.request(new HttpRequest(
+      'POST',
+      this.ingestApiService.getBaseUrl() + '/ingest/upload-v2',
+      file,
+      options
+      ));
+  }
 }
