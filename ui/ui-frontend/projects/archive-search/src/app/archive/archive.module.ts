@@ -73,6 +73,7 @@ import { SearchCriteriaSaverComponent } from './archive-search/search-criteria-s
 import { SearchCriteriaSaverService } from './archive-search/search-criteria-saver/search-criteria-saver.service';
 import { SearchCriteriaListComponent } from './archive-search/search-criteria-list/search-criteria-list.component';
 import { CriteriaSearchComponent } from './criteria-search/criteria-search.component';
+import { ManagementRuleArchiveSearchComponent } from './archive-search/management-rule-archive-search/management-rule-archive-search.component';
  
 @NgModule({
   imports: [
@@ -116,6 +117,7 @@ import { CriteriaSearchComponent } from './criteria-search/criteria-search.compo
     SearchCriteriaSaverComponent,
     SearchCriteriaListComponent,
     CriteriaSearchComponent,
+    ManagementRuleArchiveSearchComponent,
     
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

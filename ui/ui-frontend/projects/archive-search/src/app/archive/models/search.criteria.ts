@@ -35,53 +35,56 @@
  * knowledge of the CeCILL-C license and that you accept its terms.
  */
 export enum SearchCriteriaStatusEnum {
-    NOT_INCLUDED ='NOT_INCLUDED',
-    INCLUDED= 'INCLUDED',
-    IN_PROGRESS = 'IN_PROGRESS'
-  }
+  NOT_INCLUDED = 'NOT_INCLUDED',
+  INCLUDED = 'INCLUDED',
+  IN_PROGRESS = 'IN_PROGRESS',
+}
 
 export interface SearchCriteriaValue {
-    value?: string;
-    label?: string;
-    valueShown?: boolean;
-    status: SearchCriteriaStatusEnum;
-    translated: boolean;
-};
+  value?: string;
+  label?: string;
+  valueShown?: boolean;
+  status: SearchCriteriaStatusEnum;
+  translated: boolean;
+}
 
 export interface SearchCriteria {
-    key: string;
-    label: string;
-    values?: SearchCriteriaValue[];
-};
-
-
-export interface SearchCriteriaEltDto{
-    criteria: string;
-    values: string[];
-}
-export interface SearchCriteriaDto{
-    criteriaList: SearchCriteriaEltDto[];
-    pageNumber: number;
-    size: number;
-    nodes?: String[];
-    sortingCriteria?: SearchCriteriaSort;
-    language?: string;
+  key: string;
+  label: string;
+  values?: SearchCriteriaValue[];
 }
 
+export interface SearchCriteriaEltDto {
+  criteria: string;
+  values: string[];
+}
+export interface SearchCriteriaDto {
+  criteriaList: SearchCriteriaEltDto[];
+  pageNumber: number;
+  size: number;
+  nodes?: String[];
+  sortingCriteria?: SearchCriteriaSort;
+  language?: string;
+}
 
 export interface PagedResult {
-    results: any[];
-    pageNumbers: number;    
-    totalResults: number;
-    facets?: ResultFacet[];
+  results: any[];
+  pageNumbers: number;
+  totalResults: number;
+  facets?: ResultFacet[];
 }
 
 export interface ResultFacet {
-    node: string;
-    count: number;
+  node: string;
+  count: number;
 }
 
 export interface SearchCriteriaSort {
-    criteria: string;
-    sorting: "ASC"|"DESC";
+  criteria: string;
+  sorting: 'ASC' | 'DESC';
+}
+
+export interface SearchCriteriaCategory {
+  name: string;
+  visible: boolean;
 }

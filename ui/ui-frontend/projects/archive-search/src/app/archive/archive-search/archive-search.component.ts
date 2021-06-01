@@ -101,6 +101,8 @@ export class ArchiveSearchComponent implements OnInit {
   searchedCriteriaList: SearchCriteriaEltDto[] = [];
   searchedCriteriaNodesList: string[] = [];
 
+  additionalSearchCriteriaCategories: string[];
+
   private readonly filterChange = new Subject<{ [key: string]: any[] }>();
 
   searchCriteriaHistory: SearchCriteriaHistory[] = [];
@@ -310,11 +312,20 @@ export class ArchiveSearchComponent implements OnInit {
     }
   }
 
+  addCriteriaCategory(categoryName: string) {
+    var indexOfCategory = this.additionalSearchCriteriaCategories.findIndex((element) => element === categoryName);
+    if (indexOfCategory === -1) {
+      this.additionalSearchCriteriaCategories.push(categoryName);
+      console.log(this.additionalSearchCriteriaCategories);
+      //make the selected tab
+    }
+  }
   private resetForm() {
     this.form.reset(this.emptyForm);
   }
 
   ngOnInit() {
+    this.additionalSearchCriteriaCategories = [];
     this.route.params.subscribe((params) => {
       this.tenantIdentifier = params.tenantIdentifier;
     });
@@ -371,8 +382,6 @@ export class ArchiveSearchComponent implements OnInit {
             this.searchCriteriaKeys.forEach((element, index) => {
               if (element == keyElt) this.searchCriteriaKeys.splice(index, 1);
             });
-            console.log(this.searchCriterias);
-
             this.searchCriterias.delete(keyElt);
           } else {
             val.values = values;
