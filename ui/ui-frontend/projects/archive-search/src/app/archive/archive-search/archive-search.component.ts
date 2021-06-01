@@ -86,6 +86,7 @@ export class ArchiveSearchComponent implements OnInit {
   form: FormGroup;
   submited: boolean = false;
   searchCriterias: Map<string, SearchCriteria>;
+  searchCriteriaKeys: string[];
   otherCriteriaValueEnabled: boolean = false;
   otherCriteriaValueType: string = 'DATE';
   showCriteriaPanel: boolean = true;
@@ -319,6 +320,7 @@ export class ArchiveSearchComponent implements OnInit {
     });
 
     this.searchCriterias = new Map();
+    this.searchCriteriaKeys = [];
     this.filterMapType['Type'] = ['Folder', 'Document'];
     const searchCriteriaChange = merge(this.orderChange, this.filterChange).pipe(debounceTime(FILTER_DEBOUNCE_TIME_MS));
 
@@ -346,6 +348,7 @@ export class ArchiveSearchComponent implements OnInit {
   showStoredSearchCriteria(event: SearchCriteriaHistory) {
     if (this.searchCriterias.size > 0) {
       this.searchCriterias = new Map();
+      this.searchCriteriaKeys = [];
       this.included = false;
     }
     this.reMapSearchCriteriaFromSearchCriteriaHistory(event);
@@ -355,6 +358,9 @@ export class ArchiveSearchComponent implements OnInit {
     this.orderChange.next();
   }
 
+  removeCriteriaEvent(criteriaToRemove: any) {
+    this.removeCriteria(criteriaToRemove.keyElt, criteriaToRemove.valueElt);
+  }
   removeCriteria(keyElt: string, valueElt: string) {
     if (this.searchCriterias && this.searchCriterias.size > 0) {
       this.searchCriterias.forEach((val, key) => {
@@ -362,12 +368,16 @@ export class ArchiveSearchComponent implements OnInit {
           let values = val.values;
           values = values.filter((item) => item.value !== valueElt);
           if (values.length === 0) {
+            this.searchCriteriaKeys.forEach((element, index) => {
+              if (element == keyElt) this.searchCriteriaKeys.splice(index, 1);
+            });
+            console.log(this.searchCriterias);
+
             this.searchCriterias.delete(keyElt);
           } else {
             val.values = values;
             this.searchCriterias.set(keyElt, val);
           }
-
           this.nbQueryCriteria--;
         }
         if (key === 'NODE') {
@@ -375,6 +385,7 @@ export class ArchiveSearchComponent implements OnInit {
         }
       });
     }
+
     if (this.searchCriterias && this.searchCriterias.size === 0) {
       this.submited = false;
       this.showCriteriaPanel = true;
@@ -426,6 +437,7 @@ export class ArchiveSearchComponent implements OnInit {
             this.searchCriterias.set(keyElt, criteria);
           }
         } else {
+          this.searchCriteriaKeys.push(keyElt);
           let values = [];
           values.push({
             value: valueElt,
