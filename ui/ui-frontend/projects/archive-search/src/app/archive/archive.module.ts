@@ -72,6 +72,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SearchCriteriaSaverComponent } from './archive-search/search-criteria-saver/search-criteria-saver.component';
 import { SearchCriteriaSaverService } from './archive-search/search-criteria-saver/search-criteria-saver.service';
 import { SearchCriteriaListComponent } from './archive-search/search-criteria-list/search-criteria-list.component';
+import { CriteriaSearchComponent } from './criteria-search/criteria-search.component';
  
 @NgModule({
   imports: [
@@ -114,6 +115,7 @@ import { SearchCriteriaListComponent } from './archive-search/search-criteria-li
     ArchiveSearchPopupComponent,
     SearchCriteriaSaverComponent,
     SearchCriteriaListComponent,
+    CriteriaSearchComponent,
     
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

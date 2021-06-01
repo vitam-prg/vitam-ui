@@ -37,17 +37,16 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { NodeData } from '../archive/models/nodedata.interface';
-import {SearchCriteriaHistory, SearchCriterias} from '../archive/models/search-criteria-history.interface';
+import { SearchCriteriaHistory, SearchCriterias } from '../archive/models/search-criteria-history.interface';
 import { ResultFacet } from '../archive/models/search.criteria';
 import { Unit } from '../archive/models/unit.interface';
-import {FilingHoldingSchemeNode} from '../archive/models/node.interface';
-import {Direction} from 'ui-frontend-common';
+import { FilingHoldingSchemeNode } from '../archive/models/node.interface';
+import { Direction } from 'ui-frontend-common';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ArchiveSharedDataServiceService {
-
   private sourceNode = new BehaviorSubject<NodeData>(new NodeData());
   private filingHoldingNodesSubject = new BehaviorSubject<FilingHoldingSchemeNode[]>(null);
   private targetNode = new BehaviorSubject<string>('');
@@ -61,7 +60,6 @@ export class ArchiveSharedDataServiceService {
 
   private entireNodes = new BehaviorSubject<string[]>([]);
 
-
   currentNode = this.sourceNode.asObservable();
   currentNodeTarget = this.targetNode.asObservable();
   facetsObservable = this.facetsSubject.asObservable();
@@ -73,11 +71,9 @@ export class ArchiveSharedDataServiceService {
   allSearchCriteriaHistoryObservable = this.allSearchCriteriaHistorySubject.asObservable();
   filingHoldingNodes = this.filingHoldingNodesSubject.asObservable();
 
-
   entireNodesObservable = this.entireNodes.asObservable();
 
-
-  constructor() { }
+  constructor() {}
 
   emitEntireNodes(nodes: string[]) {
     this.entireNodes.next(nodes);
@@ -146,7 +142,6 @@ export class ArchiveSharedDataServiceService {
   nbFilters(searchCriteriaHistory: SearchCriteriaHistory): number {
     let sum = 0;
     searchCriteriaHistory.searchCriteriaList.forEach((searchCriteriaList: SearchCriterias) => {
-
       if (searchCriteriaList.nodes.length > 0) {
         sum += searchCriteriaList.nodes.length;
       }
@@ -165,13 +160,13 @@ export class ArchiveSharedDataServiceService {
       case Direction.ASCENDANT:
         searchCriteriaHistory.sort((a, b) => {
           // tslint:disable-next-line:no-angle-bracket-type-assertion
-          return <any> new Date(b.savingDate) - <any> new Date(a.savingDate);
+          return <any>new Date(b.savingDate) - <any>new Date(a.savingDate);
         });
         break;
       case Direction.DESCENDANT:
         searchCriteriaHistory.sort((a, b) => {
           // tslint:disable-next-line:no-angle-bracket-type-assertion
-          return <any> new Date(a.savingDate) - <any> new Date(b.savingDate);
+          return <any>new Date(a.savingDate) - <any>new Date(b.savingDate);
         });
         break;
       default:
@@ -180,4 +175,3 @@ export class ArchiveSharedDataServiceService {
     return searchCriteriaHistory;
   }
 }
-
