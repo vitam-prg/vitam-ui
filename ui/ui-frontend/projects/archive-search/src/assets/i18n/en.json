@@ -12,6 +12,7 @@
     "NO_MORE_RESULTS": "No more results",
     "SEARCH_CRITERIA_FILTER": {
       "TITLE": "Search filters",
+      "DUA_TITLE": "Durée d'utilité administrative",         
       "OTHER_FILED_SELECTION": "Select another criteria",
       "FIELDS": {
         "ID": "ID",
@@ -27,7 +28,11 @@
         "SP_CODE": "Originating agency code",
         "SP_LABEL": "Originating agency name",
         "OTHER_FIELD": "Another criteria",
-        "SELECT_OTHER_FIELD": "Select another criteria"
+        "SELECT_OTHER_FIELD": "Select another criteria",
+        "TITLE_DUA": "Intitulé",
+        "ID_DUA": "Identifiant",
+        "START_DATE_DUA": "Date de début",
+        "END_DATE_DUA": "Date de fin"
       }
     },
     "ARCHIVE_UNIT": {

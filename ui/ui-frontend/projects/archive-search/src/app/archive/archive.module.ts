@@ -74,6 +74,7 @@ import { SearchCriteriaSaverService } from './archive-search/search-criteria-sav
 import { SearchCriteriaListComponent } from './archive-search/search-criteria-list/search-criteria-list.component';
 import { CriteriaSearchComponent } from './criteria-search/criteria-search.component';
 import { ManagementRuleArchiveSearchComponent } from './archive-search/management-rule-archive-search/management-rule-archive-search.component';
+import { DuaSearchFiltersComponent } from './dua-search-filters/dua-search-filters.component';
  
 @NgModule({
   imports: [
@@ -118,6 +119,7 @@ import { ManagementRuleArchiveSearchComponent } from './archive-search/managemen
     SearchCriteriaListComponent,
     CriteriaSearchComponent,
     ManagementRuleArchiveSearchComponent,
+    DuaSearchFiltersComponent,
     
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
