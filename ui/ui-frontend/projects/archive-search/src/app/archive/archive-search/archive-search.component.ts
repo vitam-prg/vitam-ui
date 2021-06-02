@@ -49,7 +49,13 @@ import { ArchiveService } from '../archive.service';
 import { FilingHoldingSchemeNode } from '../models/node.interface';
 import { NodeData } from '../models/nodedata.interface';
 import { SearchCriteriaEltements, SearchCriteriaHistory, SearchCriterias } from '../models/search-criteria-history.interface';
-import { PagedResult, SearchCriteria, SearchCriteriaEltDto, SearchCriteriaStatusEnum } from '../models/search.criteria';
+import {
+  PagedResult,
+  SearchCriteria,
+  SearchCriteriaCategory,
+  SearchCriteriaEltDto,
+  SearchCriteriaStatusEnum,
+} from '../models/search.criteria';
 import { Unit } from '../models/unit.interface';
 import { SearchCriteriaSaverComponent } from './search-criteria-saver/search-criteria-saver.component';
 
@@ -101,8 +107,8 @@ export class ArchiveSearchComponent implements OnInit {
   searchedCriteriaList: SearchCriteriaEltDto[] = [];
   searchedCriteriaNodesList: string[] = [];
 
-  additionalSearchCriteriaCategories: string[];
-
+  additionalSearchCriteriaCategories: SearchCriteriaCategory[];
+  additionalSearchCriteriaCategoryIndex = 0;
   private readonly filterChange = new Subject<{ [key: string]: any[] }>();
 
   searchCriteriaHistory: SearchCriteriaHistory[] = [];
@@ -312,19 +318,53 @@ export class ArchiveSearchComponent implements OnInit {
     }
   }
 
+  selectedCategoryChange(selectedCategoryIndex: number) {
+    this.additionalSearchCriteriaCategoryIndex = selectedCategoryIndex;
+  }
+
   addCriteriaCategory(categoryName: string) {
-    var indexOfCategory = this.additionalSearchCriteriaCategories.findIndex((element) => element === categoryName);
+    var indexOfCategory = this.additionalSearchCriteriaCategories.findIndex((element) => element.name === categoryName);
     if (indexOfCategory === -1) {
-      this.additionalSearchCriteriaCategories.push(categoryName);
+      this.additionalSearchCriteriaCategories.push({ name: categoryName, index: this.additionalSearchCriteriaCategories.length + 1 });
       console.log(this.additionalSearchCriteriaCategories);
       //make the selected tab
     }
+
+    this.additionalSearchCriteriaCategories.forEach((category, index) => {
+      category.index = index + 1;
+    });
+    this.additionalSearchCriteriaCategoryIndex = this.additionalSearchCriteriaCategories.length;
   }
+
+  isCategoryAdded(categoryName: string): boolean {
+    var indexOfCategory = this.additionalSearchCriteriaCategories.findIndex((element) => element.name === categoryName);
+    return indexOfCategory !== -1;
+  }
+
+  removeCriteriaCategory(categoryName: string) {
+    this.additionalSearchCriteriaCategories.forEach((element, index) => {
+      if (element.name === categoryName) {
+        this.additionalSearchCriteriaCategories.splice(index, 1);
+        if (index === this.additionalSearchCriteriaCategoryIndex - 1) {
+          this.additionalSearchCriteriaCategoryIndex = 0;
+        } else {
+          if (this.additionalSearchCriteriaCategoryIndex > 0) {
+            this.additionalSearchCriteriaCategoryIndex = this.additionalSearchCriteriaCategoryIndex - 1;
+          }
+        }
+      }
+    });
+    this.additionalSearchCriteriaCategories.forEach((category, index) => {
+      category.index = index + 1;
+    });
+  }
+
   private resetForm() {
     this.form.reset(this.emptyForm);
   }
 
   ngOnInit() {
+    this.additionalSearchCriteriaCategoryIndex = 0;
     this.additionalSearchCriteriaCategories = [];
     this.route.params.subscribe((params) => {
       this.tenantIdentifier = params.tenantIdentifier;
