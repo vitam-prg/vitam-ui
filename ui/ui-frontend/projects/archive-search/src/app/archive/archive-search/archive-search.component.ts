@@ -130,6 +130,10 @@ export class ArchiveSearchComponent implements OnInit {
     serviceProdCommunicabilityDt: '';
     otherCriteria: '';
     otherCriteriaValue: '';
+    idDua: '';
+    titleDua: '';
+    beginDtDua: '';
+    endDtDua: '';
   };
   emptyForm = {
     archiveCriteria: '',
@@ -146,6 +150,11 @@ export class ArchiveSearchComponent implements OnInit {
     serviceProdCommunicabilityDt: '',
     otherCriteria: '',
     otherCriteriaValue: '',
+
+    idDua: '',
+    titleDua: '',
+    beginDtDua: '',
+    endDtDua: '',
   };
 
   show = true;
@@ -201,6 +210,11 @@ export class ArchiveSearchComponent implements OnInit {
       serviceProdCommunicabilityDt: '',
       otherCriteria: '',
       otherCriteriaValue: '',
+
+      idDua: '',
+      titleDua: '',
+      beginDtDua: '',
+      endDtDua: '',
     };
 
     this.form = this.formBuilder.group({
@@ -217,6 +231,11 @@ export class ArchiveSearchComponent implements OnInit {
       serviceProdCommunicabilityDt: ['', []],
       otherCriteria: ['', []],
       otherCriteriaValue: ['', []],
+
+      idDua: ['', []],
+      titleDua: ['', []],
+      beginDtDua: ['', []],
+      endDtDua: ['', []],
     });
     merge(this.form.statusChanges, this.form.valueChanges)
       .pipe(
@@ -309,6 +328,30 @@ export class ArchiveSearchComponent implements OnInit {
             false
           );
         }
+        return true;
+      } else if (formData.idDua) {
+        this.addCriteria('#idDua', 'ID_DUA', formData.idDua.trim(), formData.idDua.trim(), true);
+        return true;
+      } else if (formData.titleDua) {
+        this.addCriteria('#titleDua', 'TITLE_DUA', formData.titleDua.trim(), formData.titleDua.trim(), true);
+        return true;
+      } else if (formData.beginDtDua) {
+        this.addCriteria(
+          'StartDateDua',
+          'START_DATE_DUA',
+          this.form.value.beginDtDua,
+          this.datePipe.transform(this.form.value.beginDtDua, 'dd/MM/yyyy'),
+          true
+        );
+        return true;
+      } else if (formData.endDtDua) {
+        this.addCriteria(
+          'EndDateDua',
+          'END_DATE_DUA',
+          this.form.value.endDtDua,
+          this.datePipe.transform(this.form.value.endDtDua, 'dd/MM/yyyy'),
+          true
+        );
         return true;
       } else {
         return false;

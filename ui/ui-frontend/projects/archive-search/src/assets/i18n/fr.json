@@ -13,6 +13,7 @@
     "SEARCH_CRITERIA_FILTER": {
       "TITLE": "Filtre de recherche",
       "OTHER_FILED_SELECTION": "Sélection d'un autre critère",
+      "DUA_TITLE": "Durée d'utilité administrative",         
       "FIELDS": {
         "ID": "ID",
         "TITLE_OR_DESCRIPTION": "Intitulé ou Description",
@@ -27,7 +28,11 @@
         "SP_CODE": "Identifiant",
         "SP_LABEL": "Nom",
         "OTHER_FIELD": "Autre critère",
-        "SELECT_OTHER_FIELD": "Sélection d'un autre critère"
+        "SELECT_OTHER_FIELD": "Sélection d'un autre critère",
+        "TITLE_DUA": "Intitulé",
+        "ID_DUA": "Identifiant",
+        "START_DATE_DUA": "Date de début",
+        "END_DATE_DUA": "Date de fin"
       }
     },
     "ARCHIVE_UNIT": {
