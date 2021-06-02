@@ -67,7 +67,7 @@
       </div>
     </div>
 
-    <mat-tab-group>
+    <mat-tab-group [selectedIndex]="additionalSearchCriteriaCategoryIndex" (selectedIndexChange)="selectedCategoryChange($event)">
       <mat-tab label="Filtres de recherche">
         <div class="card-criteria" *ngIf="showCriteriaPanel">
           <div class="row">
@@ -264,12 +264,18 @@
           </div>
         </div>
       </mat-tab>
-      <mat-tab
-        *ngFor="let category of additionalSearchCriteriaCategories; let index = index"
-        [label]="'ARCHIVE_SEARCH.CRITERIA_CATEGORY.' + category | translate"
-      >
-        {{ 'ARCHIVE_SEARCH.CRITERIA_CATEGORY.' + category | translate }}
-      </mat-tab>
+      <ng-container *ngFor="let category of additionalSearchCriteriaCategories; let index = index">
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <span> {{ 'ARCHIVE_SEARCH.CRITERIA_CATEGORY.' + category.name | translate }} </span>
+            <button class="mat-boutton clickable" (click)="removeCriteriaCategory(category.name)">
+              <i class="vitamui-icon vitamui-icon-cross vitamui-row-icon"></i>
+            </button>
+          </ng-template>
+          {{ 'ARCHIVE_SEARCH.CRITERIA_CATEGORY.' + category.name | translate }}
+        </mat-tab>
+      </ng-container>
+
       <mat-tab disabled>
         <ng-template mat-tab-label>
           <button [matMenuTriggerFor]="menuTabs" class="mat-boutton clickable">
@@ -280,25 +286,35 @@
       </mat-tab>
 
       <mat-menu #menuTabs="matMenu" class="my-menu">
-        <button mat-menu-item class="btn-new-save" (click)="addCriteriaCategory('DUA')">
+        <button mat-menu-item class="btn-new-save" (click)="addCriteriaCategory('DUA')" [disabled]="isCategoryAdded('DUA')">
           {{ 'ARCHIVE_SEARCH.CRITERIA_CATEGORY.DUA' | translate }}
         </button>
-        <button mat-menu-item class="btn-new-save" (click)="addCriteriaCategory('DUC')">
+        <button mat-menu-item class="btn-new-save" (click)="addCriteriaCategory('DUC')" [disabled]="isCategoryAdded('DUC')">
           {{ 'ARCHIVE_SEARCH.CRITERIA_CATEGORY.DUC' | translate }}
         </button>
-        <button mat-menu-item class="btn-new-save" (click)="addCriteriaCategory('COMMUNICABILITY')">
+        <button
+          mat-menu-item
+          class="btn-new-save"
+          (click)="addCriteriaCategory('COMMUNICABILITY')"
+          [disabled]="isCategoryAdded('COMMUNICABILITY')"
+        >
           {{ 'ARCHIVE_SEARCH.CRITERIA_CATEGORY.COMMUNICABILITY' | translate }}
         </button>
-        <button mat-menu-item class="btn-new-save" (click)="addCriteriaCategory('REUSING')">
+        <button mat-menu-item class="btn-new-save" (click)="addCriteriaCategory('REUSING')" [disabled]="isCategoryAdded('REUSING')">
           {{ 'ARCHIVE_SEARCH.CRITERIA_CATEGORY.REUSING' | translate }}
         </button>
-        <button mat-menu-item class="btn-new-save" (click)="addCriteriaCategory('DIFFUSION')">
+        <button mat-menu-item class="btn-new-save" (click)="addCriteriaCategory('DIFFUSION')" [disabled]="isCategoryAdded('DIFFUSION')">
           {{ 'ARCHIVE_SEARCH.CRITERIA_CATEGORY.DIFFUSION' | translate }}
         </button>
-        <button mat-menu-item class="btn-new-save" (click)="addCriteriaCategory('CLASSIFICATION')">
+        <button
+          mat-menu-item
+          class="btn-new-save"
+          (click)="addCriteriaCategory('CLASSIFICATION')"
+          [disabled]="isCategoryAdded('CLASSIFICATION')"
+        >
           {{ 'ARCHIVE_SEARCH.CRITERIA_CATEGORY.CLASSIFICATION' | translate }}
         </button>
-        <button mat-menu-item class="btn-new-save" (click)="addCriteriaCategory('GEL')">
+        <button mat-menu-item class="btn-new-save" (click)="addCriteriaCategory('GEL')" [disabled]="isCategoryAdded('GEL')">
           {{ 'ARCHIVE_SEARCH.CRITERIA_CATEGORY.GEL' | translate }}
         </button>
       </mat-menu>

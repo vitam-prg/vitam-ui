@@ -86,5 +86,5 @@ export interface SearchCriteriaSort {
 
 export interface SearchCriteriaCategory {
   name: string;
-  visible: boolean;
+  index: number;
 }
