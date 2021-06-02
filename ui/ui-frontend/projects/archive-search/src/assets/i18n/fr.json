@@ -106,6 +106,16 @@
       "SAVE_NOT_POSSIBLE_ALERT_NAME": "Limite de caractères atteinte",
       "SAVE_NOT_POSSIBLE_MESSAGE_NAME": "Vous avez atteint le nombre de caractère maximal autorisé.",
       "OBJECT_TYPE": "recherche sauvegardée"
+    },
+    "CRITERIA_CATEGORY":{
+      "ADD":"Ajouter des filters",
+      "DUA":"Durée d’utilité administrative",
+      "DUC":"DUC",
+      "COMMUNICABILITY":"Communicabilité",
+      "REUSING":"Réutilisation",
+      "DIFFUSION":"Diffusion",
+      "CLASSIFICATION":"Classification",
+      "GEL":"Gel"
     }
   }
 }

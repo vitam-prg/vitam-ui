@@ -264,22 +264,20 @@
           </div>
         </div>
       </mat-tab>
-      <mat-tab label="DUA" *ngFor="let category of additionalSearchCriteriaCategories; let index = index" [label]="category">
-        {{ category }}
+      <mat-tab
+        *ngFor="let category of additionalSearchCriteriaCategories; let index = index"
+        [label]="'ARCHIVE_SEARCH.CRITERIA_CATEGORY.' + category | translate"
+      >
+        {{ 'ARCHIVE_SEARCH.CRITERIA_CATEGORY.' + category | translate }}
       </mat-tab>
       <mat-tab disabled>
         <ng-template mat-tab-label>
-          <button mat-icon-button [matMenuTriggerFor]="menuTabs">
+          <button [matMenuTriggerFor]="menuTabs" class="mat-boutton clickable">
             {{ 'ARCHIVE_SEARCH.CRITERIA_CATEGORY.ADD' | translate }}
+            <i class="vitamui-icon vitamui-icon-plus vitamui-row-icon"></i>
           </button>
         </ng-template>
       </mat-tab>
-
-      <button [matMenuTriggerFor]="menuTabs" class="mat-boutton">
-        <button type="button" class="circle editable-field-cancel clickable">
-          <i class="material-icons primary-save-icon">save</i>
-        </button>
-      </button>
 
       <mat-menu #menuTabs="matMenu" class="my-menu">
         <button mat-menu-item class="btn-new-save" (click)="addCriteriaCategory('DUA')">
