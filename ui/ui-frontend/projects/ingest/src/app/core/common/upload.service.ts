@@ -252,7 +252,7 @@ export class UploadService {
     headers = headers.set("reportProgress", "true");
     headers = headers.set("ngsw-bypass", "true");
     headers = headers.set("fileName", fileName); 
-    headers = headers.set("totalSize", file.size);
+    headers = headers.set("totalSize", file.size.toString());
  
     const options = {
       headers: headers,
