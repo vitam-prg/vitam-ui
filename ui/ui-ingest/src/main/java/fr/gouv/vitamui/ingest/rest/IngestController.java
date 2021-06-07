@@ -213,26 +213,37 @@ public class IngestController extends AbstractUiRestController {
         @RequestHeader(value = CommonConstants.X_ACTION) final String xAction,
         @RequestHeader(value = CommonConstants.X_CONTEXT_ID) final String contextId,
         @RequestHeader(value = "fileName") final String fileName,
+        @RequestHeader(value = "totalSize") final int totalSize,
         final InputStream inputStream) {
         ParameterChecker
             .checkParameter("The tenantId, xAction and contextId are mandatory parameters : ",
                 tenantId, xAction, contextId);
         SafeFileChecker.checkSafeFilePath(fileName);
         LOGGER.info("Start uploading file ...");
-        /*
-            @TODO Should return operation Id from Vitam
-         */
 
         final Path tmpFilePath = Paths.get(System.getProperty(CommonConstants.VITAMUI_TEMP_DIRECTORY), fileName);
         int length = 0;
         try {
             length = inputStream.available();
+            LOGGER.info("Uploaded size {} from  totalSize {} ", length, totalSize);
             Files.copy(inputStream, tmpFilePath, StandardCopyOption.REPLACE_EXISTING);
+            if(length >= totalSize ){
+                LOGGER.info("Finish uploading to ui-ingest");
+                LOGGER.debug("Start uploading file ...");
+                service.upload(buildUiHttpContext(), inputStream, contextId, xAction, fileName);
+            }
         } catch (IOException e) {
             LOGGER.debug("[IngestInternalWebClient] Error writing InputStream of length [{}] to temporary path {}",
                 length, tmpFilePath.toAbsolutePath());
-            throw new BadRequestException("ERROR: InputStream writing error : ", e);
+            try {
+                LOGGER.info("Try to delete temp file {} ", tmpFilePath);
+                Files.deleteIfExists(tmpFilePath);
+            } catch (IOException e1) {
+                LOGGER.error("Error deleting temp file {} error {} ", tmpFilePath, e1.getMessage());
+            }
+            throw new InternalServerException("An error occurred during the upload", e);
         }
+ 
         //return new ResponseEntity<>(operationiId, HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.OK);
     }

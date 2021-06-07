@@ -251,8 +251,9 @@ export class UploadService {
     headers = headers.set("Content-Type", "application/octet-stream");
     headers = headers.set("reportProgress", "true");
     headers = headers.set("ngsw-bypass", "true");
-    headers = headers.set("fileName", fileName);
-
+    headers = headers.set("fileName", fileName); 
+    headers = headers.set("totalSize", file.size);
+ 
     const options = {
       headers: headers,
       responseType: "text" as "text",
