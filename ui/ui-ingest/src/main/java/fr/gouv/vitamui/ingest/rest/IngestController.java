@@ -227,11 +227,9 @@ public class IngestController extends AbstractUiRestController {
             length = inputStream.available();
             LOGGER.info("Uploaded size {} from  totalSize {} ", length, totalSize);
             Files.copy(inputStream, tmpFilePath, StandardCopyOption.REPLACE_EXISTING);
-            if(length >= totalSize ){
                 LOGGER.info("Finish uploading to ui-ingest");
                 LOGGER.debug("Start uploading file ...");
                 service.upload(buildUiHttpContext(), inputStream, contextId, xAction, fileName);
-            }
         } catch (IOException e) {
             LOGGER.debug("[IngestInternalWebClient] Error writing InputStream of length [{}] to temporary path {}",
                 length, tmpFilePath.toAbsolutePath());
@@ -243,7 +241,7 @@ public class IngestController extends AbstractUiRestController {
             }
             throw new InternalServerException("An error occurred during the upload", e);
         }
- 
+
         //return new ResponseEntity<>(operationiId, HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.OK);
     }
