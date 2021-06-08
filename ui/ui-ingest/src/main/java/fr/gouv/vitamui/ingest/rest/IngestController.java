@@ -230,7 +230,7 @@ public class IngestController extends AbstractUiRestController {
                 LOGGER.info("Finish uploading to ui-ingest");
                 LOGGER.debug("Start uploading file ...");
                 InputStream inputStreamSaved = new FileInputStream(tmpFilePath.toFile());
-                service.upload(buildUiHttpContext(), inputStreamSaved, contextId, xAction, fileName);
+                service.uploadV2(buildUiHttpContext(), inputStreamSaved, contextId, xAction, fileName);
         } catch (IOException e) {
             LOGGER.debug("[IngestInternalWebClient] Error writing InputStream of length [{}] to temporary path {} error : {}",
                 length, tmpFilePath.toAbsolutePath(), e.getMessage());

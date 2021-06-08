@@ -45,6 +45,7 @@ import fr.gouv.vitamui.commons.vitam.api.dto.LogbookOperationDto;
 import fr.gouv.vitamui.ingest.external.client.IngestExternalRestClient;
 import fr.gouv.vitamui.ingest.external.client.IngestExternalWebClient;
 import fr.gouv.vitamui.ingest.thread.IngestThread;
+import fr.gouv.vitamui.ingest.thread.IngestThreadStreamed;
 import fr.gouv.vitamui.ui.commons.service.AbstractPaginateService;
 import fr.gouv.vitamui.ui.commons.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,6 +96,17 @@ public class IngestService extends AbstractPaginateService<LogbookOperationDto> 
         final IngestThread
             ingestThread =
             new IngestThread(ingestExternalWebClient, context, in, contextId, action, originalFilename);
+
+        ingestThread.start();
+    }
+
+
+    public void uploadV2(final ExternalHttpContext context, InputStream in, final String contextId, final String action,
+        final String originalFilename) {
+        LOGGER.info("Launch thread uploadV2 ");
+        final IngestThreadStreamed
+            ingestThread =
+            new IngestThreadStreamed(ingestExternalWebClient, context, in, contextId, action, originalFilename);
 
         ingestThread.start();
     }
