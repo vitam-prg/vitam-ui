@@ -229,10 +229,11 @@ public class IngestController extends AbstractUiRestController {
             Files.copy(inputStream, tmpFilePath, StandardCopyOption.REPLACE_EXISTING);
                 LOGGER.info("Finish uploading to ui-ingest");
                 LOGGER.debug("Start uploading file ...");
-                service.upload(buildUiHttpContext(), inputStream, contextId, xAction, fileName);
+                InputStream inputStreamSaved = new FileInputStream(tmpFilePath.toFile());
+                service.upload(buildUiHttpContext(), inputStreamSaved, contextId, xAction, fileName);
         } catch (IOException e) {
-            LOGGER.debug("[IngestInternalWebClient] Error writing InputStream of length [{}] to temporary path {}",
-                length, tmpFilePath.toAbsolutePath());
+            LOGGER.debug("[IngestInternalWebClient] Error writing InputStream of length [{}] to temporary path {} error : {}",
+                length, tmpFilePath.toAbsolutePath(), e.getMessage());
             try {
                 LOGGER.info("Try to delete temp file {} ", tmpFilePath);
                 Files.deleteIfExists(tmpFilePath);
