@@ -44,6 +44,7 @@ import fr.gouv.vitamui.commons.api.logger.VitamUILoggerFactory;
 import fr.gouv.vitamui.commons.rest.client.BaseWebClient;
 import fr.gouv.vitamui.commons.rest.client.ExternalHttpContext;
 import fr.gouv.vitamui.ingest.common.rest.RestApi;
+import org.apache.commons.io.FileUtils;
 import org.springframework.http.HttpMethod;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -80,7 +81,7 @@ public class IngestExternalWebClient extends BaseWebClient<ExternalHttpContext> 
         }
 
         final Path filePath =
-            Paths.get(System.getProperty(CommonConstants.VITAMUI_TEMP_DIRECTORY), "ext-"+originalFilename);
+            Paths.get(FileUtils.getTempDirectoryPath(), "ext-"+originalFilename);
         int length = 0;
         try {
             length = in.available();

@@ -45,6 +45,7 @@ import fr.gouv.vitamui.commons.api.logger.VitamUILoggerFactory;
 import fr.gouv.vitamui.commons.rest.client.BaseWebClient;
 import fr.gouv.vitamui.commons.rest.client.InternalHttpContext;
 import fr.gouv.vitamui.ingest.common.rest.RestApi;
+import org.apache.commons.io.FileUtils;
 import org.springframework.http.HttpMethod;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -73,13 +74,13 @@ public class IngestInternalWebClient extends BaseWebClient<InternalHttpContext> 
 
     public Mono<RequestResponseOK> upload(final InternalHttpContext context, InputStream in, final String action,
         final String contextId) {
-
+        LOGGER.info("Ingest internal web client, call upload ingest action : {}  contextId {} ", action, contextId);
         if (in == null) {
             throw new FileOperationException("There is an error in uploaded file !");
         }
 
         final Path tmpFilePath =
-            Paths.get(System.getProperty(CommonConstants.VITAMUI_TEMP_DIRECTORY), "int-"+context.getRequestId());
+            Paths.get(FileUtils.getTempDirectoryPath(), "int-"+context.getRequestId());
         int length = 0;
         try {
             length = in.available();

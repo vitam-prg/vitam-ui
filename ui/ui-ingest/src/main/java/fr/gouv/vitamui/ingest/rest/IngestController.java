@@ -53,6 +53,7 @@ import fr.gouv.vitamui.ingest.common.rest.RestApi;
 import fr.gouv.vitamui.ingest.service.IngestService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -221,7 +222,7 @@ public class IngestController extends AbstractUiRestController {
         SafeFileChecker.checkSafeFilePath(fileName);
         LOGGER.info("Start uploading file ...");
 
-        final Path tmpFilePath = Paths.get(System.getProperty(CommonConstants.VITAMUI_TEMP_DIRECTORY), "ui-"+fileName);
+        final Path tmpFilePath = Paths.get(FileUtils.getTempDirectoryPath(), "ui-"+fileName);
         int length = 0;
         try {
             length = inputStream.available();

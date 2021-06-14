@@ -23,6 +23,7 @@ server-identity:
   identityServerId: 1
 
 server:
+  connectionTimeout: 180000
   host:
   port: 8088
   ssl:

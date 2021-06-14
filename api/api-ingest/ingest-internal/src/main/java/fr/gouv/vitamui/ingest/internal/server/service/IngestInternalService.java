@@ -113,7 +113,7 @@ public class IngestInternalService {
 
     public RequestResponseOK upload(MultipartFile path, String contextId, String action)
         throws IngestExternalException {
-
+        LOGGER.info("Ingest internal, call upload ingest action : {}  contextId {} ", action, contextId);
         final VitamContext vitamContext =
             internalSecurityService.buildVitamContext(internalSecurityService.getTenantIdentifier());
 

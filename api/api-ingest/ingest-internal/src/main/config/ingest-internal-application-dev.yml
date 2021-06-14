@@ -16,7 +16,7 @@ spring:
       uri: mongodb://mongod_dbuser_iam:mongod_dbpwd_iam@localhost:27018/iam?connectTimeoutMS=2000
 
 multipart:
-  enabled: false
+  enabled: true
 
 spring.servlet.multipart.max-file-size: -1
 spring.servlet.multipart.max-request-size: -1
@@ -26,7 +26,9 @@ server-identity:
   identityRole: ingest-internal
   identityServerId: 1
 
+
 server:
+  connectionTimeout: 180000
   host:
   port: 7088
 
