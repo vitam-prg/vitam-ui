@@ -80,7 +80,7 @@ public class IngestExternalWebClient extends BaseWebClient<ExternalHttpContext> 
         }
 
         final Path filePath =
-            Paths.get(System.getProperty(CommonConstants.VITAMUI_TEMP_DIRECTORY), context.getRequestId());
+            Paths.get(System.getProperty(CommonConstants.VITAMUI_TEMP_DIRECTORY), "ext-"+originalFilename);
         int length = 0;
         try {
             length = in.available();

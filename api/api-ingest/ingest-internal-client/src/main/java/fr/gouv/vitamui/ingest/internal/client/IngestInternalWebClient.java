@@ -79,7 +79,7 @@ public class IngestInternalWebClient extends BaseWebClient<InternalHttpContext> 
         }
 
         final Path tmpFilePath =
-            Paths.get(System.getProperty(CommonConstants.VITAMUI_TEMP_DIRECTORY), context.getRequestId());
+            Paths.get(System.getProperty(CommonConstants.VITAMUI_TEMP_DIRECTORY), "int-"+context.getRequestId());
         int length = 0;
         try {
             length = in.available();

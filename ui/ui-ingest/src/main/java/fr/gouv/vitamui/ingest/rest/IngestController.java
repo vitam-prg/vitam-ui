@@ -221,7 +221,7 @@ public class IngestController extends AbstractUiRestController {
         SafeFileChecker.checkSafeFilePath(fileName);
         LOGGER.info("Start uploading file ...");
 
-        final Path tmpFilePath = Paths.get(System.getProperty(CommonConstants.VITAMUI_TEMP_DIRECTORY), fileName);
+        final Path tmpFilePath = Paths.get(System.getProperty(CommonConstants.VITAMUI_TEMP_DIRECTORY), "ui-"+fileName);
         int length = 0;
         try {
             length = inputStream.available();
