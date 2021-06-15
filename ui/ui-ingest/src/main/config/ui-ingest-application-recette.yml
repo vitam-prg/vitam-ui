@@ -9,6 +9,17 @@ spring:
         enabled: false
         register: false
 
+
+  multipart:
+    enabled: true
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: -1
+      max-request-size: -1
+
+
+
 server:
   host: dev.vitamui.com
   port: 9008

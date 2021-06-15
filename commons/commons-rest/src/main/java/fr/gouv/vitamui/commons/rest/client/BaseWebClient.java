@@ -319,10 +319,12 @@ public abstract class BaseWebClient<C extends AbstractHttpContext> extends BaseC
         LOGGER.debug("multiValueMap .................... {}", multiValueMap);
 
         if (HttpMethod.POST == httpMethod) {
+            LOGGER.debug("start POST sending to url {}  {}", url, filePath.get().getValue().getFileName());
             return webClient.post().uri(url).headers(addHeaders(headers)).headers(addHeaders(buildHeaders(context))).contentType(MediaType.MULTIPART_FORM_DATA)
                     .syncBody(multiValueMap).exchange().block();
         }
         else {
+            LOGGER.debug("start sending to url {}  {}", url, filePath.get().getValue().getFileName());
             return webClient.patch().uri(url).headers(addHeaders(headers)).headers(addHeaders(buildHeaders(context))).contentType(MediaType.MULTIPART_FORM_DATA)
                     .syncBody(multiValueMap).exchange().block();
         }

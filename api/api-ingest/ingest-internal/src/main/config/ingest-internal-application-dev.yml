@@ -1,5 +1,7 @@
 debug: false
 
+
+
 spring:
   profiles:
     active: swagger
@@ -11,15 +13,18 @@ spring:
         enabled: false
         register: false
 
+spring.servlet.multipart.max-file-size: -1
+spring.servlet.multipart.max-request-size: -1
+spring.servlet.multipart.enabled: true
+
+
   data:
     mongodb:
       uri: mongodb://mongod_dbuser_iam:mongod_dbpwd_iam@localhost:27018/iam?connectTimeoutMS=2000
 
-multipart:
-  enabled: true
+  multipart:
+    enabled: true
 
-spring.servlet.multipart.max-file-size: -1
-spring.servlet.multipart.max-request-size: -1
 
 server-identity:
   identityName: vitamui-dev

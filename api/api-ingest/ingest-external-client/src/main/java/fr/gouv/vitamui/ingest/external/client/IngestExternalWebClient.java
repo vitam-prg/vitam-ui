@@ -86,6 +86,7 @@ public class IngestExternalWebClient extends BaseWebClient<ExternalHttpContext> 
         try {
             length = in.available();
             Files.copy(in, filePath, StandardCopyOption.REPLACE_EXISTING);
+            LOGGER.debug("End coping input stream into file {}  ", filePath.getFileName());
         } catch (IOException e) {
             LOGGER
                 .debug("[IngestExternalWebClient] Error writing InputStream of length [{}] to temporary path {}",
@@ -97,7 +98,7 @@ public class IngestExternalWebClient extends BaseWebClient<ExternalHttpContext> 
         final MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
         headers.add(CommonConstants.X_CONTEXT_ID, contextId);
         headers.add(CommonConstants.X_ACTION, action);
-
+        LOGGER.debug("Start sending to external layer {}  ", filePath.getFileName());
         return multipartDataFromFile(getPathUrl() + CommonConstants.INGEST_UPLOAD, HttpMethod.POST, context,
             Optional.of(new AbstractMap.SimpleEntry<>(CommonConstants.MULTIPART_FILE_PARAM_NAME, filePath)),
             headers);
