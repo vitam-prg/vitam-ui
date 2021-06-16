@@ -48,7 +48,10 @@
             <groupId>fr.gouv.vitamui</groupId>
             <artifactId>iam-security</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>fr.gouv.vitamui</groupId>
+            <artifactId>iam-internal</artifactId>
+        </dependency>
 
         <!-- SPRING BOOT -->
         <dependency>
@@ -102,10 +105,27 @@
             <artifactId>spring-boot-devtools</artifactId>
         </dependency>
 
+        <!-- APACHE ODFtoolKit-->
+        <dependency>
+            <groupId>org.odftoolkit</groupId>
+            <artifactId>odfdom-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.odftoolkit</groupId>
+            <artifactId>simple-odf</artifactId>
+        </dependency>
+        <!-- APACHE ODFtoolKit-->
+
         <!-- Metrics -->
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+
+        <!-- Monitoring -->
+        <dependency>
+            <groupId>io.opentracing.contrib</groupId>
+            <artifactId>opentracing-spring-jaeger-web-starter</artifactId>
         </dependency>
 
         <!-- UTIL -->
@@ -157,16 +177,7 @@
             <artifactId>springfox-swagger-ui</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>io.opentracing.contrib</groupId>
-            <artifactId>opentracing-spring-jaeger-web-starter</artifactId>
-        </dependency>
-
         <!--TEST -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -200,20 +211,11 @@
             <type>test-jar</type>
         </dependency>
         <dependency>
-            <groupId>fr.gouv.vitamui</groupId>
-            <artifactId>iam-internal</artifactId>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>${junit.vintage.engine.version}</version>
+            <scope>test</scope>
         </dependency>
-
-        <!-- APACHE ODFtoolKit-->
-        <dependency>
-            <groupId>org.odftoolkit</groupId>
-            <artifactId>odfdom-java</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.odftoolkit</groupId>
-            <artifactId>simple-odf</artifactId>
-        </dependency>
-        <!-- APACHE ODFtoolKit-->
 
     </dependencies>
 

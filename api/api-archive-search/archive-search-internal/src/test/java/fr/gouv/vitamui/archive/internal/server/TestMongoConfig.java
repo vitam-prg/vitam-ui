@@ -36,6 +36,8 @@
  */
 package fr.gouv.vitamui.archive.internal.server;
 
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
 import de.flapdoodle.embed.mongo.MongodExecutable;
 import de.flapdoodle.embed.mongo.MongodProcess;
 import de.flapdoodle.embed.mongo.MongodStarter;
@@ -44,15 +46,21 @@ import de.flapdoodle.embed.mongo.config.Net;
 import de.flapdoodle.embed.mongo.distribution.Version;
 import de.flapdoodle.embed.process.runtime.Network;
 
+import fr.gouv.vitamui.commons.api.converter.OffsetDateTimeToStringConverter;
+import fr.gouv.vitamui.commons.api.converter.StringToOffsetDateTimeConverter;
 import fr.gouv.vitamui.commons.api.identity.ServerIdentityAutoConfiguration;
 import fr.gouv.vitamui.commons.mongo.repository.impl.VitamUIRepositoryImpl;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
+import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Configuration
@@ -98,5 +106,17 @@ public class TestMongoConfig extends AbstractMongoClientConfiguration {
         return MONGO_DB_NAME;
     }
 
+    @Override
+    public MongoClient mongoClient() {
+        return MongoClients.create("mongodb://" + MONGO_HOST + ":" + port);
+    }
+
+    @Override
+    public MongoCustomConversions customConversions() {
+        final List<Converter<?, ?>> converterList = new ArrayList<>();
+        converterList.add(new OffsetDateTimeToStringConverter());
+        converterList.add(new StringToOffsetDateTimeConverter());
+        return new MongoCustomConversions(converterList);
+    }
 
 }

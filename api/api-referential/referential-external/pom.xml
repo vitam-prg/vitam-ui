@@ -192,8 +192,10 @@
 			<type>test-jar</type>
 		</dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>${junit.vintage.engine.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
