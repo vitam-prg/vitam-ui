@@ -113,7 +113,7 @@ export class ArchiveSearchComponent implements OnInit {
   additionalSearchCriteriaCategories: SearchCriteriaCategory[];
   additionalSearchCriteriaCategoryIndex = 0;
   private readonly filterChange = new Subject<{ [key: string]: any[] }>();
-
+  showDuaEndDate = false;
   searchCriteriaHistory: SearchCriteriaHistory[] = [];
   searchCriteriaHistoryToSave: Map<string, SearchCriteriaHistory>;
   searchCriteriaHistoryLength: number = null;
@@ -133,10 +133,15 @@ export class ArchiveSearchComponent implements OnInit {
     serviceProdCommunicabilityDt: '';
     otherCriteria: '';
     otherCriteriaValue: '';
-    idDua: '';
-    titleDua: '';
-    beginDtDua: '';
-    endDtDua: '';
+    appraisalRuleIdentifier: '';
+    appraisalRuleTitle: '';
+    appraisalRuleStartDate: '';
+    appraisalRuleEndDate: '';
+    appraisalRuleOrigin: '';
+    appraisalRuleFinalActionType: '';
+    appraisalRuleFinalAction: '';
+    appraisalRuleHoldIncluded: '';
+    appraisalRuleEliminationIdentifier: '';
   };
   emptyForm = {
     archiveCriteria: '',
@@ -154,10 +159,16 @@ export class ArchiveSearchComponent implements OnInit {
     otherCriteria: '',
     otherCriteriaValue: '',
 
-    idDua: '',
-    titleDua: '',
-    beginDtDua: '',
-    endDtDua: '',
+    appraisalRuleIdentifier: '',
+    appraisalRuleTitle: '',
+    appraisalRuleStartDate: '',
+    appraisalRuleEndDate: '',
+
+    appraisalRuleOrigin: '',
+    appraisalRuleFinalActionType: '',
+    appraisalRuleFinalAction: '',
+    appraisalRuleHoldIncluded: '',
+    appraisalRuleEliminationIdentifier: '',
   };
 
   show = true;
@@ -214,10 +225,16 @@ export class ArchiveSearchComponent implements OnInit {
       otherCriteria: '',
       otherCriteriaValue: '',
 
-      idDua: '',
-      titleDua: '',
-      beginDtDua: '',
-      endDtDua: '',
+      appraisalRuleIdentifier: '',
+      appraisalRuleTitle: '',
+      appraisalRuleStartDate: '',
+      appraisalRuleEndDate: '',
+
+      appraisalRuleOrigin: '',
+      appraisalRuleFinalActionType: '',
+      appraisalRuleFinalAction: '',
+      appraisalRuleHoldIncluded: '',
+      appraisalRuleEliminationIdentifier: '',
     };
 
     this.form = this.formBuilder.group({
@@ -235,10 +252,16 @@ export class ArchiveSearchComponent implements OnInit {
       otherCriteria: ['', []],
       otherCriteriaValue: ['', []],
 
-      idDua: ['', []],
-      titleDua: ['', []],
-      beginDtDua: ['', []],
-      endDtDua: ['', []],
+      //appraisalRules
+      appraisalRuleIdentifier: ['', []],
+      appraisalRuleTitle: ['', []],
+      appraisalRuleStartDate: ['', []],
+      appraisalRuleEndDate: ['', []],
+      appraisalRuleOrigin: ['SELECT_ALL_APPRAISAL_RULE_ORIGIN', []],
+      appraisalRuleFinalActionType: ['', []],
+      appraisalRuleFinalAction: ['', []],
+      appraisalRuleHoldIncluded: ['INCLUDE', []],
+      appraisalRuleEliminationIdentifier: ['', []],
     });
     merge(this.form.statusChanges, this.form.valueChanges)
       .pipe(
@@ -354,45 +377,45 @@ export class ArchiveSearchComponent implements OnInit {
           );
         }
         return true;
-      } else if (formData.idDua) {
+      } else if (formData.appraisalRuleIdentifier) {
         this.addCriteria(
           'AppraisalRuleIdentifier',
           'ID_DUA',
-          formData.idDua.trim(),
-          formData.idDua.trim(),
+          formData.appraisalRuleIdentifier.trim(),
+          formData.appraisalRuleIdentifier.trim(),
           true,
           'EQ',
           SearchCriteriaTypeEnum.APPRAISAL_RULE
         );
         return true;
-      } else if (formData.titleDua) {
+      } else if (formData.appraisalRuleTitle) {
         this.addCriteria(
           'AppraisalRuleTitle',
           'TITLE_DUA',
-          formData.titleDua.trim(),
-          formData.titleDua.trim(),
+          formData.appraisalRuleTitle.trim(),
+          formData.appraisalRuleTitle.trim(),
           true,
           'EQ',
           SearchCriteriaTypeEnum.APPRAISAL_RULE
         );
         return true;
-      } else if (formData.beginDtDua) {
+      } else if (formData.appraisalRuleStartDate) {
         this.addCriteria(
           'AppraisalRuleStartDate',
           'START_DATE_DUA',
-          this.form.value.beginDtDua,
-          this.datePipe.transform(this.form.value.beginDtDua, 'dd/MM/yyyy'),
+          this.form.value.appraisalRuleStartDate,
+          this.datePipe.transform(this.form.value.appraisalRuleStartDate, 'dd/MM/yyyy'),
           true,
           'GTE',
           SearchCriteriaTypeEnum.APPRAISAL_RULE
         );
         return true;
-      } else if (formData.endDtDua) {
+      } else if (formData.appraisalRuleEndDate) {
         this.addCriteria(
           'AppraisalRuleEndDate',
           'END_DATE_DUA',
-          this.form.value.endDtDua,
-          this.datePipe.transform(this.form.value.endDtDua, 'dd/MM/yyyy'),
+          this.form.value.appraisalRuleEndDate,
+          this.datePipe.transform(this.form.value.appraisalRuleEndDate, 'dd/MM/yyyy'),
           true,
           'LTE',
           SearchCriteriaTypeEnum.APPRAISAL_RULE
@@ -427,6 +450,10 @@ export class ArchiveSearchComponent implements OnInit {
   isCategoryAdded(categoryName: string): boolean {
     var indexOfCategory = this.additionalSearchCriteriaCategories.findIndex((element) => element.name === categoryName);
     return indexOfCategory !== -1;
+  }
+
+  showHideDuaEndDate(status: boolean) {
+    this.showDuaEndDate = status;
   }
 
   removeCriteriaCategory(categoryName: string) {

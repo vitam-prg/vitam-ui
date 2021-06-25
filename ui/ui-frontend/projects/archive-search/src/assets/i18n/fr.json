@@ -13,7 +13,11 @@
     "SEARCH_CRITERIA_FILTER": {
       "TITLE": "Filtre de recherche",
       "OTHER_FILED_SELECTION": "Sélection d'un autre critère",
-      "DUA_TITLE": "Durée d'utilité administrative",         
+      "DUA_TITLE": "Durée d'utilité administrative",        
+       "DUA": {
+         "CREATE_INTERVAL":"Créer un intervale",
+         "DELETE_INTERVAL":"Supprimer l'intervale"
+       },
       "FIELDS": {
         "ID": "ID",
         "TITLE_OR_DESCRIPTION": "Intitulé ou Description",
@@ -32,7 +36,34 @@
         "TITLE_DUA": "Intitulé",
         "ID_DUA": "Identifiant",
         "START_DATE_DUA": "Date de début",
-        "END_DATE_DUA": "Date de fin"
+        "END_DATE_DUA": "Date de fin",
+        "ORIGIN": {
+          "TITLE":"L'unité archivistique",
+          "INHERITE_AT_LEAST_ONE_APPRAISAL_RULE":"Hérite d'au moins une règle DUA",
+          "HAS_AT_LEAST_ONE_APPRAISAL_RULE":"Porte au moins une règle DUA",
+          "HAS_NO_APPRAISAL_RULE":"N'a pas de règle DUA définie ",
+          "WAITING_TO_RE_CALCULATE_APPRAISAL_RULE":"Est en attente de recalcul de règle",
+          "SELECT_ALL_APPRAISAL_RULE":"Sélectionne tout"
+        },
+        "FINAL_ACTION_TYPE":{
+          "TITLE":"L'unité archivistique",
+          "SELECT_ALL_APPRAISAL_RULE":"Tout sélectionner",
+          "HAS_APPRAISAL_RULE":"Porte le sort final DUA ",
+          "INHERITE_APPRAISAL_RULE":"Hérite du sort final DUA"
+        },
+        "FINAL_ACTION":{
+          "TITLE":"Sort final DUA",
+          "SELECT_ALL_APPRAISAL_RULE":"Tout sélectionner",
+          "ELIMINATION_APPRAISAL_RULE":"Elimination",
+          "CONSERVATION_APPRAISAL_RULE":"Conservation",
+          "NC_APPRAISAL_RULE":"Non déclaré"
+        },
+        "HOLD":{
+          "TITLE":"Archives gélées",
+          "INCLUDE":"Inclure",
+          "EXCLUDE":"Exclure"
+        },
+        "ELIMINATION_TECHNICAL_ID":"Identifiant technique de l'analyse d'élimination"
       }
     },
     "ARCHIVE_UNIT": {
