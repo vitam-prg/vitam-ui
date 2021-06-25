@@ -282,70 +282,66 @@
                     </div>
                   </div>
 
-                  <div class="row">
-                    <div class="col-11">
-                      <div class="row justify-content-around">
-                        <div class="col-6 form-control">
-                          <vitamui-common-editable-input
-                            formControlName="idDua"
-                            [validator]="form?.get('idDua')?.validator"
-                            label="{{ 'ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.FIELDS.ID_DUA' | translate }}"
-                          >
-                          </vitamui-common-editable-input>
-                        </div>
-                        <div class="col-6 form-control">
-                          <vitamui-common-editable-input
-                            formControlName="titleDua"
-                            [validator]="form?.get('titleDua')?.validator"
-                            label="{{ 'ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.FIELDS.TITLE_DUA' | translate }}"
-                          >
-                          </vitamui-common-editable-input>
-                        </div>
-                      </div>
+                  <div class="row justify-content-around">
+                    <div class="col-6 form-control">
+                      <vitamui-common-editable-input
+                        formControlName="idDua"
+                        [validator]="form?.get('idDua')?.validator"
+                        label="{{ 'ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.FIELDS.ID_DUA' | translate }}"
+                      >
+                      </vitamui-common-editable-input>
+                    </div>
+                    <div class="col-6 form-control">
+                      <vitamui-common-editable-input
+                        formControlName="titleDua"
+                        [validator]="form?.get('titleDua')?.validator"
+                        label="{{ 'ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.FIELDS.TITLE_DUA' | translate }}"
+                      >
+                      </vitamui-common-editable-input>
+                    </div>
+                  </div>
 
-                      <div class="row justify-content-around">
-                        <div class="col-6 form-control">
-                          <div class="vitamui-input" (click)="pickerBeginDua.open()">
-                            <span
-                              *ngIf="!form.get('beginDtDua').value; else showBeginDtDua"
-                              (click)="pickerBeginDua.open()"
-                              class="search-date-label"
-                              >{{ 'ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.FIELDS.START_DATE_DUA' | translate }}</span
-                            >
-                            <ng-template #showBeginDtDua
-                              ><span (click)="pickerBeginDua.open()">{{ form.get('beginDtDua').value | date: 'dd/MM/yyyy' }} </span>
-                            </ng-template>
-                            <input
-                              class="hidden"
-                              size="0"
-                              [matDatepicker]="pickerBeginDua"
-                              formControlName="beginDtDua"
-                              [min]="form.get('beginDtDua').value"
-                            />
-                            <mat-datepicker #pickerBeginDua></mat-datepicker>
-                          </div>
-                        </div>
-                        <div class="col-6 form-control">
-                          <div class="vitamui-input" (click)="pickerEndDua.open()">
-                            <span
-                              *ngIf="!form.get('endDtDua').value; else showEndDtDua"
-                              (click)="pickerEndDua.open()"
-                              class="search-date-label"
-                              >{{ 'ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.FIELDS.END_DATE_DUA' | translate }}</span
-                            >
-                            <ng-template #showEndDtDua
-                              ><span (click)="pickerEndDua.open()">{{ form.get('endDtDua').value | date: 'dd/MM/yyyy' }} </span>
-                            </ng-template>
-                            <input
-                              class="hidden"
-                              size="0"
-                              [matDatepicker]="pickerEndDua"
-                              formControlName="endDtDua"
-                              [min]="form.get('endDtDua').value"
-                            />
-                            <mat-datepicker #pickerEndDua></mat-datepicker>
-                          </div>
-                        </div>
+                  <div class="row justify-content-around">
+                    <div class="col-6 form-control">
+                      <div class="vitamui-input" (click)="pickerBeginDua.open()">
+                        <span
+                          *ngIf="!form.get('beginDtDua').value; else showBeginDtDua"
+                          (click)="pickerBeginDua.open()"
+                          class="search-date-label"
+                          >{{ 'ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.FIELDS.START_DATE_DUA' | translate }}</span
+                        >
+                        <ng-template #showBeginDtDua
+                          ><span (click)="pickerBeginDua.open()">{{ form.get('beginDtDua').value | date: 'dd/MM/yyyy' }} </span>
+                        </ng-template>
+                        <input
+                          class="hidden"
+                          size="0"
+                          [matDatepicker]="pickerBeginDua"
+                          formControlName="beginDtDua"
+                          [min]="form.get('beginDtDua').value"
+                        />
+                        <mat-datepicker #pickerBeginDua></mat-datepicker>
+                      </div>
+                    </div>
+                    <div class="col-6 form-control">
+                      <div class="vitamui-input" (click)="pickerEndDua.open()">
+                        <span
+                          *ngIf="!form.get('endDtDua').value; else showEndDtDua"
+                          (click)="pickerEndDua.open()"
+                          class="search-date-label"
+                          >{{ 'ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.FIELDS.END_DATE_DUA' | translate }}</span
+                        >
+                        <ng-template #showEndDtDua
+                          ><span (click)="pickerEndDua.open()">{{ form.get('endDtDua').value | date: 'dd/MM/yyyy' }} </span>
+                        </ng-template>
+                        <input
+                          class="hidden"
+                          size="0"
+                          [matDatepicker]="pickerEndDua"
+                          formControlName="endDtDua"
+                          [min]="form.get('endDtDua').value"
+                        />
+                        <mat-datepicker #pickerEndDua></mat-datepicker>
                       </div>
                     </div>
                   </div>

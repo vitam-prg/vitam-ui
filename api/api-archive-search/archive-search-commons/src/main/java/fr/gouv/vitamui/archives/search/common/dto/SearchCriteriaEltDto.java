@@ -32,6 +32,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @ToString
@@ -41,5 +42,5 @@ import java.util.List;
 public class SearchCriteriaEltDto implements Serializable {
     private String criteria;
     private String operator;
-    private List<String> values;
+    private List<String> values = new ArrayList<>();
 }
