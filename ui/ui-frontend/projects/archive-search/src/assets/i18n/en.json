@@ -32,7 +32,14 @@
         "TITLE_DUA": "Intitulé",
         "ID_DUA": "Identifiant",
         "START_DATE_DUA": "Date de début",
-        "END_DATE_DUA": "Date de fin"
+        "END_DATE_DUA": "Date de fin",
+        "ORIGIN": {
+          "INHERITE_AT_LEAST_ONE_APPRAISAL_RULE":"Hérite d'au moins une règle DUA",
+          "HAS_AT_LEAST_ONE_APPRAISAL_RULE":"Porte au moins une règle DUA",
+          "HAS_NO_APPRAISAL_RULE":"N'a pas de règle DUA définie ",
+          "WAITING_TO_RE_CALCULATE_APPRAISAL_RULE":"Est en attente de recalcul de règle",
+          "SELECT_ALL_APPRAISAL_RULE":"Sélectionne tout"
+        }
       }
     },
     "ARCHIVE_UNIT": {
