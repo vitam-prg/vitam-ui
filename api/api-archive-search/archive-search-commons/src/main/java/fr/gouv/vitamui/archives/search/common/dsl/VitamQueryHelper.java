@@ -64,7 +64,7 @@ public class VitamQueryHelper {
     Operators for criteria
      */
     private enum criteriaOperators {
-        EQ, MATCH, LT, GT, LE, GE;
+        EQ, MATCH, LT, GT, LTE, GTE;
     }
 
 
@@ -82,9 +82,9 @@ public class VitamQueryHelper {
 
 
     private static Map<String, String> APPRAISAL_MGT_RULES_FIELDS_MAPPING =
-        Map.of("AppraisalRuleIdentifier", "#management.HoldRule.Rules.Rule",
-            "AppraisalRuleStartDate", "#management.HoldRule.Rules.StartDate",
-            "AppraisalRuleEndDate", "#management.HoldRule.Rules.EndDate");
+        Map.of("AppraisalRuleIdentifier", "#management.AppraisalRule.Rules.Rule",
+            "AppraisalRuleStartDate", "#management.AppraisalRule.Rules.StartDate",
+            "AppraisalRuleEndDate", "#management.AppraisalRule.Rules.EndDate");
 
     private static final int DEFAULT_DEPTH = 10;
     private static final int FACET_SIZE_MILTIPLIER = 100;
@@ -116,7 +116,7 @@ public class VitamQueryHelper {
     /**
      * create a valid VITAM DSL Query from a map of criteria
      *
-     * @param simpleCriteriaMap the input criteria. Should match pattern Map(FieldName, SearchValue)
+     * @param unitTypes the input criteria. Should match pattern Map(FieldName, SearchValue)
      * @return The JsonNode required by VITAM external API for a DSL query
      * @throws InvalidParseOperationException
      */
@@ -295,13 +295,13 @@ public class VitamQueryHelper {
             case MATCH:
                 criteriaSubQuery = match(searchKey, value);
                 break;
-            case GE:
+            case GTE:
                 criteriaSubQuery = gte(searchKey, value);
                 break;
             case GT:
                 criteriaSubQuery = gt(searchKey, value);
                 break;
-            case LE:
+            case LTE:
                 criteriaSubQuery = lte(searchKey, value);
                 break;
             case LT:

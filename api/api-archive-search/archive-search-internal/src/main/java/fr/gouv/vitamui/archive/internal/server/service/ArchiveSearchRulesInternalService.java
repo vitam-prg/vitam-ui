@@ -30,12 +30,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.gouv.vitam.common.client.VitamContext;
+import fr.gouv.vitam.common.database.builder.query.BooleanQuery;
 import fr.gouv.vitam.common.database.builder.request.exception.InvalidCreateOperationException;
+import fr.gouv.vitam.common.database.builder.request.single.Select;
 import fr.gouv.vitam.common.exception.InvalidParseOperationException;
 import fr.gouv.vitam.common.exception.VitamClientException;
 import fr.gouv.vitam.common.model.RequestResponse;
 import fr.gouv.vitam.common.model.administration.FileRulesModel;
-import fr.gouv.vitamui.archives.search.common.dsl.VitamQueryHelper;
 import fr.gouv.vitamui.archives.search.common.dto.ArchiveUnit;
 import fr.gouv.vitamui.archives.search.common.dto.SearchCriteriaDto;
 import fr.gouv.vitamui.archives.search.common.dto.SearchCriteriaEltDto;
@@ -52,13 +53,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+
+import static fr.gouv.vitam.common.database.builder.query.QueryHelper.and;
+import static fr.gouv.vitam.common.database.builder.query.QueryHelper.eq;
+import static fr.gouv.vitam.common.database.builder.query.QueryHelper.or;
 
 /**
  * Archive-Search rules service for archives unit .
@@ -69,7 +73,7 @@ public class ArchiveSearchRulesInternalService {
         VitamUILoggerFactory.getInstance(ArchiveSearchRulesInternalService.class);
     public static final String RULE_NAME_FIELD = "RuleValue";
     public static final String RULE_TITLE_FIELD = "AppraisalRuleTitle";
-    public static final String RULE_ID_FIELD = "RuleId";
+    public static final String RULE_ID_FIELD = "AppraisalRuleIdentifier";
 
     private final ObjectMapper objectMapper;
     final private RuleService ruleService;
@@ -80,19 +84,52 @@ public class ArchiveSearchRulesInternalService {
         this.ruleService = ruleService;
     }
 
-    public void mapAppraisalRulesTitlesToCodes(SearchCriteriaDto searchQuery,
-        VitamContext vitamContext)
+    public void mapAppraisalRulesTitlesToCodes(SearchCriteriaDto searchQuery, VitamContext vitamContext)
         throws VitamClientException {
         LOGGER.debug("calling mapRulesTitlesToCodes  {} ", searchQuery.toString());
-        Set<String> rulesTitleCriteria = new HashSet<>();
-        searchQuery.getAppraisalMgtRulesCriteriaList().stream()
-            .filter(criteriaElt -> criteriaElt.getCriteria().equals(RULE_TITLE_FIELD)).forEach(
-            criteriaElt -> rulesTitleCriteria.addAll(criteriaElt.getValues()));
-        if (!rulesTitleCriteria.isEmpty()) {
-            List<FileRulesModel> mgtRules = findRulesByNames(vitamContext, rulesTitleCriteria, "AppraisalRule");
-            mapRulesToRulesIdInCriteria(searchQuery, mgtRules, "AppraisalRule");
+        if (searchQuery.getAppraisalMgtRulesCriteriaList() != null &&
+            !searchQuery.getAppraisalMgtRulesCriteriaList().isEmpty()) {
+            Optional<SearchCriteriaEltDto> titleCriteriaEltOpt = searchQuery.getAppraisalMgtRulesCriteriaList().stream()
+                .filter(criteriaElt -> criteriaElt.getCriteria().equals(RULE_TITLE_FIELD)).findAny();
+            if (titleCriteriaEltOpt.isPresent()) {
+                SearchCriteriaEltDto titleCriteriaElt = titleCriteriaEltOpt.get();
+                if (titleCriteriaElt.getValues() != null && !titleCriteriaElt.getValues().isEmpty()) {
+                    List<FileRulesModel> mgtRulesFound =
+                        findRulesByNames(vitamContext, titleCriteriaElt.getValues(), "AppraisalRule");
+                    if (mgtRulesFound != null && !mgtRulesFound.isEmpty()) {
+                        searchQuery
+                            .setAppraisalMgtRulesCriteriaList(searchQuery.getAppraisalMgtRulesCriteriaList().stream()
+                                .filter(criteriaElt -> !criteriaElt.getCriteria().equals(RULE_TITLE_FIELD)).collect(
+                                    Collectors.toList()));
+                        AtomicInteger i = new AtomicInteger();
+                        int indexOpt =
+                            searchQuery.getAppraisalMgtRulesCriteriaList().stream().peek(v -> i.incrementAndGet())
+                                .anyMatch(criteria -> RULE_ID_FIELD.equals(criteria.getCriteria())) ? i.get() - 1 : -1;
+                        SearchCriteriaEltDto ruleIdentifierCriteria;
+                        if (indexOpt != -1) {
+                            ruleIdentifierCriteria = searchQuery.getAppraisalMgtRulesCriteriaList().get(indexOpt);
+                        } else {
+                            ruleIdentifierCriteria = new SearchCriteriaEltDto();
+                        }
+                        List<String> filteredRulesIds = ruleIdentifierCriteria.getValues() != null ?
+                            ruleIdentifierCriteria.getValues() :
+                            new ArrayList<>();
+                        mgtRulesFound.stream().forEach(rule -> filteredRulesIds.add(rule.getRuleId()));
+                        ruleIdentifierCriteria.setValues(filteredRulesIds);
+                        ruleIdentifierCriteria.setOperator(titleCriteriaElt.getOperator());
+                        if (indexOpt != -1) {
+                            searchQuery.getAppraisalMgtRulesCriteriaList().set(indexOpt, ruleIdentifierCriteria);
+                        } else {
+                            ruleIdentifierCriteria.setCriteria(RULE_ID_FIELD);
+                            searchQuery.getAppraisalMgtRulesCriteriaList().add(ruleIdentifierCriteria);
+                        }
+
+                    }
+                }
+            }
         }
     }
+
 
     /**
      * fill archive unit by adding originResponse
@@ -114,42 +151,6 @@ public class ArchiveSearchRulesInternalService {
         return archiveUnit;
     }
 
-    private void mapRulesToRulesIdInCriteria(SearchCriteriaDto searchQuery, List<FileRulesModel> actualRules,
-        String fieldName) {
-        if (searchQuery != null && searchQuery.getCriteriaList() != null && !searchQuery.getCriteriaList().isEmpty()) {
-            List<String> rulesNamesList = searchQuery.getCriteriaList().stream()
-                .filter(criteria -> "RuleValue".equals(criteria.getCriteria()))
-                .map(criteria -> criteria.getValues()).flatMap(List::stream)
-                .collect(Collectors.toList());
-
-            if (!rulesNamesList.isEmpty()) {
-                List<String> filteredRulesIds = actualRules.stream()
-                    .filter(rule -> rulesNamesList.contains(rule.getRuleValue()))
-                    .map(rule -> rule.getRuleId())
-                    .collect(Collectors.toList());
-
-                AtomicInteger i = new AtomicInteger();
-                int indexOpt = searchQuery.getCriteriaList().stream().peek(v -> i.incrementAndGet())
-                    .anyMatch(criteria -> fieldName.equals(criteria.getCriteria())) ?
-                    i.get() - 1 : -1;
-                SearchCriteriaEltDto ruleIdentifierCriteria;
-                if (!filteredRulesIds.isEmpty() && indexOpt != -1) {
-                    ruleIdentifierCriteria = searchQuery.getCriteriaList().get(indexOpt);
-                    filteredRulesIds.addAll(ruleIdentifierCriteria.getValues());
-                    ruleIdentifierCriteria.setValues(filteredRulesIds);
-                    searchQuery.getCriteriaList().set(indexOpt, ruleIdentifierCriteria);
-                } else {
-                    ruleIdentifierCriteria = new SearchCriteriaEltDto();
-                    ruleIdentifierCriteria.setCriteria(fieldName);
-                    ruleIdentifierCriteria.setValues(filteredRulesIds);
-                    searchQuery.getCriteriaList().add(ruleIdentifierCriteria);
-                }
-                searchQuery.setCriteriaList(searchQuery.getCriteriaList().stream()
-                    .filter(criteria -> !"RuleValue".equals(criteria.getCriteria())).collect(
-                        Collectors.toList()));
-            }
-        }
-    }
 
     public List<FileRulesModel> findRulesByCriteria(VitamContext vitamContext, String field,
         List<String> rulesIdentifiers, String ruleType) throws VitamClientException {
@@ -157,20 +158,32 @@ public class ArchiveSearchRulesInternalService {
         if (rulesIdentifiers != null && !rulesIdentifiers.isEmpty()) {
             LOGGER.info("Finding management rules by field {}  values {} ", field, rulesIdentifiers);
             Map<String, Object> searchCriteriaMap = new HashMap<>();
-            searchCriteriaMap.put(field, rulesIdentifiers);
+            searchCriteriaMap.put(field, rulesIdentifiers.get(0));
             if (ruleType != null) {
                 searchCriteriaMap.put("RuleType", ruleType);
             }
             try {
-                JsonNode queryRules = VitamQueryHelper
-                    .createQueryDSL(searchCriteriaMap, 0, rulesIdentifiers.size(), Optional.empty(),
-                        Optional.empty());
+                final Select select = new Select();
+                final BooleanQuery query = and();
+                BooleanQuery queryOr = or();
+                for (String elt : rulesIdentifiers) {
+                    queryOr.add(eq(field, elt));
+                }
+                query.add(queryOr);
+                select.setLimitFilter(0, rulesIdentifiers.size());
+                if (ruleType != null) {
+                    query.add(eq("RuleType", ruleType));
+                }
+                select.setQuery(query);
+                JsonNode queryRules = select.getFinalSelect();
+
                 RequestResponse<FileRulesModel> requestResponse =
                     ruleService.findRules(vitamContext, queryRules);
-                rules = objectMapper.treeToValue(requestResponse.toJsonNode(), RuleNodeResponseDto.class).getResults();
+                rules =
+                    objectMapper.treeToValue(requestResponse.toJsonNode(), RuleNodeResponseDto.class).getResults();
             } catch (InvalidCreateOperationException e) {
                 throw new VitamClientException("Unable to find the rules ", e);
-            } catch (InvalidParseOperationException | JsonProcessingException e1) {
+            } catch (JsonProcessingException e1) {
                 throw new BadRequestException("Error parsing query ", e1);
             }
         }
@@ -203,7 +216,7 @@ public class ArchiveSearchRulesInternalService {
      * @throws InvalidParseOperationException
      * @throws VitamClientException
      */
-    public List<FileRulesModel> findRulesByNames(VitamContext vitamContext, Set<String> rulesIdentifiers,
+    public List<FileRulesModel> findRulesByNames(VitamContext vitamContext, List<String> rulesIdentifiers,
         String ruleType)
         throws VitamClientException {
         List<String> rulesIdentifiersList = new ArrayList<>(rulesIdentifiers);

@@ -287,7 +287,7 @@ export class ArchiveSearchComponent implements OnInit {
           this.form.value.beginDt,
           this.datePipe.transform(this.form.value.beginDt, 'dd/MM/yyyy'),
           true,
-          'GE',
+          'GTE',
           SearchCriteriaTypeEnum.FIELDS
         );
         return true;
@@ -298,7 +298,7 @@ export class ArchiveSearchComponent implements OnInit {
           this.form.value.endDt,
           this.datePipe.transform(this.form.value.endDt, 'dd/MM/yyyy'),
           true,
-          'LE',
+          'LTE',
           SearchCriteriaTypeEnum.FIELDS
         );
         return true;
@@ -383,7 +383,7 @@ export class ArchiveSearchComponent implements OnInit {
           this.form.value.beginDtDua,
           this.datePipe.transform(this.form.value.beginDtDua, 'dd/MM/yyyy'),
           true,
-          'GE',
+          'GTE',
           SearchCriteriaTypeEnum.APPRAISAL_RULE
         );
         return true;
@@ -394,7 +394,7 @@ export class ArchiveSearchComponent implements OnInit {
           this.form.value.endDtDua,
           this.datePipe.transform(this.form.value.endDtDua, 'dd/MM/yyyy'),
           true,
-          'LE',
+          'LTE',
           SearchCriteriaTypeEnum.APPRAISAL_RULE
         );
         return true;
