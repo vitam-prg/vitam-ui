@@ -146,7 +146,6 @@ export class AgencyListComponent extends InfiniteScrollTable<Agency> implements 
       this.search(pageRequest);
     });
 
-    console.log(this.startupService.getConfigStringValue('ARCHIVES_SEARCH_URL'));
     this.archiveSearchUrl = this.startupService.getArchivesSearchUrl() + '/tenant/' + this.tenantIdentifierVar;
   }
 
