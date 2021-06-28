@@ -70,6 +70,7 @@ ui-referential:
       hostname-verification: false
   base-url:
     portal: "https://dev.vitamui.com:4200"
+    archives-search: "https://dev.vitamui.com:4209/archive-search"
   customer:
     technical-referent-email: contact@programmevitam.fr
     website-url: http://www.programmevitam.fr

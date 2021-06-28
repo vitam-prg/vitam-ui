@@ -322,13 +322,18 @@ export class ArchiveSearchComponent implements OnInit {
     this.filterMapType['Type'] = ['Folder', 'Document'];
     const searchCriteriaChange = merge(this.orderChange, this.filterChange).pipe(debounceTime(FILTER_DEBOUNCE_TIME_MS));
 
-    this.route.queryParams.subscribe(params => {
-      if(params['guid']) {
-
-      this.addCriteria("#opi", "GUID", params['guid'], params['guid'], true);
-      this.submit();
+    this.route.queryParams.subscribe((params) => {
+      if (params['guid']) {
+        this.addCriteria('#opi', 'GUID', params['guid'], params['guid'], true);
+        this.submit();
       }
-  });
+
+      if (params['sp']) {
+        this.addCriteria('#originating_agency', 'SP_CODE', params['sp'], params['sp'], true);
+
+        this.submit();
+      }
+    });
 
     searchCriteriaChange.subscribe(() => {
       this.submit();

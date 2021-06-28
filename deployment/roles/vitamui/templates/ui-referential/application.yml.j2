@@ -108,6 +108,11 @@ ui-referential:
 {% else %}
     portal: "{{ url_prefix }}"
 {% endif %}
+{% if vitamui.archive_search.base_url is defined %}
+    archives-search: "{{ vitamui.archive_search.base_url }}"
+{% else %}
+    archives-search: "{{ url_prefix }}/archive-search"
+{% endif %}
 {% if vitamui.referential.base_url is defined %}
     referential: "{{ vitamui.referential.base_url }}"
 {% else %}
