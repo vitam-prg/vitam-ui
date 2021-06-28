@@ -62,6 +62,7 @@ export class IngestPreviewComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.tenantIdentifier = params.tenantIdentifier;
     });
+    console.log(this.startupService.getConfigStringValue('ARCHIVES_SEARCH_URL'));
     this.archiveSearchUrl = this.startupService.getArchivesSearchUrl() + '/tenant/' + this.tenantIdentifier;
   }
 
