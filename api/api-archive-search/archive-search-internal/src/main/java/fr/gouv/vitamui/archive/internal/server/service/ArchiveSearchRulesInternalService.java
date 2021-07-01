@@ -84,30 +84,31 @@ public class ArchiveSearchRulesInternalService {
         this.ruleService = ruleService;
     }
 
-    public void mapAppraisalRulesTitlesToCodes(SearchCriteriaDto searchQuery, VitamContext vitamContext)
+    public void mapAppraisalRulesTitlesToCodes(SearchCriteriaDto searchCriteria, VitamContext vitamContext)
         throws VitamClientException {
-        LOGGER.debug("calling mapRulesTitlesToCodes  {} ", searchQuery.toString());
-        if (searchQuery.getAppraisalMgtRulesCriteriaList() != null &&
-            !searchQuery.getAppraisalMgtRulesCriteriaList().isEmpty()) {
-            Optional<SearchCriteriaEltDto> titleCriteriaEltOpt = searchQuery.getAppraisalMgtRulesCriteriaList().stream()
-                .filter(criteriaElt -> criteriaElt.getCriteria().equals(RULE_TITLE_FIELD)).findAny();
+        LOGGER.debug("calling mapRulesTitlesToCodes  {} ", searchCriteria.toString());
+        if (searchCriteria.getAppraisalMgtRulesCriteriaList() != null &&
+            !searchCriteria.getAppraisalMgtRulesCriteriaList().isEmpty()) {
+            Optional<SearchCriteriaEltDto> titleCriteriaEltOpt =
+                searchCriteria.getAppraisalMgtRulesCriteriaList().stream()
+                    .filter(criteriaElt -> criteriaElt.getCriteria().equals(RULE_TITLE_FIELD)).findAny();
             if (titleCriteriaEltOpt.isPresent()) {
                 SearchCriteriaEltDto titleCriteriaElt = titleCriteriaEltOpt.get();
                 if (titleCriteriaElt.getValues() != null && !titleCriteriaElt.getValues().isEmpty()) {
                     List<FileRulesModel> mgtRulesFound =
                         findRulesByNames(vitamContext, titleCriteriaElt.getValues(), "AppraisalRule");
                     if (mgtRulesFound != null && !mgtRulesFound.isEmpty()) {
-                        searchQuery
-                            .setAppraisalMgtRulesCriteriaList(searchQuery.getAppraisalMgtRulesCriteriaList().stream()
+                        searchCriteria
+                            .setAppraisalMgtRulesCriteriaList(searchCriteria.getAppraisalMgtRulesCriteriaList().stream()
                                 .filter(criteriaElt -> !criteriaElt.getCriteria().equals(RULE_TITLE_FIELD)).collect(
                                     Collectors.toList()));
                         AtomicInteger i = new AtomicInteger();
                         int indexOpt =
-                            searchQuery.getAppraisalMgtRulesCriteriaList().stream().peek(v -> i.incrementAndGet())
+                            searchCriteria.getAppraisalMgtRulesCriteriaList().stream().peek(v -> i.incrementAndGet())
                                 .anyMatch(criteria -> RULE_ID_FIELD.equals(criteria.getCriteria())) ? i.get() - 1 : -1;
                         SearchCriteriaEltDto ruleIdentifierCriteria;
                         if (indexOpt != -1) {
-                            ruleIdentifierCriteria = searchQuery.getAppraisalMgtRulesCriteriaList().get(indexOpt);
+                            ruleIdentifierCriteria = searchCriteria.getAppraisalMgtRulesCriteriaList().get(indexOpt);
                         } else {
                             ruleIdentifierCriteria = new SearchCriteriaEltDto();
                         }
@@ -118,10 +119,10 @@ public class ArchiveSearchRulesInternalService {
                         ruleIdentifierCriteria.setValues(filteredRulesIds);
                         ruleIdentifierCriteria.setOperator(titleCriteriaElt.getOperator());
                         if (indexOpt != -1) {
-                            searchQuery.getAppraisalMgtRulesCriteriaList().set(indexOpt, ruleIdentifierCriteria);
+                            searchCriteria.getAppraisalMgtRulesCriteriaList().set(indexOpt, ruleIdentifierCriteria);
                         } else {
                             ruleIdentifierCriteria.setCriteria(RULE_ID_FIELD);
-                            searchQuery.getAppraisalMgtRulesCriteriaList().add(ruleIdentifierCriteria);
+                            searchCriteria.getAppraisalMgtRulesCriteriaList().add(ruleIdentifierCriteria);
                         }
 
                     }

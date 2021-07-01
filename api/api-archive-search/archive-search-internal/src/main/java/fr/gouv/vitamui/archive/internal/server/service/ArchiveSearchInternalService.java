@@ -164,13 +164,8 @@ public class ArchiveSearchInternalService {
         }
         Optional<String> orderBy = Optional.empty();
         Optional<DirectionDto> direction = Optional.empty();
-
-
         JsonNode query;
         try {
-            Map<String, List<String>> simpleCriteriaList = extractCriteriaListValues(searchQuery.getCriteriaList());
-            Map<String, List<String>> appraisalMgtRulesCriteria =
-                extractCriteriaListValues(searchQuery.getAppraisalMgtRulesCriteriaList());
             if (searchQuery.getSortingCriteria() != null) {
                 direction = Optional.of(searchQuery.getSortingCriteria().getSorting());
                 orderBy = Optional.of(searchQuery.getSortingCriteria().getCriteria());
