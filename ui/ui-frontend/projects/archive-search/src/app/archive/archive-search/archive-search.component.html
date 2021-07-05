@@ -366,61 +366,51 @@
                 </div>
 
                 <div class="row justify-content-around padding-bottom-medium">
-                  <div class="col-3 form-control">
+                  <div class="col-3 form-control" formGroupName="appraisalRuleOrigin">
                     <div class="row criteria-choice">
                       <p class="text medium text-primary bold">
                         {{ 'ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.FIELDS.ORIGIN.TITLE' | translate }}
                       </p>
                     </div>
+
                     <div class="row criteria-choice">
                       <input
                         class="criteria-choice-input"
-                        id="SELECT_ALL_APPRAISAL_RULE_ORIGIN"
                         type="checkbox"
-                        value="SELECT_ALL_APPRAISAL_RULE_ORIGIN"
-                        formControlName="appraisalRuleOrigin"
-                        [validator]="form?.get('appraisalRuleOrigin')?.validator"
+                        id="HAS_AT_LEAST_ONE_APPRAISAL_RULE_ORIGIN"
+                        formControlName="hasAtLeastOne"
                       />
-                      <label for="SELECT_ALL_APPRAISAL_RULE_ORIGIN" class="form-check-label">
-                        {{ 'ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.FIELDS.ORIGIN.SELECT_ALL_APPRAISAL_RULE' | translate }}</label
+
+                      <label for="HAS_AT_LEAST_ONE_APPRAISAL_RULE_ORIGIN" class="form-check-label">
+                        {{ 'ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.FIELDS.ORIGIN.HAS_AT_LEAST_ONE_APPRAISAL_RULE' | translate }}</label
                       >
                     </div>
-                    <div class="row criteria-choice sub-choice">
+                    <div class="row criteria-choice">
                       <input
                         class="criteria-choice-input"
                         type="checkbox"
                         id="INHERITE_AT_LEAST_ONE_APPRAISAL_RULE_ORIGIN"
-                        formControlName="appraisalRuleOrigin"
-                        value="INHERITE_AT_LEAST_ONE_APPRAISAL_RULE_ORIGIN"
-                        [validator]="form?.get('appraisalRuleOrigin')?.validator"
+                        formControlName="inheriteAtLeastOne"
                       />
 
                       <label for="INHERITE_AT_LEAST_ONE_APPRAISAL_RULE_ORIGIN" class="form-check-label">
                         {{ 'ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.FIELDS.ORIGIN.INHERITE_AT_LEAST_ONE_APPRAISAL_RULE' | translate }}</label
                       >
                     </div>
-                    <div class="row criteria-choice sub-choice">
-                      <input
-                        class="criteria-choice-input"
-                        id="HAS_NO_APPRAISAL_RULE_ORIGIN"
-                        type="checkbox"
-                        formControlName="appraisalRuleOrigin"
-                        value="HAS_NO_APPRAISAL_RULE_ORIGIN"
-                        [validator]="form?.get('appraisalRuleOrigin')?.validator"
-                      />
+
+                    <div class="row criteria-choice">
+                      <input class="criteria-choice-input" id="HAS_NO_APPRAISAL_RULE_ORIGIN" type="checkbox" formControlName="hasNoOne" />
 
                       <label for="HAS_NO_APPRAISAL_RULE_ORIGIN" class="form-check-label">
                         {{ 'ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.FIELDS.ORIGIN.HAS_NO_APPRAISAL_RULE' | translate }}</label
                       >
                     </div>
-                    <div class="row criteria-choice sub-choice">
+                    <div class="row criteria-choice">
                       <input
                         class="criteria-choice-input"
                         id="WAITING_TO_RE_CALCULATE_APPRAISAL_RULE_ORIGIN"
                         type="checkbox"
-                        formControlName="appraisalRuleOrigin"
-                        value="WAITING_TO_RE_CALCULATE_APPRAISAL_RULE_ORIGIN"
-                        [validator]="form?.get('appraisalRuleOrigin')?.validator"
+                        formControlName="waitingRecalculate"
                       />
                       <label for="WAITING_TO_RE_CALCULATE_APPRAISAL_RULE_ORIGIN" class="form-check-label">
                         {{
@@ -429,7 +419,7 @@
                       >
                     </div>
                   </div>
-                  <div class="col-3 form-control">
+                  <div class="col-3 form-control" formGroupName="appraisalRuleFinalAction">
                     <div class="row criteria-choice">
                       <p class="text medium text-primary bold">
                         {{ 'ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.FIELDS.FINAL_ACTION_TYPE.TITLE' | translate }}
@@ -440,9 +430,7 @@
                         class="criteria-choice-input"
                         id="SELECT_ALL_APPRAISAL_RULE_FINAL_ACTION_TYPE"
                         type="checkbox"
-                        value="SELECT_ALL_APPRAISAL_RULE_FINAL_ACTION_TYPE"
-                        formControlName="appraisalRuleFinalActionType"
-                        [validator]="form?.get('appraisalRuleFinalActionType')?.validator"
+                        formControlName="anyFinalAction"
                       />
                       <label for="SELECT_ALL_APPRAISAL_RULE_FINAL_ACTION_TYPE" class="form-check-label">
                         {{ 'ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.FIELDS.FINAL_ACTION_TYPE.SELECT_ALL_APPRAISAL_RULE' | translate }}</label
@@ -453,9 +441,7 @@
                         class="criteria-choice-input"
                         id="HAS_APPRAISAL_RULE_FINAL_ACTION_TYPE"
                         type="checkbox"
-                        formControlName="appraisalRuleFinalActionType"
-                        value="HAS_APPRAISAL_RULE_FINAL_ACTION_TYPE"
-                        [validator]="form?.get('appraisalRuleFinalActionType')?.validator"
+                        formControlName="hasFinalAction"
                       />
 
                       <label for="HAS_APPRAISAL_RULE_FINAL_ACTION_TYPE" class="form-check-label">
@@ -467,9 +453,7 @@
                         class="criteria-choice-input"
                         type="checkbox"
                         id="INHERITE_APPRAISAL_RULE_FINAL_ACTION_TYPE"
-                        formControlName="appraisalRuleFinalActionType"
-                        value="INHERITE_APPRAISAL_RULE_FINAL_ACTION_TYPE"
-                        [validator]="form?.get('appraisalRuleFinalActionType')?.validator"
+                        formControlName="inheriteFinalAction"
                       />
 
                       <label for="INHERITE_APPRAISAL_RULE_FINAL_ACTION_TYPE" class="form-check-label">
@@ -477,7 +461,7 @@
                       >
                     </div>
                   </div>
-                  <div class="col-2 form-control">
+                  <div class="col-2 form-control" formGroupName="appraisalRuleFinalActionType">
                     <div class="row criteria-choice">
                       <p class="text medium text-primary bold">
                         {{ 'ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.FIELDS.FINAL_ACTION.TITLE' | translate }}
@@ -488,9 +472,7 @@
                         class="criteria-choice-input"
                         id="SELECT_ALL_APPRAISAL_RULE_FINAL_ACTION"
                         type="checkbox"
-                        value="SELECT_ALL_APPRAISAL_RULE_FINAL_ACTION"
-                        formControlName="appraisalRuleFinalAction"
-                        [validator]="form?.get('appraisalRuleFinalAction')?.validator"
+                        formControlName="anyFinalActionType"
                       />
                       <label for="SELECT_ALL_APPRAISAL_RULE_FINAL_ACTION" class="form-check-label">
                         {{ 'ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.FIELDS.FINAL_ACTION.SELECT_ALL_APPRAISAL_RULE' | translate }}</label
@@ -501,9 +483,8 @@
                         class="criteria-choice-input"
                         type="checkbox"
                         id="ELIMINATION_APPRAISAL_RULE_FINAL_ACTION"
-                        formControlName="appraisalRuleFinalAction"
-                        value="ELIMINATION_APPRAISAL_RULE_FINAL_ACTION"
-                        [validator]="form?.get('appraisalRuleFinalAction')?.validator"
+                        formControlName="eliminationFinalActionType"
+                        value="appraisalRuleFinalActionType.eliminationFinalActionType"
                       />
 
                       <label for="ELIMINATION_APPRAISAL_RULE_FINAL_ACTION" class="form-check-label">
@@ -515,9 +496,7 @@
                         class="criteria-choice-input"
                         id="CONSERVATION_APPRAISAL_RULE_FINAL_ACTION"
                         type="checkbox"
-                        formControlName="appraisalRuleFinalAction"
-                        value="CONSERVATION_APPRAISAL_RULE_FINAL_ACTION"
-                        [validator]="form?.get('appraisalRuleFinalAction')?.validator"
+                        formControlName="conservationFinalActionType"
                       />
 
                       <label for="CONSERVATION_APPRAISAL_RULE_FINAL_ACTION" class="form-check-label">
@@ -529,9 +508,8 @@
                         class="criteria-choice-input"
                         id="NC_APPRAISAL_RULE_FINAL_ACTION"
                         type="checkbox"
-                        formControlName="appraisalRuleFinalAction"
-                        value="NC_APPRAISAL_RULE_FINAL_ACTION"
-                        [validator]="form?.get('appraisalRuleFinalAction')?.validator"
+                        formControlName="notSpecifiedFinalActionType"
+                        value="notSpecifiedFinalActionType"
                       />
 
                       <label for="NC_APPRAISAL_RULE_FINAL_ACTION" class="form-check-label">
@@ -540,23 +518,7 @@
                     </div>
                   </div>
 
-                  <div class="col-2 form-control">
-                    <div class="row criteria-choice">
-                      <p class="text medium text-primary bold">
-                        {{ 'ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.FIELDS.HOLD.TITLE' | translate }}
-                      </p>
-                    </div>
-                    <div class="row criteria-choice">
-                      <mat-button-toggle-group formControlName="appraisalRuleHoldIncluded" class="vitamui-button-toggle-group mr-4">
-                        <mat-button-toggle [value]="'INCLUDE'">
-                          <span>{{ 'ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.FIELDS.HOLD.INCLUDE' | translate }}</span>
-                        </mat-button-toggle>
-                        <mat-button-toggle [value]="'EXCLUDE'">
-                          <span>{{ 'ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.FIELDS.HOLD.EXCLUDE' | translate }}</span>
-                        </mat-button-toggle>
-                      </mat-button-toggle-group>
-                    </div>
-                  </div>
+                  <div class="col-2 form-control"></div>
                 </div>
 
                 <div class="row justify-content-around">
