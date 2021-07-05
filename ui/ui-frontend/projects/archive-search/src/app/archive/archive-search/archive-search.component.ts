@@ -137,10 +137,14 @@ export class ArchiveSearchComponent implements OnInit {
     appraisalRuleTitle: '';
     appraisalRuleStartDate: '';
     appraisalRuleEndDate: '';
-    appraisalRuleOrigin: '';
-    appraisalRuleFinalActionType: '';
-    appraisalRuleFinalAction: '';
-    appraisalRuleHoldIncluded: '';
+    appraisalRuleOrigin: {};
+    appraisalRuleFinalActionType: {
+      anyFinalActionType: '';
+      eliminationFinalActionType: '';
+      conservationFinalActionType: '';
+      notSpecifiedFinalActionType: '';
+    };
+    appraisalRuleFinalAction: {};
     appraisalRuleEliminationIdentifier: '';
   };
   emptyForm = {
@@ -163,11 +167,14 @@ export class ArchiveSearchComponent implements OnInit {
     appraisalRuleTitle: '',
     appraisalRuleStartDate: '',
     appraisalRuleEndDate: '',
-
-    appraisalRuleOrigin: '',
-    appraisalRuleFinalActionType: '',
-    appraisalRuleFinalAction: '',
-    appraisalRuleHoldIncluded: '',
+    appraisalRuleOrigin: {},
+    appraisalRuleFinalActionType: {
+      anyFinalActionType: '',
+      eliminationFinalActionType: '',
+      conservationFinalActionType: '',
+      notSpecifiedFinalActionType: '',
+    },
+    appraisalRuleFinalAction: {},
     appraisalRuleEliminationIdentifier: '',
   };
 
@@ -229,11 +236,14 @@ export class ArchiveSearchComponent implements OnInit {
       appraisalRuleTitle: '',
       appraisalRuleStartDate: '',
       appraisalRuleEndDate: '',
-
-      appraisalRuleOrigin: '',
-      appraisalRuleFinalActionType: '',
-      appraisalRuleFinalAction: '',
-      appraisalRuleHoldIncluded: '',
+      appraisalRuleOrigin: {},
+      appraisalRuleFinalActionType: {
+        anyFinalActionType: '',
+        eliminationFinalActionType: '',
+        conservationFinalActionType: '',
+        notSpecifiedFinalActionType: '',
+      },
+      appraisalRuleFinalAction: {},
       appraisalRuleEliminationIdentifier: '',
     };
 
@@ -257,10 +267,27 @@ export class ArchiveSearchComponent implements OnInit {
       appraisalRuleTitle: ['', []],
       appraisalRuleStartDate: ['', []],
       appraisalRuleEndDate: ['', []],
-      appraisalRuleOrigin: ['SELECT_ALL_APPRAISAL_RULE_ORIGIN', []],
-      appraisalRuleFinalActionType: ['', []],
-      appraisalRuleFinalAction: ['', []],
-      appraisalRuleHoldIncluded: ['INCLUDE', []],
+
+      appraisalRuleOrigin: formBuilder.group({
+        inheriteAtLeastOne: ['true', []],
+        hasAtLeastOne: ['true', []],
+        hasNoOne: ['', []],
+        waitingRecalculate: ['', []],
+      }),
+
+      appraisalRuleFinalAction: formBuilder.group({
+        anyFinalAction: ['', []],
+        hasFinalAction: ['', []],
+        inheriteFinalAction: ['', []],
+      }),
+
+      appraisalRuleFinalActionType: formBuilder.group({
+        anyFinalActionType: ['', []],
+        eliminationFinalActionType: ['true', []],
+        conservationFinalActionType: ['', []],
+        notSpecifiedFinalActionType: ['', []],
+      }),
+
       appraisalRuleEliminationIdentifier: ['', []],
     });
     merge(this.form.statusChanges, this.form.valueChanges)
@@ -420,6 +447,60 @@ export class ArchiveSearchComponent implements OnInit {
           'LTE',
           SearchCriteriaTypeEnum.APPRAISAL_RULE
         );
+        return true;
+      } else if (formData.appraisalRuleFinalActionType) {
+        this.addCriteria(
+          'appraisalRuleFinalActionTypeSelected',
+          'appraisalRuleFinalActionTypeSelected',
+          'eliminationFinalActionType',
+          'eliminationFinalActionType',
+          true,
+          'EQ',
+          SearchCriteriaTypeEnum.APPRAISAL_RULE
+        );
+
+        let appraisalRuleFinalActionTypeSelected = this.form.value.appraisalRuleFinalActionType;
+        if (appraisalRuleFinalActionTypeSelected) {
+          if (appraisalRuleFinalActionTypeSelected.anyFinalActionType === 'true') {
+            this.removeCriteria('appraisalRuleFinalActionTypeSelected', 'eliminationFinalActionType');
+            this.removeCriteria('appraisalRuleFinalActionTypeSelected', 'conservationFinalActionType');
+            this.removeCriteria('appraisalRuleFinalActionTypeSelected', 'notSpecifiedFinalActionType');
+          }
+          if (appraisalRuleFinalActionTypeSelected.eliminationFinalActionType === 'true') {
+            this.addCriteria(
+              'appraisalRuleFinalActionTypeSelected',
+              'appraisalRuleFinalActionTypeSelected',
+              'eliminationFinalActionType',
+              'eliminationFinalActionType',
+              true,
+              'EQ',
+              SearchCriteriaTypeEnum.APPRAISAL_RULE
+            );
+          }
+          if (appraisalRuleFinalActionTypeSelected.conservationFinalActionType === 'true') {
+            this.addCriteria(
+              'appraisalRuleFinalActionTypeSelected',
+              'appraisalRuleFinalActionTypeSelected',
+              'conservationFinalActionType',
+              'conservationFinalActionType',
+              true,
+              'EQ',
+              SearchCriteriaTypeEnum.APPRAISAL_RULE
+            );
+          }
+          if (appraisalRuleFinalActionTypeSelected.notSpecifiedFinalActionType === 'true') {
+            this.addCriteria(
+              'appraisalRuleFinalActionTypeSelected',
+              'appraisalRuleFinalActionTypeSelected',
+              'notSpecifiedFinalActionType',
+              'notSpecifiedFinalActionType',
+              true,
+              'EQ',
+              SearchCriteriaTypeEnum.APPRAISAL_RULE
+            );
+          }
+        }
+
         return true;
       } else {
         return false;
