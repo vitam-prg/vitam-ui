@@ -44,19 +44,17 @@ import fr.gouv.vitamui.archives.search.common.dto.ArchiveUnitCsv;
 import fr.gouv.vitamui.archives.search.common.dto.ArchiveUnitsDto;
 import fr.gouv.vitamui.archives.search.common.dto.ExportSearchResultParam;
 import fr.gouv.vitamui.archives.search.common.dto.SearchCriteriaDto;
+import fr.gouv.vitamui.archives.search.common.dto.SearchCriteriaEltDto;
 import fr.gouv.vitamui.archives.search.common.dto.VitamUIArchiveUnitResponseDto;
 import fr.gouv.vitamui.commons.api.domain.AgencyModelDto;
 import fr.gouv.vitamui.commons.api.domain.DirectionDto;
 import fr.gouv.vitamui.commons.api.exception.BadRequestException;
 import fr.gouv.vitamui.commons.api.exception.InternalServerException;
 import fr.gouv.vitamui.commons.api.exception.RequestEntityTooLargeException;
-import fr.gouv.vitamui.commons.api.exception.UnexpectedDataException;
 import fr.gouv.vitamui.commons.api.logger.VitamUILogger;
 import fr.gouv.vitamui.commons.api.logger.VitamUILoggerFactory;
 import fr.gouv.vitamui.commons.vitam.api.access.UnitService;
-import fr.gouv.vitamui.commons.vitam.api.dto.QualifiersDto;
 import fr.gouv.vitamui.commons.vitam.api.dto.ResultsDto;
-import fr.gouv.vitamui.commons.vitam.api.dto.VersionsDto;
 import fr.gouv.vitamui.commons.vitam.api.dto.VitamUISearchResponseDto;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -108,20 +106,24 @@ public class ArchiveSearchInternalService {
     private final ObjectMapper objectMapper;
     private final UnitService unitService;
     private final ArchiveSearchAgenciesInternalService archiveSearchAgenciesInternalService;
+    private final ArchiveSearchRulesInternalService archiveSearchRulesInternalService;
 
     @Autowired
     public ArchiveSearchInternalService(final ObjectMapper objectMapper, final UnitService unitService,
-        final ArchiveSearchAgenciesInternalService archiveSearchAgenciesInternalService) {
+        final ArchiveSearchAgenciesInternalService archiveSearchAgenciesInternalService,
+        final ArchiveSearchRulesInternalService archiveSearchRulesInternalService) {
         this.unitService = unitService;
         this.objectMapper = objectMapper;
         this.archiveSearchAgenciesInternalService = archiveSearchAgenciesInternalService;
+        this.archiveSearchRulesInternalService = archiveSearchRulesInternalService;
     }
 
     public ArchiveUnitsDto searchArchiveUnitsByCriteria(final SearchCriteriaDto searchQuery,
         final VitamContext vitamContext)
         throws VitamClientException, IOException {
-        archiveSearchAgenciesInternalService.mapAgenciesNameToCodes(searchQuery, vitamContext);
         LOGGER.debug("calling find archive units by criteria {} ", searchQuery.toString());
+        archiveSearchAgenciesInternalService.mapAgenciesNameToCodes(searchQuery, vitamContext);
+        archiveSearchRulesInternalService.mapAppraisalRulesTitlesToCodes(searchQuery, vitamContext);
         List<String> archiveUnitsTypes = Arrays.asList(INGEST_ARCHIVE_TYPE);
         JsonNode response = searchUnits(mapRequestToDslQuery(archiveUnitsTypes, searchQuery), vitamContext);
         final VitamUISearchResponseDto archivesOriginResponse =
@@ -155,33 +157,47 @@ public class ArchiveSearchInternalService {
      * @param searchQuery
      * @return
      */
-    public JsonNode mapRequestToDslQuery(List<String> archiveUnits, SearchCriteriaDto searchQuery)
+    public JsonNode mapRequestToDslQuery(List<String> archiveUnitsTypes, SearchCriteriaDto searchQuery)
         throws VitamClientException {
+        if (searchQuery == null) {
+            throw new BadRequestException("Can't parse null criteria");
+        }
         Optional<String> orderBy = Optional.empty();
         Optional<DirectionDto> direction = Optional.empty();
-        Map<String, List<String>> vitamCriteria = new HashMap<>();
+
+
         JsonNode query;
         try {
-            if (searchQuery != null && searchQuery.getCriteriaList() != null &&
-                !searchQuery.getCriteriaList().isEmpty()) {
-                searchQuery.getCriteriaList().stream()
-                    .filter(criteria -> criteria.getValues() != null && !criteria.getValues().isEmpty())
-                    .forEach(criteria -> vitamCriteria.put(criteria.getCriteria(), criteria.getValues()));
-            }
+            Map<String, List<String>> simpleCriteriaList = extractCriteriaListValues(searchQuery.getCriteriaList());
+            Map<String, List<String>> appraisalMgtRulesCriteria =
+                extractCriteriaListValues(searchQuery.getAppraisalMgtRulesCriteriaList());
             if (searchQuery.getSortingCriteria() != null) {
                 direction = Optional.of(searchQuery.getSortingCriteria().getSorting());
                 orderBy = Optional.of(searchQuery.getSortingCriteria().getCriteria());
             }
+
             query = VitamQueryHelper
-                .createQueryDSL(archiveUnits, searchQuery.getNodes(), vitamCriteria, searchQuery.getPageNumber(),
-                    searchQuery.getSize(), orderBy,
-                    direction);
+                .createQueryDSL(archiveUnitsTypes, searchQuery.getNodes(), searchQuery.getCriteriaList(),
+                    searchQuery.getAppraisalMgtRulesCriteriaList(),
+                    searchQuery.getPageNumber(),
+                    searchQuery.getSize(), orderBy, direction);
         } catch (InvalidCreateOperationException ioe) {
             throw new VitamClientException("Unable to find archive units with pagination", ioe);
         } catch (InvalidParseOperationException e) {
             throw new BadRequestException("Can't parse criteria as Vitam query" + e.getMessage());
         }
         return query;
+    }
+
+
+    private Map<String, List<String>> extractCriteriaListValues(List<SearchCriteriaEltDto> searchQueryList) {
+        Map<String, List<String>> vitamCriteria = new HashMap<>();
+        if (searchQueryList != null && !searchQueryList.isEmpty()) {
+            searchQueryList.stream()
+                .filter(criteria -> criteria.getValues() != null && !criteria.getValues().isEmpty())
+                .forEach(criteria -> vitamCriteria.put(criteria.getCriteria(), criteria.getValues()));
+        }
+        return vitamCriteria;
     }
 
     public JsonNode searchUnits(final JsonNode dslQuery, final VitamContext vitamContext) throws VitamClientException {

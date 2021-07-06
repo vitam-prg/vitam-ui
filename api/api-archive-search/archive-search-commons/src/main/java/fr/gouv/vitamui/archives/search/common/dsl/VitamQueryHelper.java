@@ -34,6 +34,7 @@ import fr.gouv.vitam.common.database.builder.request.multiple.SelectMultiQuery;
 import fr.gouv.vitam.common.database.builder.request.single.Select;
 import fr.gouv.vitam.common.database.facet.model.FacetOrder;
 import fr.gouv.vitam.common.exception.InvalidParseOperationException;
+import fr.gouv.vitamui.archives.search.common.dto.SearchCriteriaEltDto;
 import fr.gouv.vitamui.commons.api.domain.DirectionDto;
 import fr.gouv.vitamui.commons.api.logger.VitamUILogger;
 import fr.gouv.vitamui.commons.api.logger.VitamUILoggerFactory;
@@ -62,16 +63,35 @@ public class VitamQueryHelper {
     /*
     Operators for criteria
      */
-    private enum CRITERIA_OPERATORS {
-        EQ, MATCH, LT, GT, LE, GE
+    private enum criteriaOperators {
+        EQ, MATCH, LT, GT, LE, GE;
     }
 
+
+    private static Map<String, String> SIMPLE_FIELD_MAPPING =
+        Map.of("Identifier", "Identifier",
+            "Title", "Title",
+            "UnitType", "#unitType",
+            "Description", "Description",
+            "StartDate", "StartDate",
+            "EndDate", "EndDate",
+            "UNITS_UPS", "#allunitups",
+            "GUID", "#id",
+            "DescriptionLevel", "DescriptionLevel",
+            "originatingAgency", "#originating_agency");
+
+
+    private static Map<String, String> APPRAISAL_MGT_RULES_FIELDS_MAPPING =
+        Map.of("AppraisalRuleIdentifier", "#management.HoldRule.Rules.Rule",
+            "AppraisalRuleStartDate", "#management.HoldRule.Rules.StartDate",
+            "AppraisalRuleEndDate", "#management.HoldRule.Rules.EndDate");
 
     private static final int DEFAULT_DEPTH = 10;
     private static final int FACET_SIZE_MILTIPLIER = 100;
 
     /* Query fields */
     private static final String IDENTIFIER = "Identifier";
+    private static final String RULE_IDENTIFIER = "RuleIdentifier";
     private static final String UNIT_TYPE = "#unitType";
     private static final String TITLE = "Title";
     private static final String DESCRIPTION = "Description";
@@ -96,16 +116,21 @@ public class VitamQueryHelper {
     /**
      * create a valid VITAM DSL Query from a map of criteria
      *
-     * @param searchCriteriaMap the input criteria. Should match pattern Map(FieldName, SearchValue)
+     * @param simpleCriteriaMap the input criteria. Should match pattern Map(FieldName, SearchValue)
      * @return The JsonNode required by VITAM external API for a DSL query
      * @throws InvalidParseOperationException
      */
     public static JsonNode createQueryDSL(List<String> unitTypes, List<String> nodes,
-        Map<String, List<String>> searchCriteriaMap,
+        List<SearchCriteriaEltDto> simpleCriteriaList,
+        List<SearchCriteriaEltDto> appraisalMgtRulesCriteriaList,
         final Integer pageNumber,
         final Integer size, final Optional<String> orderBy, final Optional<DirectionDto> direction)
         throws InvalidParseOperationException, InvalidCreateOperationException {
-        boolean isValid = true;
+
+        LOGGER.debug(
+            "Call create Query DSL for unitTypes {} nodes {} simpleCriteriaList {} appraisalMgtRulesCriteriaList {} ",
+            unitTypes, nodes, simpleCriteriaList, appraisalMgtRulesCriteriaList);
+
         final BooleanQuery query = and();
         final SelectMultiQuery select = new SelectMultiQuery();
         //Handle roots
@@ -121,7 +146,7 @@ public class VitamQueryHelper {
             LOGGER.error("Error on validation of criteria , units types is mandatory ");
             throw new InvalidParseOperationException("Error on validation of criteria,  units types is mandatory ");
         }
-        addParameterCriteria(query, CRITERIA_OPERATORS.EQ, UNIT_TYPE, unitTypes);
+        addParameterCriteria(query, criteriaOperators.EQ, UNIT_TYPE, unitTypes);
         // Manage Filters
         if (orderBy.isPresent()) {
             if (direction.isPresent() && DirectionDto.DESC.equals(direction.get())) {
@@ -132,9 +157,61 @@ public class VitamQueryHelper {
         }
         select.setLimitFilter(pageNumber * size, size);
 
-        // Manage Query
-        if (!searchCriteriaMap.isEmpty()) {
-            Set<Map.Entry<String, List<String>>> entrySet = searchCriteriaMap.entrySet();
+        // Manage simple Query criteria
+        addUnitSimpleCriteria(simpleCriteriaList, query);
+        addUnitAppraisalMgtRulesCriteria(appraisalMgtRulesCriteriaList, query);
+        select.setQuery(query);
+        LOGGER.info("Final query: {}", select.getFinalSelect().toPrettyString());
+        return select.getFinalSelect();
+    }
+
+    private static void addUnitAppraisalMgtRulesCriteria(List<SearchCriteriaEltDto> appraisalMgtRulesCriteriaList,
+        BooleanQuery query)
+        throws InvalidParseOperationException, InvalidCreateOperationException {
+        boolean isValid = true;
+        if (appraisalMgtRulesCriteriaList != null && !appraisalMgtRulesCriteriaList.isEmpty()) {
+            for (SearchCriteriaEltDto searchCriteria : appraisalMgtRulesCriteriaList) {
+                String vitamFieldName = APPRAISAL_MGT_RULES_FIELDS_MAPPING.get(searchCriteria.getCriteria());
+                if (vitamFieldName == null) {
+                    LOGGER.error("Field not mapped correctly  ");
+                    throw new IllegalArgumentException("Field not mapped correctly  ");
+                }
+                isValid = addParameterCriteria(query, criteriaOperators.valueOf(searchCriteria.getOperator()),
+                    vitamFieldName, searchCriteria.getValues());
+            }
+            if (!isValid) {
+                LOGGER.error("Error on validation of criteria ");
+                throw new InvalidParseOperationException("Error on validation of criteria ");
+            }
+        }
+    }
+
+    private static void addUnitSimpleCriteria(List<SearchCriteriaEltDto> simpleCriteriaList, BooleanQuery query)
+        throws InvalidParseOperationException, InvalidCreateOperationException {
+        boolean isValid = true;
+        if (simpleCriteriaList != null && !simpleCriteriaList.isEmpty()) {
+            for (SearchCriteriaEltDto searchCriteria : simpleCriteriaList) {
+                if (TITLE_OR_DESCRIPTION.equals(searchCriteria.getCriteria())) {
+                    query.add(buildTitleAndDescriptionQuery(searchCriteria.getValues(),
+                        criteriaOperators.valueOf(searchCriteria.getOperator())));
+                } else {
+                    String vitamFieldName = SIMPLE_FIELD_MAPPING.get(searchCriteria.getCriteria());
+                    if (vitamFieldName == null) {
+                        LOGGER.error("Field not mapped correctly  ");
+                        throw new IllegalArgumentException("Field not mapped correctly  ");
+                    }
+                    isValid = addParameterCriteria(query, criteriaOperators.valueOf(searchCriteria.getOperator()),
+                        vitamFieldName, searchCriteria.getValues());
+                }
+            }
+            if (!isValid) {
+                LOGGER.error("Error on validation of criteria ");
+                throw new InvalidParseOperationException("Error on validation of criteria ");
+            }
+        }
+/*
+        if (!simpleCriteriaMap.isEmpty()) {
+            Set<Map.Entry<String, List<String>>> entrySet = simpleCriteriaMap.entrySet();
 
             for (final Map.Entry<String, List<String>> entry : entrySet) {
                 final String searchKey = entry.getKey();
@@ -148,20 +225,20 @@ public class VitamQueryHelper {
                     case PRODUCER_SERVICE:
                     case TITLE:
                     case DESCRIPTION:
-                        isValid = addParameterCriteria(query, CRITERIA_OPERATORS.EQ, searchKey, entry.getValue());
+                        isValid = addParameterCriteria(query, criteriaOperators.EQ, searchKey, entry.getValue());
                         break;
                     case START_DATE:
-                        isValid = addParameterCriteria(query, CRITERIA_OPERATORS.GE, searchKey, entry.getValue());
+                        isValid = addParameterCriteria(query, criteriaOperators.GE, searchKey, entry.getValue());
                         break;
                     case END_DATE:
-                        isValid = addParameterCriteria(query, CRITERIA_OPERATORS.LE, searchKey, entry.getValue());
+                        isValid = addParameterCriteria(query, criteriaOperators.LE, searchKey, entry.getValue());
                         break;
                     case TITLE_OR_DESCRIPTION:
-                        query.add(buildTitleAndDescriptionQuery(entry.getValue(), CRITERIA_OPERATORS.EQ));
+                        query.add(buildTitleAndDescriptionQuery(entry.getValue(), criteriaOperators.EQ));
                         break;
                     default:
                         LOGGER.info("adding other field from not listed fields for key: {},", searchKey);
-                        isValid = addParameterCriteria(query, CRITERIA_OPERATORS.EQ, searchKey, entry.getValue());
+                        isValid = addParameterCriteria(query, criteriaOperators.EQ, searchKey, entry.getValue());
                         break;
                 }
             }
@@ -170,12 +247,10 @@ public class VitamQueryHelper {
                 throw new InvalidParseOperationException("Error on validation of criteria ");
             }
         }
-        select.setQuery(query);
-        LOGGER.info("Final query: {}", select.getFinalSelect().toPrettyString());
-        return select.getFinalSelect();
+        */
     }
 
-    private static boolean addParameterCriteria(BooleanQuery query, CRITERIA_OPERATORS operator, String searchKey,
+    private static boolean addParameterCriteria(BooleanQuery query, criteriaOperators operator, String searchKey,
         final List<String> searchValues)
         throws InvalidParseOperationException, InvalidCreateOperationException {
         boolean isValid = true;
@@ -198,7 +273,7 @@ public class VitamQueryHelper {
     }
 
 
-    private static Query buildTitleAndDescriptionQuery(final List<String> searchValues, CRITERIA_OPERATORS operator)
+    private static Query buildTitleAndDescriptionQuery(final List<String> searchValues, criteriaOperators operator)
         throws InvalidParseOperationException, InvalidCreateOperationException {
         BooleanQuery subQueryAnd = and();
         if (searchValues != null && !searchValues.isEmpty()) {
@@ -212,9 +287,10 @@ public class VitamQueryHelper {
         return subQueryAnd;
     }
 
-    private static Query buildSubQueryByOperator(String searchKey, String value, CRITERIA_OPERATORS operator)
+    private static Query buildSubQueryByOperator(String searchKey, String value, criteriaOperators operator)
         throws InvalidParseOperationException, InvalidCreateOperationException {
-        Query criteriaSubQuery = eq(searchKey, value);
+        LOGGER.debug("buildSubQueryByOperator  searchKey{}  value {} operator {} ", searchKey, value, operator);
+        Query criteriaSubQuery;
         switch (operator) {
             case MATCH:
                 criteriaSubQuery = match(searchKey, value);

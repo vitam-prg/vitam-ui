@@ -55,6 +55,7 @@ import {
   SearchCriteriaCategory,
   SearchCriteriaEltDto,
   SearchCriteriaStatusEnum,
+  SearchCriteriaTypeEnum,
 } from '../models/search.criteria';
 import { Unit } from '../models/unit.interface';
 import { SearchCriteriaSaverComponent } from './search-criteria-saver/search-criteria-saver.component';
@@ -104,7 +105,9 @@ export class ArchiveSearchComponent implements OnInit {
     status: ['Folder', 'Document'],
   };
   shouldShowPreviewArchiveUnit = false;
-  searchedCriteriaList: SearchCriteriaEltDto[] = [];
+  fieldsCriteriaList: SearchCriteriaEltDto[] = [];
+  appraisalCriteriaList: SearchCriteriaEltDto[] = [];
+
   searchedCriteriaNodesList: string[] = [];
 
   additionalSearchCriteriaCategories: SearchCriteriaCategory[];
@@ -179,7 +182,7 @@ export class ArchiveSearchComponent implements OnInit {
 
     this.subscriptionNodes = this.archiveExchangeDataService.getNodes().subscribe((node) => {
       if (node.checked) {
-        this.addCriteria('NODE', 'NODE', node.id, node.title, true);
+        this.addCriteria('NODE', 'NODE', node.id, node.title, true, 'EQ', SearchCriteriaTypeEnum.NODES);
       } else {
         node.count = null;
         this.removeCriteria('NODE', node.id);
@@ -258,14 +261,24 @@ export class ArchiveSearchComponent implements OnInit {
           'TITLE_OR_DESCRIPTION',
           formData.archiveCriteria.trim(),
           formData.archiveCriteria.trim(),
-          true
+          true,
+          'EQ',
+          SearchCriteriaTypeEnum.FIELDS
         );
         return true;
       } else if (formData.title) {
-        this.addCriteria('Title', 'TITLE', formData.title.trim(), formData.title.trim(), true);
+        this.addCriteria('Title', 'TITLE', formData.title.trim(), formData.title.trim(), true, 'EQ', SearchCriteriaTypeEnum.FIELDS);
         return true;
       } else if (formData.description) {
-        this.addCriteria('Description', 'DESCRIPTION', formData.description.trim(), formData.description.trim(), true);
+        this.addCriteria(
+          'Description',
+          'DESCRIPTION',
+          formData.description.trim(),
+          formData.description.trim(),
+          true,
+          'EQ',
+          SearchCriteriaTypeEnum.FIELDS
+        );
         return true;
       } else if (formData.beginDt) {
         this.addCriteria(
@@ -273,41 +286,49 @@ export class ArchiveSearchComponent implements OnInit {
           'START_DATE',
           this.form.value.beginDt,
           this.datePipe.transform(this.form.value.beginDt, 'dd/MM/yyyy'),
-          true
+          true,
+          'GE',
+          SearchCriteriaTypeEnum.FIELDS
         );
         return true;
       } else if (formData.endDt) {
-        this.addCriteria('EndDate', 'END_DATE', this.form.value.endDt, this.datePipe.transform(this.form.value.endDt, 'dd/MM/yyyy'), true);
+        this.addCriteria(
+          'EndDate',
+          'END_DATE',
+          this.form.value.endDt,
+          this.datePipe.transform(this.form.value.endDt, 'dd/MM/yyyy'),
+          true,
+          'LE',
+          SearchCriteriaTypeEnum.FIELDS
+        );
         return true;
       } else if (formData.serviceProdCode) {
-        this.addCriteria('#originating_agency', 'SP_CODE', formData.serviceProdCode.trim(), formData.serviceProdCode.trim(), true);
+        this.addCriteria(
+          '#originating_agency',
+          'SP_CODE',
+          formData.serviceProdCode.trim(),
+          formData.serviceProdCode.trim(),
+          true,
+          'EQ',
+          SearchCriteriaTypeEnum.FIELDS
+        );
         return true;
       } else if (formData.serviceProdLabel) {
-        this.addCriteria('originating_agency_label', 'SP_LABEL', formData.serviceProdLabel.trim(), formData.serviceProdLabel.trim(), true);
+        this.addCriteria(
+          'originating_agency_label',
+          'SP_LABEL',
+          formData.serviceProdLabel.trim(),
+          formData.serviceProdLabel.trim(),
+          true,
+          'EQ',
+          SearchCriteriaTypeEnum.FIELDS
+        );
         return true;
       } else if (formData.uaid) {
-        this.addCriteria('#id', 'ID', formData.uaid, formData.uaid, true);
+        this.addCriteria('#id', 'ID', formData.uaid, formData.uaid, true, 'EQ', SearchCriteriaTypeEnum.FIELDS);
         return true;
       } else if (formData.guid) {
-        this.addCriteria('#opi', 'GUID', formData.guid, formData.guid, true);
-        return true;
-      } else if (formData.serviceProdCommunicability) {
-        this.addCriteria(
-          'serviceProdCommunicability',
-          'SP_COMM',
-          formData.serviceProdCommunicability,
-          formData.serviceProdCommunicability,
-          true
-        );
-        return true;
-      } else if (formData.serviceProdCommunicabilityDt) {
-        this.addCriteria(
-          'serviceProdCommunicabilityDt',
-          'SP_COMM_DT',
-          formData.serviceProdCommunicabilityDt,
-          formData.serviceProdCommunicabilityDt,
-          true
-        );
+        this.addCriteria('#opi', 'GUID', formData.guid, formData.guid, true, 'EQ', SearchCriteriaTypeEnum.FIELDS);
         return true;
       } else if (formData.otherCriteriaValue) {
         const ontologyElt = this.ontologies.find((ontoElt: any) => ontoElt.Value === formData.otherCriteria);
@@ -317,7 +338,9 @@ export class ArchiveSearchComponent implements OnInit {
             ontologyElt.Label,
             this.form.value.otherCriteriaValue,
             this.datePipe.transform(this.form.value.otherCriteriaValue, 'dd/MM/yyyy'),
-            false
+            false,
+            'EQ',
+            SearchCriteriaTypeEnum.FIELDS
           );
         } else {
           this.addCriteria(
@@ -325,32 +348,54 @@ export class ArchiveSearchComponent implements OnInit {
             ontologyElt.Label,
             formData.otherCriteriaValue.trim(),
             formData.otherCriteriaValue.trim(),
-            false
+            false,
+            'EQ',
+            SearchCriteriaTypeEnum.FIELDS
           );
         }
         return true;
       } else if (formData.idDua) {
-        this.addCriteria('#idDua', 'ID_DUA', formData.idDua.trim(), formData.idDua.trim(), true);
+        this.addCriteria(
+          'AppraisalRuleIdentifier',
+          'ID_DUA',
+          formData.idDua.trim(),
+          formData.idDua.trim(),
+          true,
+          'EQ',
+          SearchCriteriaTypeEnum.APPRAISAL_RULE
+        );
         return true;
       } else if (formData.titleDua) {
-        this.addCriteria('#titleDua', 'TITLE_DUA', formData.titleDua.trim(), formData.titleDua.trim(), true);
+        this.addCriteria(
+          'AppraisalRuleTitle',
+          'TITLE_DUA',
+          formData.titleDua.trim(),
+          formData.titleDua.trim(),
+          true,
+          'EQ',
+          SearchCriteriaTypeEnum.APPRAISAL_RULE
+        );
         return true;
       } else if (formData.beginDtDua) {
         this.addCriteria(
-          'StartDateDua',
+          'AppraisalRuleStartDate',
           'START_DATE_DUA',
           this.form.value.beginDtDua,
           this.datePipe.transform(this.form.value.beginDtDua, 'dd/MM/yyyy'),
-          true
+          true,
+          'GE',
+          SearchCriteriaTypeEnum.APPRAISAL_RULE
         );
         return true;
       } else if (formData.endDtDua) {
         this.addCriteria(
-          'EndDateDua',
+          'AppraisalRuleEndDate',
           'END_DATE_DUA',
           this.form.value.endDtDua,
           this.datePipe.transform(this.form.value.endDtDua, 'dd/MM/yyyy'),
-          true
+          true,
+          'LE',
+          SearchCriteriaTypeEnum.APPRAISAL_RULE
         );
         return true;
       } else {
@@ -505,7 +550,15 @@ export class ArchiveSearchComponent implements OnInit {
     });
   }
 
-  addCriteria(keyElt: string, keyLabel: string, valueElt: string, labelElt: string, translated: boolean) {
+  addCriteria(
+    keyElt: string,
+    keyLabel: string,
+    valueElt: string,
+    labelElt: string,
+    translated: boolean,
+    operator: string,
+    category: SearchCriteriaTypeEnum
+  ) {
     if (keyElt && valueElt) {
       if (this.searchCriterias) {
         this.nbQueryCriteria++;
@@ -538,7 +591,7 @@ export class ArchiveSearchComponent implements OnInit {
             status: SearchCriteriaStatusEnum.NOT_INCLUDED,
             translated: translated,
           });
-          let criteria = { key: keyElt, label: keyLabel, values: values };
+          let criteria = { key: keyElt, label: keyLabel, values: values, operator: operator, category: category };
           this.searchCriterias.set(keyElt, criteria);
         }
       }
@@ -552,10 +605,11 @@ export class ArchiveSearchComponent implements OnInit {
     this.showSearchCriteriaPanel = false;
     this.currentPage = 0;
     this.archiveUnits = [];
-    this.searchedCriteriaList = this.buildCriteriaListForQUery();
+    this.fieldsCriteriaList = this.buildFieldsCriteriaListForQUery();
     this.searchedCriteriaNodesList = this.buildNodesListForQUery();
+    this.appraisalCriteriaList = this.buildAppraisalCriteriaListForQUery();
     if (
-      (this.searchedCriteriaList && this.searchedCriteriaList.length > 0) ||
+      (this.fieldsCriteriaList && this.fieldsCriteriaList.length > 0) ||
       (this.searchedCriteriaNodesList && this.searchedCriteriaNodesList.length > 0)
     ) {
       this.callVitamApiService();
@@ -577,7 +631,7 @@ export class ArchiveSearchComponent implements OnInit {
   buildNodesListForQUery(): string[] {
     let nodesIdList: string[] = [];
     this.searchCriterias.forEach((criteria: SearchCriteria) => {
-      if (criteria.key === 'NODE') {
+      if (criteria.category === SearchCriteriaTypeEnum.NODES) {
         criteria.values.forEach((elt) => {
           nodesIdList.push(elt.value);
         });
@@ -587,16 +641,16 @@ export class ArchiveSearchComponent implements OnInit {
     return nodesIdList;
   }
 
-  buildCriteriaListForQUery(): SearchCriteriaEltDto[] {
+  buildFieldsCriteriaListForQUery(): SearchCriteriaEltDto[] {
     let criteriaList: SearchCriteriaEltDto[] = [];
     this.searchCriterias.forEach((criteria: SearchCriteria) => {
-      let strValues: string[] = [];
-      this.updateCriteriaStatus(SearchCriteriaStatusEnum.NOT_INCLUDED, SearchCriteriaStatusEnum.IN_PROGRESS);
-      if (criteria.key !== 'NODE') {
+      if (criteria.category === SearchCriteriaTypeEnum.FIELDS) {
+        let strValues: string[] = [];
+        this.updateCriteriaStatus(SearchCriteriaStatusEnum.NOT_INCLUDED, SearchCriteriaStatusEnum.IN_PROGRESS);
         criteria.values.forEach((elt) => {
           strValues.push(elt.value);
         });
-        criteriaList.push({ criteria: criteria.key, values: strValues });
+        criteriaList.push({ criteria: criteria.key, values: strValues, operator: criteria.operator });
       }
     });
 
@@ -611,9 +665,25 @@ export class ArchiveSearchComponent implements OnInit {
       }
     });
     if (typesFilterValues.length > 0) {
-      criteriaList.push({ criteria: 'DescriptionLevel', values: typesFilterValues });
+      criteriaList.push({ criteria: 'DescriptionLevel', values: typesFilterValues, operator: 'EQ' });
     }
     return criteriaList;
+  }
+
+  buildAppraisalCriteriaListForQUery(): SearchCriteriaEltDto[] {
+    let appraisalCriteriaList: SearchCriteriaEltDto[] = [];
+    this.searchCriterias.forEach((criteria: SearchCriteria) => {
+      if (criteria.category === SearchCriteriaTypeEnum.APPRAISAL_RULE) {
+        let strValues: string[] = [];
+        this.updateCriteriaStatus(SearchCriteriaStatusEnum.NOT_INCLUDED, SearchCriteriaStatusEnum.IN_PROGRESS);
+        criteria.values.forEach((elt) => {
+          strValues.push(elt.value);
+        });
+        appraisalCriteriaList.push({ criteria: criteria.key, values: strValues, operator: criteria.operator });
+      }
+    });
+
+    return appraisalCriteriaList;
   }
 
   private callVitamApiService() {
@@ -622,7 +692,8 @@ export class ArchiveSearchComponent implements OnInit {
     let sortingCriteria = { criteria: this.orderBy, sorting: this.direction };
     let searchCriteria = {
       nodes: this.searchedCriteriaNodesList,
-      criteriaList: this.searchedCriteriaList,
+      criteriaList: this.fieldsCriteriaList,
+      appraisalMgtRulesCriteriaList: this.appraisalCriteriaList,
       pageNumber: this.currentPage,
       size: PAGE_SIZE,
       sortingCriteria: sortingCriteria,
@@ -709,7 +780,7 @@ export class ArchiveSearchComponent implements OnInit {
       if (node.id === nodeId) {
         node.checked = true;
         node.hidden = false;
-        this.addCriteria('NODE', 'NODE', nodeId, node.title, true);
+        this.addCriteria('NODE', 'NODE', nodeId, node.title, true, 'EQ', SearchCriteriaTypeEnum.NODES);
       } else if (node.children.length > 0) {
         this.fillNodeTitle(node.children, nodeId);
       }
@@ -753,12 +824,20 @@ export class ArchiveSearchComponent implements OnInit {
               // Standard Filters other than ontology criteria
               if (keyLabel.includes('DATE')) {
                 const specifiDate = keyLabel === 'START_DATE' ? 'Date de début' : 'Date de fin';
-                this.addCriteria(c, specifiDate, value, this.datePipe.transform(value, 'dd/MM/yyyy'), false);
+                this.addCriteria(
+                  c,
+                  specifiDate,
+                  value,
+                  this.datePipe.transform(value, 'dd/MM/yyyy'),
+                  false,
+                  'EQ', //TODO : check operator and category
+                  SearchCriteriaTypeEnum.FIELDS
+                );
               } else {
-                this.addCriteria(c, keyLabel, value, value, true);
+                this.addCriteria(c, keyLabel, value, value, true, 'EQ', SearchCriteriaTypeEnum.FIELDS); //TODO : check operator and category
               }
             } else {
-              this.addOntologyFilter(c, value);
+              this.addOntologyFilter(c, value, 'EQ', SearchCriteriaTypeEnum.FIELDS); //TODO : check operator and category
             }
           });
         });
@@ -766,12 +845,20 @@ export class ArchiveSearchComponent implements OnInit {
     });
   }
 
-  addOntologyFilter(criteriaValue: string, value: string): any {
+  addOntologyFilter(criteriaValue: string, value: string, operator: string, category: SearchCriteriaTypeEnum): any {
     const ontologyElt = this.ontologies.find((ontoElt: any) => ontoElt.Value === criteriaValue);
     if (ontologyElt.Type === 'DATE') {
-      this.addCriteria(ontologyElt.Value, ontologyElt.Label, value, this.datePipe.transform(value, 'dd/MM/yyyy'), false);
+      this.addCriteria(
+        ontologyElt.Value,
+        ontologyElt.Label,
+        value,
+        this.datePipe.transform(value, 'dd/MM/yyyy'),
+        false,
+        operator,
+        category
+      );
     } else {
-      this.addCriteria(ontologyElt.Value, ontologyElt.Label, value, value, false);
+      this.addCriteria(ontologyElt.Value, ontologyElt.Label, value, value, false, operator, category);
     }
   }
 
@@ -834,10 +921,11 @@ export class ArchiveSearchComponent implements OnInit {
     if (this.canLoadMore && !this.pending) {
       this.submited = true;
       this.currentPage = this.currentPage + 1;
-      this.searchedCriteriaList = this.buildCriteriaListForQUery();
+      this.fieldsCriteriaList = this.buildFieldsCriteriaListForQUery();
+      this.appraisalCriteriaList = this.buildAppraisalCriteriaListForQUery();
       this.searchedCriteriaNodesList = this.buildNodesListForQUery();
       if (
-        (this.searchedCriteriaList && this.searchedCriteriaList.length > 0) ||
+        (this.fieldsCriteriaList && this.fieldsCriteriaList.length > 0) ||
         (this.searchedCriteriaNodesList && this.searchedCriteriaNodesList.length > 0)
       ) {
         this.callVitamApiService();
@@ -856,13 +944,15 @@ export class ArchiveSearchComponent implements OnInit {
 
   exportArchiveUnitsToCsvFile() {
     if (
-      (this.searchedCriteriaList && this.searchedCriteriaList.length > 0) ||
-      (this.searchedCriteriaNodesList && this.searchedCriteriaNodesList.length > 0)
+      (this.fieldsCriteriaList && this.fieldsCriteriaList.length > 0) ||
+      (this.searchedCriteriaNodesList && this.searchedCriteriaNodesList.length > 0) ||
+      (this.appraisalCriteriaList && this.appraisalCriteriaList.length > 0)
     ) {
       let sortingCriteria = { criteria: this.orderBy, sorting: this.direction };
       let searchCriteria = {
         nodes: this.searchedCriteriaNodesList,
-        criteriaList: this.searchedCriteriaList,
+        criteriaList: this.fieldsCriteriaList,
+        appraisalMgtRulesCriteriaList: this.appraisalCriteriaList,
         pageNumber: this.currentPage,
         size: PAGE_SIZE,
         sortingCriteria: sortingCriteria,
