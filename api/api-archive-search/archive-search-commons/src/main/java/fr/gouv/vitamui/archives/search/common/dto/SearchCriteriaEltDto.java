@@ -40,5 +40,6 @@ import java.util.List;
 @Getter
 public class SearchCriteriaEltDto implements Serializable {
     private String criteria;
+    private String operator;
     private List<String> values;
 }

@@ -40,6 +40,18 @@ export enum SearchCriteriaStatusEnum {
   IN_PROGRESS = 'IN_PROGRESS',
 }
 
+export enum SearchCriteriaTypeEnum {
+  FIELDS,
+  APPRAISAL_RULE,
+  ACCESS_RULE,
+  CLASSIFICATION_RULE,
+  DISSEMINATION_RULE,
+  REUSE_RULE,
+  STORAGE_RULE,
+  HOLD_RULE,
+  NODES,
+}
+
 export interface SearchCriteriaValue {
   value?: string;
   label?: string;
@@ -51,15 +63,19 @@ export interface SearchCriteriaValue {
 export interface SearchCriteria {
   key: string;
   label: string;
+  operator: string;
+  category: SearchCriteriaTypeEnum;
   values?: SearchCriteriaValue[];
 }
 
 export interface SearchCriteriaEltDto {
   criteria: string;
+  operator: string;
   values: string[];
 }
 export interface SearchCriteriaDto {
   criteriaList: SearchCriteriaEltDto[];
+  appraisalMgtRulesCriteriaList: SearchCriteriaEltDto[];
   pageNumber: number;
   size: number;
   nodes?: String[];
