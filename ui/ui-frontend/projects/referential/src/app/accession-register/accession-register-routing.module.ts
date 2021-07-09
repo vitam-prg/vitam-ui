@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2020)
  * and the signatories of the "VITAM - Accord du Contributeur" agreement.
  *
@@ -34,27 +34,41 @@
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL-C license and that you accept its terms.
  */
-package fr.gouv.vitamui.referential.common.dto;
+import {CommonModule} from '@angular/common';
+import {NgModule} from '@angular/core';
+import {Route,RouterModule} from '@angular/router';
+import {ActiveTenantGuard,TenantSelectionGuard,VitamUITenantSelectComponent} from 'ui-frontend-common';
+import {AccessionRegisterComponent} from './accession-register.component';
 
-import fr.gouv.vitam.common.model.administration.RegisterValueDetailModel;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+const routes: Route[]=[
+  /*{
+    path: '',
 
-import java.util.List;
+    component: AccessionRegisterComponent,
+    canActivate: [AuthGuard,AppGuard],
+    data: {appId: 'ACCESSION_REGISTER_APP'}
+  }*/
+  {
+    path: '',
+    redirectTo: 'tenant'
+  },{
+    path: 'tenant',
+    component: VitamUITenantSelectComponent,
+    canActivate: [TenantSelectionGuard]
+  },
+  {
+    path: 'tenant/:tenantIdentifier',
+    component: AccessionRegisterComponent,
+    canActivate: [ActiveTenantGuard]
+  }
+];
 
-@Getter
-@Setter
-@ToString
-public class AccessionRegisterSummaryDto extends AccessionRegisterDto {
 
-    private RegisterValueDetailModel totalObjects;
-
-    private RegisterValueDetailModel totalObjectsGroups;
-
-    private RegisterValueDetailModel totalUnits;
-
-    private RegisterValueDetailModel ObjectSize;
-
-    private String creationDate;
+@NgModule({
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+  ]
+})
+export class AccessionRegisterRoutingModule {
 }

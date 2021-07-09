@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2020)
  * and the signatories of the "VITAM - Accord du Contributeur" agreement.
  *
@@ -34,21 +34,22 @@
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL-C license and that you accept its terms.
  */
-package fr.gouv.vitamui.referential.internal.server.accessionregister;
+import {CommonModule} from '@angular/common';
+import {NgModule} from '@angular/core';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {VitamUICommonModule} from 'ui-frontend-common';
+import {SharedModule} from '../../shared/shared.module';
+import {AccessionRegisterListComponent} from './accession-register-list.component';
 
-import fr.gouv.vitam.common.model.administration.AccessionRegisterSummaryModel;
-import fr.gouv.vitamui.commons.utils.VitamUIUtils;
-import fr.gouv.vitamui.referential.common.dto.AccessionRegisterSummaryDto;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-public class AccessionRegisterConverter {
-    public static AccessionRegisterSummaryDto convertVitamToDto(final AccessionRegisterSummaryModel accessionRegisterSummaryModel) {
-        return VitamUIUtils.copyProperties(accessionRegisterSummaryModel, new AccessionRegisterSummaryDto());
-    }
-
-    public static List<AccessionRegisterSummaryDto> convertVitamsToDtos(final List<AccessionRegisterSummaryModel> accessionRegisterSummaryModels) {
-        return accessionRegisterSummaryModels.stream().map(AccessionRegisterConverter::convertVitamToDto).collect(Collectors.toList());
-    }
-}
+@NgModule({
+  imports: [
+    CommonModule,
+    SharedModule,
+    MatProgressSpinnerModule,
+    VitamUICommonModule
+  ],
+  declarations: [AccessionRegisterListComponent],
+  exports: [AccessionRegisterListComponent]
+})
+export class AccessionRegisterListModule {}

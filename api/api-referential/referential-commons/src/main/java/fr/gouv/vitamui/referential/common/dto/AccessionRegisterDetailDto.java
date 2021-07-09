@@ -36,7 +36,11 @@
  */
 package fr.gouv.vitamui.referential.common.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import fr.gouv.vitam.common.model.administration.AccessionRegisterStatus;
 import fr.gouv.vitam.common.model.administration.RegisterValueDetailModel;
+import fr.gouv.vitam.common.model.administration.RegisterValueEventModel;
+import fr.gouv.vitamui.commons.api.domain.IdDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -46,15 +50,40 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class AccessionRegisterSummaryDto extends AccessionRegisterDto {
+public class AccessionRegisterDetailDto extends AccessionRegisterDto {
 
-    private RegisterValueDetailModel totalObjects;
+    private String submissionAgency;
+
+    private String originatingAgencyLabel;
+
+    private String archivalAgreement;
+
+    private String startDate;
+
+    private String endDate;
+
+    private String lastUpdate;
+
+    private String opi;
+
+    private String opc;
+
+    private String opType;
+
+    private List<RegisterValueEventModel> events;
+
+    private AccessionRegisterStatus status;
+
+    private RegisterValueDetailModel objectSize;
 
     private RegisterValueDetailModel totalObjectsGroups;
 
+    private RegisterValueDetailModel totalObjects;
+
     private RegisterValueDetailModel totalUnits;
 
-    private RegisterValueDetailModel ObjectSize;
+    private List<String> operationsIds;
 
-    private String creationDate;
+    private String messageIdentifier;
+
 }

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2020)
  * and the signatories of the "VITAM - Accord du Contributeur" agreement.
  *
@@ -34,27 +34,36 @@
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL-C license and that you accept its terms.
  */
-package fr.gouv.vitamui.referential.common.dto;
+import {HttpClient,HttpHeaders,HttpParams} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable,Subject} from 'rxjs';
+import {SearchService} from 'ui-frontend-common';
+import {AccessionRegisterDetail} from '../../../../vitamui-library/src/lib/models/accession-registers-detail';
+import {AccessionRegisterStats} from '../../../../vitamui-library/src/lib/models/accession-registers-stats';
+import {AccessionRegistersApiService} from '../core/api/accession-registers-api.service';
 
-import fr.gouv.vitam.common.model.administration.RegisterValueDetailModel;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
-import java.util.List;
 
-@Getter
-@Setter
-@ToString
-public class AccessionRegisterSummaryDto extends AccessionRegisterDto {
 
-    private RegisterValueDetailModel totalObjects;
+@Injectable({
+  providedIn: 'root'
+})
+export class AccessionRegistersService extends SearchService<AccessionRegisterDetail> {
 
-    private RegisterValueDetailModel totalObjectsGroups;
+  updated=new Subject<AccessionRegisterDetail>();
 
-    private RegisterValueDetailModel totalUnits;
+  constructor(private accessionRegistersApiService: AccessionRegistersApiService,http: HttpClient) {
+    super(http,accessionRegistersApiService,'ALL');
+    console.log('accessionRegistersService',this.accessionRegistersApiService);
 
-    private RegisterValueDetailModel ObjectSize;
+  }
 
-    private String creationDate;
+  getAllByParams(params: HttpParams,headers?: HttpHeaders): Observable<AccessionRegisterDetail[]> {
+    return this.accessionRegistersApiService.getAllByParams(params,headers);
+  }
+
+  getStats(headers?: HttpHeaders): Observable<AccessionRegisterStats> {
+    return this.accessionRegistersApiService.getStats(headers);
+  }
+
 }

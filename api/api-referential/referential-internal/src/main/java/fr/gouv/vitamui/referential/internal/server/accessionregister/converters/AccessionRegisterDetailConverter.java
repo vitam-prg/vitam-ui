@@ -34,27 +34,24 @@
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL-C license and that you accept its terms.
  */
-package fr.gouv.vitamui.referential.common.dto;
+package fr.gouv.vitamui.referential.internal.server.accessionregister.converters;
 
-import fr.gouv.vitam.common.model.administration.RegisterValueDetailModel;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import fr.gouv.vitam.common.model.administration.AccessionRegisterDetailModel;
+import fr.gouv.vitam.common.model.administration.AccessionRegisterSummaryModel;
+import fr.gouv.vitamui.commons.utils.VitamUIUtils;
+import fr.gouv.vitamui.referential.common.dto.AccessionRegisterDetailDto;
+import fr.gouv.vitamui.referential.common.dto.AccessionRegisterSummaryDto;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Getter
-@Setter
-@ToString
-public class AccessionRegisterSummaryDto extends AccessionRegisterDto {
+public class AccessionRegisterDetailConverter {
 
-    private RegisterValueDetailModel totalObjects;
+    public static AccessionRegisterDetailDto convertVitamToDto(final AccessionRegisterDetailModel accessionRegisterDetailModel) {
+        return VitamUIUtils.copyProperties(accessionRegisterDetailModel, new AccessionRegisterDetailDto());
+    }
 
-    private RegisterValueDetailModel totalObjectsGroups;
-
-    private RegisterValueDetailModel totalUnits;
-
-    private RegisterValueDetailModel ObjectSize;
-
-    private String creationDate;
+    public static List<AccessionRegisterDetailDto> convertVitamsToDtos(final List<AccessionRegisterDetailModel> accessionRegisterDetailModels) {
+        return accessionRegisterDetailModels.stream().map(AccessionRegisterDetailConverter::convertVitamToDto).collect(Collectors.toList());
+    }
 }

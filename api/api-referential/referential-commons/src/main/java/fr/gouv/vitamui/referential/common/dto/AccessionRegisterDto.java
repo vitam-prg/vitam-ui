@@ -37,24 +37,20 @@
 package fr.gouv.vitamui.referential.common.dto;
 
 import fr.gouv.vitam.common.model.administration.RegisterValueDetailModel;
+import fr.gouv.vitamui.commons.api.domain.IdDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.List;
-
 @Getter
 @Setter
 @ToString
-public class AccessionRegisterSummaryDto extends AccessionRegisterDto {
+public class AccessionRegisterDto extends IdDto {
 
-    private RegisterValueDetailModel totalObjects;
+    private Integer tenant;
 
-    private RegisterValueDetailModel totalObjectsGroups;
+    private Integer version;
 
-    private RegisterValueDetailModel totalUnits;
+    private String originatingAgency;
 
-    private RegisterValueDetailModel ObjectSize;
-
-    private String creationDate;
 }

@@ -72,6 +72,9 @@ public abstract class RestApi {
     public static final String RULES_URL = PREFIX + "/rules";
 
     public static final String ACCESSION_REGISTER_URL = PREFIX + "/accession-register";
+    public static final String ACCESSION_REGISTER_DETAIL_URL = PREFIX + "/accessionregisterdetails";
+    public static final String ACCESSION_REGISTER_SUMMARY_URL = PREFIX + "/accession-register-summary";
+    public static final String ACCESSION_REGISTER_SYMBOLIC_URL = PREFIX + "/accession-register-symbolic";
 
     public static final String PROFILES_URL = PREFIX + "/profile";
 

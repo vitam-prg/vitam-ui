@@ -1,0 +1,59 @@
+<div vitamuiCommonInfiniteScroll (vitamuiScroll)="onScroll()">
+  <div class="vitamui-table">
+    <div class="vitamui-table-head">
+      <div class="col-1"><i class="vitamui-icon vitamui-icon-gestion-de-profil"></i></div>
+      <div class="col-1">Date</div>
+      <div class="col-1">Identifiant du message</div>
+      <div class="col-1">Service producteur</div>
+      <div class="col-1">Contrat d'entrée</div>
+      <div class="col-1">Modalité d'entrée</div>
+      <div class="col-1">Nb d'UA</div>
+      <div class="col-1">Nb de GOT</div>
+      <div class="col-1">Nb d'Objets</div>
+      <div class="col-1">Volumétrie</div>
+      <div class="col-1">Statut</div>
+    </div>
+
+    <div class="vitamui-table-body">
+      <div class="vitamui-table-rows" *ngFor="let accessionRegisterDetail of dataSource" (click)="profileClick.emit(profile)">
+        <div class="vitamui-row d-flex align-items-center clickable">
+          <div class="col-1">
+            <i class="vitamui-icon vitamui-icon-gestion-de-profil"
+              [ngClass]=" accessionRegisterDetail?.enabled ? 'status-badge-green' :'status-badge-grey'"
+            ></i>
+          </div>
+          <div class="col-1">{{ accessionRegisterDetail.startDate | date:'dd/MM/yyyy' }}</div>
+          <div class="col-1">{{ accessionRegisterDetail.opi }}</div>
+          <div class="col-1">{{ accessionRegisterDetail.originatingAgency }}</div>
+          <div class="col-1">{{ accessionRegisterDetail.archivalAgreement }}</div>
+          <div class="col-1">{{ accessionRegisterDetail.opType }}</div>
+          <div class="col-1">{{ accessionRegisterDetail.totalUnits?.ingested }}</div>
+          <div class="col-1">{{ accessionRegisterDetail.totalObjectsGroups?.ingested }}</div>
+          <div class="col-1">{{ accessionRegisterDetail.totalObjects?.ingested }}</div>
+          <div class="col-1">{{ accessionRegisterDetail.objectSize?.ingested }}</div>
+          <div class="col-1">{{ accessionRegisterDetail.status }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!dataSource || pending then loadingSpinner"></div>
+  <div *ngIf="!pending && dataSource?.length ===  0 then noResults"></div>
+  <div *ngIf="infiniteScrollDisabled && accessionRegistersService.canLoadMore && !pending then loadMore"></div>
+</div>
+
+<ng-template #noResults>
+  <div class="vitamui-min-content vitamui-table-message">Aucun resultat</div>
+ </ng-template>
+
+ <ng-template #loadMore>
+  <div class="vitamui-min-content vitamui-table-message" (click)="accessionRegistersService.loadMore()">
+    <span class="clickable">Afficher plus de résultats...</span>
+  </div>
+</ng-template>
+
+<ng-template #loadingSpinner>
+  <div class="vitamui-min-content">
+    <mat-spinner class="vitamui-spinner medium"></mat-spinner>
+  </div>
+</ng-template>

@@ -40,6 +40,9 @@ import fr.gouv.vitamui.commons.rest.client.BaseRestClientFactory;
 import fr.gouv.vitamui.commons.rest.client.configuration.HttpPoolConfiguration;
 import fr.gouv.vitamui.commons.rest.client.configuration.RestClientConfiguration;
 import fr.gouv.vitamui.commons.rest.client.logbook.LogbookExternalRestClient;
+import fr.gouv.vitamui.referential.common.dto.AccessionRegisterDetailDto;
+import fr.gouv.vitamui.referential.common.dto.AccessionRegisterSummaryDto;
+import fr.gouv.vitamui.referential.common.dto.AccessionRegisterSymbolicDto;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 
 /**
@@ -94,6 +97,10 @@ public class ReferentialExternalRestClientFactory extends BaseRestClientFactory 
 
     public AccessionRegisterExternalRestClient getAccessionRegisterExternalRestClient() {
         return new AccessionRegisterExternalRestClient(getRestTemplate(), getBaseUrl());
+    }
+
+    public AccessionRegisterDetailExternalRestClient getAccessionRegisterDetailExternalRestClient() {
+        return new AccessionRegisterDetailExternalRestClient(getRestTemplate(), getBaseUrl());
     }
 
     public UnitExternalRestClient getUnitExternalRestClient() {

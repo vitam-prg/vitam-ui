@@ -36,16 +36,23 @@
  */
 package fr.gouv.vitamui.referential.common.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import fr.gouv.vitam.access.external.client.AccessExternalClient;
 import fr.gouv.vitam.access.external.client.AdminExternalClient;
+import fr.gouv.vitam.access.external.common.exception.AccessExternalClientNotFoundException;
+import fr.gouv.vitam.access.external.common.exception.AccessExternalClientServerException;
 import fr.gouv.vitam.common.client.VitamContext;
 import fr.gouv.vitam.common.database.builder.request.exception.InvalidCreateOperationException;
 import fr.gouv.vitam.common.database.builder.request.single.Select;
 import fr.gouv.vitam.common.exception.InvalidParseOperationException;
 import fr.gouv.vitam.common.exception.VitamClientException;
 import fr.gouv.vitam.common.model.RequestResponse;
+import fr.gouv.vitam.common.model.administration.AccessContractModel;
+import fr.gouv.vitam.common.model.administration.AccessionRegisterDetailModel;
 import fr.gouv.vitam.common.model.administration.AccessionRegisterSummaryModel;
 import fr.gouv.vitamui.commons.api.logger.VitamUILogger;
 import fr.gouv.vitamui.commons.api.logger.VitamUILoggerFactory;
+import fr.gouv.vitamui.commons.vitam.api.util.VitamRestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class AccessionRegisterService {
@@ -59,10 +66,37 @@ public class AccessionRegisterService {
         this.adminExternalClient = adminExternalClient;
     }
 
-    public RequestResponse<AccessionRegisterSummaryModel> findAccessionRegisterSymbolic(VitamContext context) throws VitamClientException, InvalidCreateOperationException, InvalidParseOperationException {
+    public RequestResponse<AccessionRegisterSummaryModel> findAccessionRegisterSummary(VitamContext context) throws VitamClientException, InvalidCreateOperationException, InvalidParseOperationException {
         LOGGER.debug("findAccessionRegisterSymbolic");
-        LOGGER.info("Access Register EvIdAppSession : {} " , context.getApplicationSessionId());
+        LOGGER.info("Accession Register EvIdAppSession : {} " , context.getApplicationSessionId());
         return this.adminExternalClient.findAccessionRegister(context, new Select().getFinalSelect());
+    }
+
+    public RequestResponse<AccessionRegisterSummaryModel> findAccessionRegisterSummary(VitamContext context, JsonNode query) throws VitamClientException, InvalidCreateOperationException, InvalidParseOperationException {
+        LOGGER.debug("findAccessionRegisterSummary by query projections");
+        LOGGER.info("Accession Register Summary by projection query on wanted fields stats : {} " , context.getApplicationSessionId());
+        return this.adminExternalClient.findAccessionRegister(context, query);
+    }
+
+    public RequestResponse getAccessionRegisterDetail(VitamContext context, String id)
+        throws InvalidParseOperationException, AccessExternalClientServerException,
+        AccessExternalClientNotFoundException {
+        LOGGER.debug("findAccessionRegisterDetail");
+        LOGGER.info("Accession Register EvIdAppSession : {} " , context.getApplicationSessionId());
+        final RequestResponse accessionRegisterDetail =
+            this.adminExternalClient.getAccessionRegisterDetail(context, id, new Select().getFinalSelect());
+        JsonNode jsonNode =
+            accessionRegisterDetail.toJsonNode();
+        LOGGER.debug("jsonNode = {}", jsonNode);
+        return accessionRegisterDetail;
+    }
+
+    public RequestResponse getAccessionRegisterDetails(final VitamContext vitamContext, final JsonNode select)
+        throws AccessExternalClientNotFoundException, AccessExternalClientServerException,
+        InvalidParseOperationException {
+        final RequestResponse response = adminExternalClient.getAccessionRegisterDetail(vitamContext, "RATP", select);
+        VitamRestUtils.checkResponse(response);
+        return response;
     }
 
 }

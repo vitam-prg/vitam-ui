@@ -36,7 +36,9 @@
  */
 package fr.gouv.vitamui.referential.common.dto;
 
+import fr.gouv.vitam.common.model.administration.AccessionRegisterStatus;
 import fr.gouv.vitam.common.model.administration.RegisterValueDetailModel;
+import fr.gouv.vitam.common.model.administration.RegisterValueEventModel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -46,15 +48,13 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class AccessionRegisterSummaryDto extends AccessionRegisterDto {
+public class AccessionRegisterSymbolicDto extends AccessionRegisterDto {
 
-    private RegisterValueDetailModel totalObjects;
+    private long archivUnit = 0L;
 
-    private RegisterValueDetailModel totalObjectsGroups;
+    private long objectGroup = 0L;
 
-    private RegisterValueDetailModel totalUnits;
+    private long binaryObject = 0L;
 
-    private RegisterValueDetailModel ObjectSize;
-
-    private String creationDate;
+    private long binaryObjectSize = 0L;
 }

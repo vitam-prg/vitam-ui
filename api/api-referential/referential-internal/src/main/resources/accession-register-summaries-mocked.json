@@ -1,0 +1,260 @@
+{
+  "httpCode": 200,
+  "$hits": {
+    "total": 9,
+    "offset": 0,
+    "limit": 10000,
+    "size": 9
+  },
+  "$results": [
+    {
+      "ObjectSize": {
+        "ingested": 229360,
+        "deleted": 0,
+        "remained": 229360
+      },
+      "#id": "aefaaaaaaefwvz6cabpr2alp43e6oraaaaaq",
+      "#tenant": 1,
+      "#version": 1,
+      "OriginatingAgency": "producteur1",
+      "TotalObjects": {
+        "ingested": 3,
+        "deleted": 0,
+        "remained": 3
+      },
+      "TotalObjectGroups": {
+        "ingested": 1,
+        "deleted": 0,
+        "remained": 1
+      },
+      "TotalUnits": {
+        "ingested": 3,
+        "deleted": 0,
+        "remained": 3
+      },
+      "CreationDate": "2020-01-27T11:36:29.252"
+    },
+    {
+      "ObjectSize": {
+        "ingested": 372100,
+        "deleted": 0,
+        "remained": 372100
+      },
+      "#id": "aefaaaaaaegg7lhoaajlwalzazuz6daaaaaq",
+      "#tenant": 1,
+      "#version": 1,
+      "OriginatingAgency": "FRAN_NP_050770",
+      "TotalObjects": {
+        "ingested": 10,
+        "deleted": 0,
+        "remained": 10
+      },
+      "TotalObjectGroups": {
+        "ingested": 10,
+        "deleted": 0,
+        "remained": 10
+      },
+      "TotalUnits": {
+        "ingested": 17,
+        "deleted": 0,
+        "remained": 17
+      },
+      "CreationDate": "2021-04-25T00:24:15.884"
+    },
+    {
+      "ObjectSize": {
+        "ingested": 0,
+        "deleted": 0,
+        "remained": 0
+      },
+      "#id": "aefaaaaaaeftm2ypaajnealuf4ijxuqaaaaq",
+      "#tenant": 1,
+      "#version": 2,
+      "OriginatingAgency": "FRAN_NP_050758",
+      "TotalObjects": {
+        "ingested": 0,
+        "deleted": 0,
+        "remained": 0
+      },
+      "TotalObjectGroups": {
+        "ingested": 0,
+        "deleted": 0,
+        "remained": 0
+      },
+      "TotalUnits": {
+        "ingested": 16,
+        "deleted": 0,
+        "remained": 16
+      },
+      "CreationDate": "2020-08-27T08:37:31.730"
+    },
+    {
+      "ObjectSize": {
+        "ingested": 32956,
+        "deleted": 0,
+        "remained": 32956
+      },
+      "#id": "aefaaaaaaegbz46eaajjwaluxx43ocyaaaaq",
+      "#tenant": 1,
+      "#version": 54,
+      "OriginatingAgency": "Service_producteur",
+      "TotalObjects": {
+        "ingested": 22,
+        "deleted": 0,
+        "remained": 22
+      },
+      "TotalObjectGroups": {
+        "ingested": 22,
+        "deleted": 0,
+        "remained": 22
+      },
+      "TotalUnits": {
+        "ingested": 222,
+        "deleted": 0,
+        "remained": 222
+      },
+      "CreationDate": "2020-09-24T02:38:13.259"
+    },
+    {
+      "ObjectSize": {
+        "ingested": 295071534,
+        "deleted": 0,
+        "remained": 295071534
+      },
+      "#id": "aefaaaaaaegbz46eaajjwalu2ddtk3qaaaaq",
+      "#tenant": 1,
+      "#version": 18,
+      "OriginatingAgency": "MICHEL_MERCIER",
+      "TotalObjects": {
+        "ingested": 4392,
+        "deleted": 0,
+        "remained": 4392
+      },
+      "TotalObjectGroups": {
+        "ingested": 4392,
+        "deleted": 0,
+        "remained": 4392
+      },
+      "TotalUnits": {
+        "ingested": 4482,
+        "deleted": 0,
+        "remained": 4482
+      },
+      "CreationDate": "2020-09-27T18:15:50.382"
+    },
+    {
+      "ObjectSize": {
+        "ingested": 123197458,
+        "deleted": 0,
+        "remained": 123197458
+      },
+      "#id": "aefaaaaaaegrpqteaajigalwf3q5yhyaaaaq",
+      "#tenant": 1,
+      "#version": 2,
+      "OriginatingAgency": "ABCDEFG",
+      "TotalObjects": {
+        "ingested": 12,
+        "deleted": 0,
+        "remained": 12
+      },
+      "TotalObjectGroups": {
+        "ingested": 12,
+        "deleted": 0,
+        "remained": 12
+      },
+      "TotalUnits": {
+        "ingested": 14,
+        "deleted": 0,
+        "remained": 14
+      },
+      "CreationDate": "2020-12-04T17:52:02.591"
+    },
+    {
+      "ObjectSize": {
+        "ingested": 157007,
+        "deleted": 0,
+        "remained": 157007
+      },
+      "#id": "aefaaaaaaefwvz6cabpr2alp43nylqqaaaaq",
+      "#tenant": 1,
+      "#version": 31,
+      "OriginatingAgency": "FRAN_NP_009913",
+      "TotalObjects": {
+        "ingested": 64,
+        "deleted": 0,
+        "remained": 64
+      },
+      "TotalObjectGroups": {
+        "ingested": 64,
+        "deleted": 0,
+        "remained": 64
+      },
+      "TotalUnits": {
+        "ingested": 97,
+        "deleted": 0,
+        "remained": 97
+      },
+      "CreationDate": "2020-01-27T11:55:43.938"
+    },
+    {
+      "ObjectSize": {
+        "ingested": 1588715,
+        "deleted": 0,
+        "remained": 1588715
+      },
+      "#id": "aefaaaaaaege3yk2aajkaalvbn5qxiqaaaaq",
+      "#tenant": 1,
+      "#version": 1,
+      "OriginatingAgency": "Vitam",
+      "TotalObjects": {
+        "ingested": 1,
+        "deleted": 0,
+        "remained": 1
+      },
+      "TotalObjectGroups": {
+        "ingested": 1,
+        "deleted": 0,
+        "remained": 1
+      },
+      "TotalUnits": {
+        "ingested": 2,
+        "deleted": 0,
+        "remained": 2
+      },
+      "CreationDate": "2020-10-09T03:50:14.691"
+    },
+    {
+      "ObjectSize": {
+        "ingested": 0,
+        "deleted": 0,
+        "remained": 0
+      },
+      "#id": "aefaaaaaaef2e53xaajkialv33yhv4aaaaaq",
+      "#tenant": 1,
+      "#version": 1,
+      "OriginatingAgency": "SOC_ARCHEO_TOURRAINE",
+      "TotalObjects": {
+        "ingested": 0,
+        "deleted": 0,
+        "remained": 0
+      },
+      "TotalObjectGroups": {
+        "ingested": 0,
+        "deleted": 0,
+        "remained": 0
+      },
+      "TotalUnits": {
+        "ingested": 6,
+        "deleted": 0,
+        "remained": 6
+      },
+      "CreationDate": "2020-11-19T05:18:23.472"
+    }
+  ],
+  "$facetResults": [],
+  "$context": {
+    "$query": {},
+    "$filter": {},
+    "$projection": {}
+  }
+}

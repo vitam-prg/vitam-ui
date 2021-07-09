@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2020)
  * and the signatories of the "VITAM - Accord du Contributeur" agreement.
  *
@@ -34,27 +34,36 @@
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL-C license and that you accept its terms.
  */
-package fr.gouv.vitamui.referential.common.dto;
+import {HttpClient,HttpHeaders,HttpParams} from '@angular/common/http';
+import {Inject,Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {BaseHttpClient,BASE_URL,PageRequest,PaginatedResponse} from 'ui-frontend-common';
+import {AccessionRegisterDetail} from '../../../../../vitamui-library/src/lib/models/accession-registers-detail';
+import {AccessionRegisterStats} from '../../../../../vitamui-library/src/lib/models/accession-registers-stats';
 
-import fr.gouv.vitam.common.model.administration.RegisterValueDetailModel;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+@Injectable({
+  providedIn: 'root'
+})
+export class AccessionRegistersApiService extends BaseHttpClient<AccessionRegisterDetail> {
 
-import java.util.List;
+  constructor(http: HttpClient,@Inject(BASE_URL) baseUrl: string) {
+    super(http,baseUrl+'/accessionregisterdetails');
+  }
 
-@Getter
-@Setter
-@ToString
-public class AccessionRegisterSummaryDto extends AccessionRegisterDto {
+  getAllPaginated(pageRequest: PageRequest,embedded?: string,headers?: HttpHeaders): Observable<PaginatedResponse<AccessionRegisterDetail>> {
+    return super.getAllPaginated(pageRequest,embedded,headers);
+  }
 
-    private RegisterValueDetailModel totalObjects;
+  getAllByParams(params: HttpParams,headers?: HttpHeaders): Observable<AccessionRegisterDetail[]> {
+    return super.getAllByParams(params,headers);
+  }
 
-    private RegisterValueDetailModel totalObjectsGroups;
+  getOne(id: string,headers?: HttpHeaders): Observable<AccessionRegisterDetail> {
+    return super.getOne(id,headers);
+  }
 
-    private RegisterValueDetailModel totalUnits;
+  getStats(headers?: HttpHeaders): Observable<AccessionRegisterStats> {
+    return this.http.get<AccessionRegisterStats>(`${this.apiUrl}`+'/stats',{headers});
+  }
 
-    private RegisterValueDetailModel ObjectSize;
-
-    private String creationDate;
 }

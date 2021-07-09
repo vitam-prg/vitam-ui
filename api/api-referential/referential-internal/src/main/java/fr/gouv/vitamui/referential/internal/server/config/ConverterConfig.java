@@ -37,6 +37,8 @@
 package fr.gouv.vitamui.referential.internal.server.config;
 
 import fr.gouv.vitamui.referential.internal.server.accesscontract.AccessContractConverter;
+import fr.gouv.vitamui.referential.internal.server.accessionregister.converters.AccessionRegisterDetailConverter;
+import fr.gouv.vitamui.referential.internal.server.accessionregister.converters.AccessionRegisterSummaryConverter;
 import fr.gouv.vitamui.referential.internal.server.agency.AgencyConverter;
 import fr.gouv.vitamui.referential.internal.server.context.ContextConverter;
 import fr.gouv.vitamui.referential.internal.server.fileformat.FileFormatConverter;
@@ -100,6 +102,16 @@ public class ConverterConfig {
     @Bean
     public RuleConverter ruleConverter() {
         return new RuleConverter();
+    }
+
+    @Bean
+    public AccessionRegisterDetailConverter accessionRegisterDetailConverter() {
+        return new AccessionRegisterDetailConverter();
+    }
+
+    @Bean
+    public AccessionRegisterSummaryConverter accessionRegisterSummaryConverter() {
+        return new AccessionRegisterSummaryConverter();
     }
 
 }
