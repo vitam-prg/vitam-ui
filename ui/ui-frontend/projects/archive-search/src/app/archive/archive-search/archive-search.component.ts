@@ -90,7 +90,8 @@ export class ArchiveSearchComponent implements OnInit {
   included: boolean = false;
   canLoadMore: boolean = false;
   tenantIdentifier: string;
-  form: FormGroup;
+  simpleCriteriaForm: FormGroup;
+  appraisalRuleCriteriaForm: FormGroup;
   submited: boolean = false;
   searchCriterias: Map<string, SearchCriteria>;
   searchCriteriaKeys: string[];
@@ -118,7 +119,7 @@ export class ArchiveSearchComponent implements OnInit {
   searchCriteriaHistoryToSave: Map<string, SearchCriteriaHistory>;
   searchCriteriaHistoryLength: number = null;
   hasResults = false;
-  previousValue: {
+  previousSimpleCriteriaValue: {
     archiveCriteria: '';
     title: '';
     identifier: '';
@@ -147,7 +148,7 @@ export class ArchiveSearchComponent implements OnInit {
     appraisalRuleFinalAction: {};
     appraisalRuleEliminationIdentifier: '';
   };
-  emptyForm = {
+  emptySimpleCriteriaForm = {
     archiveCriteria: '',
     title: '',
     identifier: '',
@@ -207,6 +208,36 @@ export class ArchiveSearchComponent implements OnInit {
       }
     });
 
+    this.archiveExchangeDataService.receiveSimpleSearchCriteriaSubject().subscribe((criteria) => {
+      if (criteria) {
+        console.log('criteria simple criteria', criteria.keyLabel);
+        this.addCriteria(
+          criteria.keyElt,
+          criteria.keyLabel,
+          criteria.valueElt,
+          criteria.labelElt,
+          criteria.translated,
+          criteria.operator,
+          criteria.category
+        );
+      }
+    });
+
+    this.archiveExchangeDataService.receiveAppraisalSearchCriteriaSubject().subscribe((criteria) => {
+      if (criteria) {
+        console.log('criteria category ', criteria.keyLabel);
+        this.addCriteria(
+          criteria.keyElt,
+          criteria.keyLabel,
+          criteria.valueElt,
+          criteria.labelElt,
+          criteria.translated,
+          criteria.operator,
+          criteria.category
+        );
+      }
+    });
+
     this.archiveService.getOntologiesFromJson().subscribe((data: any) => {
       this.ontologies = data;
       this.ontologies.sort(function (a: any, b: any) {
@@ -216,7 +247,7 @@ export class ArchiveSearchComponent implements OnInit {
       });
     });
 
-    this.previousValue = {
+    this.previousSimpleCriteriaValue = {
       archiveCriteria: '',
       title: '',
       identifier: '',
@@ -247,7 +278,7 @@ export class ArchiveSearchComponent implements OnInit {
       appraisalRuleEliminationIdentifier: '',
     };
 
-    this.form = this.formBuilder.group({
+    this.simpleCriteriaForm = this.formBuilder.group({
       archiveCriteria: ['', []],
       title: ['', []],
       description: ['', []],
@@ -290,16 +321,16 @@ export class ArchiveSearchComponent implements OnInit {
 
       appraisalRuleEliminationIdentifier: ['', []],
     });
-    merge(this.form.statusChanges, this.form.valueChanges)
+    merge(this.simpleCriteriaForm.statusChanges, this.simpleCriteriaForm.valueChanges)
       .pipe(
         debounceTime(UPDATE_DEBOUNCE_TIME),
-        filter(() => this.form.valid),
-        map(() => this.form.value),
-        map(() => diff(this.form.value, this.previousValue)),
+        filter(() => this.simpleCriteriaForm.valid),
+        map(() => this.simpleCriteriaForm.value),
+        map(() => diff(this.simpleCriteriaForm.value, this.previousSimpleCriteriaValue)),
         filter((formData) => this.isEmpty(formData))
       )
       .subscribe(() => {
-        this.resetForm();
+        this.resetSimpleCriteriaForm();
       });
   }
 
@@ -334,8 +365,8 @@ export class ArchiveSearchComponent implements OnInit {
         this.addCriteria(
           'StartDate',
           'START_DATE',
-          this.form.value.beginDt,
-          this.datePipe.transform(this.form.value.beginDt, 'dd/MM/yyyy'),
+          this.simpleCriteriaForm.value.beginDt,
+          this.datePipe.transform(this.simpleCriteriaForm.value.beginDt, 'dd/MM/yyyy'),
           true,
           'GTE',
           SearchCriteriaTypeEnum.FIELDS
@@ -345,8 +376,8 @@ export class ArchiveSearchComponent implements OnInit {
         this.addCriteria(
           'EndDate',
           'END_DATE',
-          this.form.value.endDt,
-          this.datePipe.transform(this.form.value.endDt, 'dd/MM/yyyy'),
+          this.simpleCriteriaForm.value.endDt,
+          this.datePipe.transform(this.simpleCriteriaForm.value.endDt, 'dd/MM/yyyy'),
           true,
           'LTE',
           SearchCriteriaTypeEnum.FIELDS
@@ -386,8 +417,8 @@ export class ArchiveSearchComponent implements OnInit {
           this.addCriteria(
             ontologyElt.Value,
             ontologyElt.Label,
-            this.form.value.otherCriteriaValue,
-            this.datePipe.transform(this.form.value.otherCriteriaValue, 'dd/MM/yyyy'),
+            this.simpleCriteriaForm.value.otherCriteriaValue,
+            this.datePipe.transform(this.simpleCriteriaForm.value.otherCriteriaValue, 'dd/MM/yyyy'),
             false,
             'EQ',
             SearchCriteriaTypeEnum.FIELDS
@@ -430,8 +461,8 @@ export class ArchiveSearchComponent implements OnInit {
         this.addCriteria(
           'AppraisalRuleStartDate',
           'START_DATE_DUA',
-          this.form.value.appraisalRuleStartDate,
-          this.datePipe.transform(this.form.value.appraisalRuleStartDate, 'dd/MM/yyyy'),
+          this.simpleCriteriaForm.value.appraisalRuleStartDate,
+          this.datePipe.transform(this.simpleCriteriaForm.value.appraisalRuleStartDate, 'dd/MM/yyyy'),
           true,
           'GTE',
           SearchCriteriaTypeEnum.APPRAISAL_RULE
@@ -441,8 +472,8 @@ export class ArchiveSearchComponent implements OnInit {
         this.addCriteria(
           'AppraisalRuleEndDate',
           'END_DATE_DUA',
-          this.form.value.appraisalRuleEndDate,
-          this.datePipe.transform(this.form.value.appraisalRuleEndDate, 'dd/MM/yyyy'),
+          this.simpleCriteriaForm.value.appraisalRuleEndDate,
+          this.datePipe.transform(this.simpleCriteriaForm.value.appraisalRuleEndDate, 'dd/MM/yyyy'),
           true,
           'LTE',
           SearchCriteriaTypeEnum.APPRAISAL_RULE
@@ -459,7 +490,7 @@ export class ArchiveSearchComponent implements OnInit {
           SearchCriteriaTypeEnum.APPRAISAL_RULE
         );
 
-        let appraisalRuleFinalActionTypeSelected = this.form.value.appraisalRuleFinalActionType;
+        let appraisalRuleFinalActionTypeSelected = this.simpleCriteriaForm.value.appraisalRuleFinalActionType;
         if (appraisalRuleFinalActionTypeSelected) {
           if (appraisalRuleFinalActionTypeSelected.anyFinalActionType === 'true') {
             this.removeCriteria('appraisalRuleFinalActionTypeSelected', 'eliminationFinalActionType');
@@ -555,8 +586,8 @@ export class ArchiveSearchComponent implements OnInit {
     });
   }
 
-  private resetForm() {
-    this.form.reset(this.emptyForm);
+  private resetSimpleCriteriaForm() {
+    this.simpleCriteriaForm.reset(this.emptySimpleCriteriaForm);
   }
 
   ngOnInit() {
@@ -641,14 +672,14 @@ export class ArchiveSearchComponent implements OnInit {
   }
 
   onSelectOtherCriteria() {
-    this.form.get('otherCriteria').valueChanges.subscribe((selectedcriteria) => {
+    this.simpleCriteriaForm.get('otherCriteria').valueChanges.subscribe((selectedcriteria) => {
       if (selectedcriteria === '') {
         this.otherCriteriaValueEnabled = false;
         this.selectedValueOntolonogy = null;
       } else {
-        this.form.controls.otherCriteriaValue.setValue('');
+        this.simpleCriteriaForm.controls.otherCriteriaValue.setValue('');
         this.otherCriteriaValueEnabled = true;
-        let selectedValueOntolonogyValue = this.form.get('otherCriteria').value;
+        let selectedValueOntolonogyValue = this.simpleCriteriaForm.get('otherCriteria').value;
         const selectedValueOntolonogyElt = this.ontologies.find((ontoElt: any) => ontoElt.Value === selectedValueOntolonogyValue);
         if (selectedValueOntolonogyElt) {
           this.selectedValueOntolonogy = selectedValueOntolonogyElt.Label;
@@ -1080,42 +1111,42 @@ export class ArchiveSearchComponent implements OnInit {
   }
 
   get uaid() {
-    return this.form.controls.uaid;
+    return this.simpleCriteriaForm.controls.uaid;
   }
   get archiveCriteria() {
-    return this.form.controls.archiveCriteria;
+    return this.simpleCriteriaForm.controls.archiveCriteria;
   }
   get title() {
-    return this.form.controls.title;
+    return this.simpleCriteriaForm.controls.title;
   }
   get description() {
-    return this.form.controls.description;
+    return this.simpleCriteriaForm.controls.description;
   }
   get guid() {
-    return this.form.controls.guid;
+    return this.simpleCriteriaForm.controls.guid;
   }
   get beginDt() {
-    return this.form.controls.beginDt;
+    return this.simpleCriteriaForm.controls.beginDt;
   }
   get endDt() {
-    return this.form.controls.endDt;
+    return this.simpleCriteriaForm.controls.endDt;
   }
   get serviceProdLabel() {
-    return this.form.controls.serviceProdLabel;
+    return this.simpleCriteriaForm.controls.serviceProdLabel;
   }
   get serviceProdCommunicability() {
-    return this.form.controls.serviceProdCommunicability;
+    return this.simpleCriteriaForm.controls.serviceProdCommunicability;
   }
   get serviceProdCode() {
-    return this.form.controls.serviceProdCode;
+    return this.simpleCriteriaForm.controls.serviceProdCode;
   }
   get serviceProdCommunicabilityDt() {
-    return this.form.controls.serviceProdCommunicabilityDt;
+    return this.simpleCriteriaForm.controls.serviceProdCommunicabilityDt;
   }
   get otherCriteria() {
-    return this.form.controls.otherCriteria;
+    return this.simpleCriteriaForm.controls.otherCriteria;
   }
   get otherCriteriaValue() {
-    return this.form.controls.otherCriteriaValue;
+    return this.simpleCriteriaForm.controls.otherCriteriaValue;
   }
 }

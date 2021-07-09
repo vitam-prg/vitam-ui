@@ -27,10 +27,10 @@
 package fr.gouv.vitamui.archives.search.rest;
 
 import fr.gouv.vitamui.archives.search.common.dto.ArchiveUnitsDto;
+import fr.gouv.vitamui.archives.search.common.dto.ObjectData;
 import fr.gouv.vitamui.archives.search.common.dto.SearchCriteriaDto;
 import fr.gouv.vitamui.archives.search.common.dto.VitamUIArchiveUnitResponseDto;
 import fr.gouv.vitamui.archives.search.common.rest.RestApi;
-import fr.gouv.vitamui.archives.search.common.dto.ObjectData;
 import fr.gouv.vitamui.archives.search.service.ArchivesSearchService;
 import fr.gouv.vitamui.commons.api.CommonConstants;
 import fr.gouv.vitamui.commons.api.ParameterChecker;
@@ -81,6 +81,7 @@ public class ArchivesSearchController extends AbstractUiRestController {
     @ResponseStatus(HttpStatus.OK)
     public VitamUIArchiveUnitResponseDto searchArchiveUnits(@RequestBody final SearchCriteriaDto searchQuery) {
         ParameterChecker.checkParameter("The Query is a mandatory parameter: ", searchQuery);
+
         LOGGER.debug("search archives Units by criteria = {}", searchQuery);
         VitamUIArchiveUnitResponseDto archiveResponseDtos = new VitamUIArchiveUnitResponseDto();
         ArchiveUnitsDto archiveUnits = archivesSearchService.findArchiveUnits(searchQuery, buildUiHttpContext());
@@ -103,7 +104,7 @@ public class ArchivesSearchController extends AbstractUiRestController {
     @ApiOperation(value = "Find the Archive Unit Details")
     @GetMapping(RestApi.ARCHIVE_UNIT_INFO + CommonConstants.PATH_ID)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<ResultsDto> findUnitById(final @PathVariable("id") String id){
+    public ResponseEntity<ResultsDto> findUnitById(final @PathVariable("id") String id) {
         ParameterChecker.checkParameter("The Identifier is a mandatory parameter: ", id);
         LOGGER.debug("Find the Archive Unit with ID {}", id);
         return archivesSearchService.findUnitById(id, buildUiHttpContext());
@@ -112,7 +113,7 @@ public class ArchivesSearchController extends AbstractUiRestController {
     @ApiOperation(value = "Find the Object Group by identifier")
     @GetMapping(RestApi.OBJECTGROUP + CommonConstants.PATH_ID)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<ResultsDto> findObjectById(final @PathVariable("id") String id){
+    public ResponseEntity<ResultsDto> findObjectById(final @PathVariable("id") String id) {
         ParameterChecker.checkParameter("The Identifier is a mandatory parameter: ", id);
         LOGGER.debug("Find the Object Group with Identifier {}", id);
         return archivesSearchService.findObjectById(id, buildUiHttpContext());
@@ -125,8 +126,9 @@ public class ArchivesSearchController extends AbstractUiRestController {
         ParameterChecker.checkParameter("The Identifier is a mandatory parameter: ", id);
         LOGGER.debug("Download the Archive Unit Object with ID {}", id);
         ObjectData objectData = archivesSearchService.downloadObjectFromUnit(id, buildUiHttpContext());
-        String headerValues = StringUtils.isNotEmpty(objectData.getFilename()) ? "attachment;filename=" + objectData.getFilename()
-            : "attachment";
+        String headerValues =
+            StringUtils.isNotEmpty(objectData.getFilename()) ? "attachment;filename=" + objectData.getFilename()
+                : "attachment";
         return ResponseEntity.ok()
             .contentType(MediaType.APPLICATION_OCTET_STREAM)
             .header("Content-Disposition", headerValues)

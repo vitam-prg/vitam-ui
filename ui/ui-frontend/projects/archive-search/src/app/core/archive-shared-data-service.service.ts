@@ -36,12 +36,12 @@
  */
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Direction } from 'ui-frontend-common';
+import { FilingHoldingSchemeNode } from '../archive/models/node.interface';
 import { NodeData } from '../archive/models/nodedata.interface';
 import { SearchCriteriaHistory, SearchCriterias } from '../archive/models/search-criteria-history.interface';
-import { ResultFacet } from '../archive/models/search.criteria';
+import { ResultFacet, SearchCriteriaExchange } from '../archive/models/search.criteria';
 import { Unit } from '../archive/models/unit.interface';
-import { FilingHoldingSchemeNode } from '../archive/models/node.interface';
-import { Direction } from 'ui-frontend-common';
 
 @Injectable({
   providedIn: 'root',
@@ -58,6 +58,9 @@ export class ArchiveSharedDataServiceService {
   private storedSearchCriteriaHistorySubject = new BehaviorSubject<SearchCriteriaHistory>(null);
   private allSearchCriteriaHistorySubject = new BehaviorSubject<SearchCriteriaHistory[]>([]);
 
+  private simpleSearchCriteriaSubject = new BehaviorSubject<SearchCriteriaExchange>(null);
+  private appraisalSearchCriteriaSubject = new BehaviorSubject<SearchCriteriaExchange>(null);
+
   private entireNodes = new BehaviorSubject<string[]>([]);
 
   currentNode = this.sourceNode.asObservable();
@@ -69,6 +72,10 @@ export class ArchiveSharedDataServiceService {
   toggleArchiveUnitObservable = this.toggleArchiveUnitSubject.asObservable();
   storedSearchCriteriaHistoryObservable = this.storedSearchCriteriaHistorySubject.asObservable();
   allSearchCriteriaHistoryObservable = this.allSearchCriteriaHistorySubject.asObservable();
+
+  simpleSearchCriteriaObservable = this.simpleSearchCriteriaSubject.asObservable();
+  appraisalSearchCriteriaObservable = this.appraisalSearchCriteriaSubject.asObservable();
+
   filingHoldingNodes = this.filingHoldingNodesSubject.asObservable();
 
   entireNodesObservable = this.entireNodes.asObservable();
@@ -173,5 +180,21 @@ export class ArchiveSharedDataServiceService {
         break;
     }
     return searchCriteriaHistory;
+  }
+
+  addSimpleSearchCriteriaSubject(searchCriteria: SearchCriteriaExchange) {
+    this.simpleSearchCriteriaSubject.next(searchCriteria);
+  }
+
+  receiveSimpleSearchCriteriaSubject(): Observable<SearchCriteriaExchange> {
+    return this.simpleSearchCriteriaSubject.asObservable();
+  }
+
+  addAppraisalSearchCriteriaSubject(searchCriteria: SearchCriteriaExchange) {
+    this.appraisalSearchCriteriaSubject.next(searchCriteria);
+  }
+
+  receiveAppraisalSearchCriteriaSubject(): Observable<SearchCriteriaExchange> {
+    return this.appraisalSearchCriteriaSubject.asObservable();
   }
 }

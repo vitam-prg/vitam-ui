@@ -60,6 +60,16 @@ export interface SearchCriteriaValue {
   translated: boolean;
 }
 
+export interface SearchCriteriaExchange {
+  keyElt: string;
+  keyLabel: string;
+  valueElt: string;
+  labelElt: string;
+  translated: boolean;
+  operator: string;
+  category: SearchCriteriaTypeEnum;
+}
+
 export interface SearchCriteria {
   key: string;
   label: string;
