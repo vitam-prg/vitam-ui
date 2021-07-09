@@ -35,9 +35,12 @@
  * knowledge of the CeCILL-C license and that you accept its terms.
  */
 import {CommonModule} from '@angular/common';
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA,NgModule} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatCardModule} from '@angular/material/card';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatPseudoCheckboxModule} from '@angular/material/core';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
@@ -77,11 +80,15 @@ import {AccessionRegisterComponent} from './accession-register.component';
     MatProgressBarModule,
     MatTabsModule,
     RoleToggleModule,
+    MatCheckboxModule,
+    MatCardModule,
+    MatPseudoCheckboxModule
   ],
   declarations: [
     AccessionRegisterComponent,
     AccessionRegisterListComponent
-  ]
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 
 })
 export class AccessionRegisterModule {

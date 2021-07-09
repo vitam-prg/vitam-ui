@@ -34,11 +34,14 @@
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL-C license and that you accept its terms.
  */
-import {Component,EventEmitter,OnDestroy,OnInit,Output} from '@angular/core';
-import {merge,Subject,Subscription} from 'rxjs';
+import {HttpHeaders} from '@angular/common/http';
+import {Component,OnDestroy,OnInit} from '@angular/core';
+import {merge,Subject} from 'rxjs';
 import {debounceTime,startWith} from 'rxjs/operators';
-import {DEFAULT_PAGE_SIZE,Direction,InfiniteScrollTable,PageRequest,Profile} from 'ui-frontend-common';
+import {Colors,DEFAULT_PAGE_SIZE,Direction,InfiniteScrollTable,Logger,PageRequest} from 'ui-frontend-common';
+import {FacetDetails} from 'ui-frontend-common/app/modules/models/operation/facet-details.interface';
 import {AccessionRegisterDetail} from '../../../../../vitamui-library/src/lib/models/accession-registers-detail';
+import {AccessionRegisterStats} from '../../../../../vitamui-library/src/lib/models/accession-registers-stats';
 import {AccessionRegistersService} from '../accession-register.service';
 
 const FILTER_DEBOUNCE_TIME_MS=400;
@@ -63,17 +66,31 @@ export class AccessionRegisterListComponent extends InfiniteScrollTable<Accessio
   private readonly filterChange=new Subject<{[key: string]: any[]}>();
   private readonly searchChange=new Subject<string>();
   private readonly orderChange=new Subject<string>();
-  // private readonly searchKeys=['name','description','identifier'];
 
-  @Output() profileClick=new EventEmitter<Profile>();
 
-  private updatedProfileSub: Subscription;
+  accessionRegisterStats: AccessionRegisterStats;
 
-  constructor(public accessionRegistersService: AccessionRegistersService) {
+  statusFacetDetails: FacetDetails[]=[];
+  stateFacetDetails: FacetDetails[]=[];
+  stateFacetTitle: string;
+  statusFacetTitle: string;
+  // CheckBox on first td
+  checked=false;
+  indeterminate=false;
+  labelPosition: 'before'|'after'='after';
+  disabled=false;
+  constructor(public accessionRegistersService: AccessionRegistersService,public logger: Logger) {
     super(accessionRegistersService);
   }
 
   ngOnInit() {
+
+    this.accessionRegistersService.getStats(new HttpHeaders({'X-Access-Contract-Id': 'ContratTNR'})).subscribe((data) => {
+      console.log('accessionRegisterStats',data);
+      this.accessionRegisterStats=data;
+      this.initializeFacet();
+    });
+
     const searchCriteriaChange=merge(this.searchChange,this.filterChange,this.orderChange)
       .pipe(
         startWith(null),
@@ -83,18 +100,60 @@ export class AccessionRegisterListComponent extends InfiniteScrollTable<Accessio
     searchCriteriaChange.subscribe(() => this.search());
   }
 
+
+
+  initializeFacet() {
+    //this.stateFacetTitle='titre de la facette';
+    //this.statusFacetTitle='statistiques des registres de fonds';
+
+    this.initializeFacetDetails();
+
+    this.stateFacetDetails.push({
+      title: 'Toutes les opérations d\'entrées',
+      totalResults: this.accessionRegisterStats.totalUnits,
+      clickable: false,
+      color: Colors.DEFAULT,
+      filter: 'RUNNING',
+    });
+    this.stateFacetDetails.push({
+      title: 'Toutes les unités archivistiques',
+      totalResults: this.accessionRegisterStats.totalUnits,
+      clickable: false,
+      color: Colors.DEFAULT,
+      filter: 'RUNNING',
+    });
+    this.stateFacetDetails.push({
+      title: 'Tout les groupes d\'objets',
+      totalResults: this.accessionRegisterStats.totalObjectsGroups,
+      clickable: false,
+      color: Colors.DEFAULT,
+      filter: 'PAUSE',
+    });
+    this.stateFacetDetails.push({
+      title: 'Tout les objets',
+      totalResults: this.accessionRegisterStats.totalObjects,
+      clickable: false,
+      color: Colors.DEFAULT,
+      filter: 'COMPLETED',
+    });
+    this.stateFacetDetails.push({
+      title: 'Volumétrie totale',
+      totalResults: this.accessionRegisterStats.objectSizes,
+      clickable: false,
+      color: Colors.DEFAULT,
+      filter: 'COMPLETED',
+    });
+  }
+
+  private initializeFacetDetails() {
+    this.stateFacetDetails=[];
+    this.statusFacetDetails=[];
+  }
+
   ngOnDestroy() {
-    this.updatedProfileSub.unsubscribe();
   }
 
   search() {
-    // const defaultCriterion: Criterion={key: 'applicationName',value: ApplicationId.USERS_APP,operator: Operators.equals};
-    /*const query: SearchQuery={
-      criteria: [
-        defaultCriterion,
-        ...buildCriteriaFromSearch(this._searchText,this.searchKeys),
-      ]
-    };*/
     const pageRequest=new PageRequest(0,DEFAULT_PAGE_SIZE,'OriginatingAgency',this.direction);
 
     super.search(pageRequest);

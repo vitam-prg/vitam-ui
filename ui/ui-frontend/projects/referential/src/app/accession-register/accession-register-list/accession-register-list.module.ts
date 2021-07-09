@@ -35,7 +35,10 @@
  * knowledge of the CeCILL-C license and that you accept its terms.
  */
 import {CommonModule} from '@angular/common';
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA,NgModule} from '@angular/core';
+import {MatCardModule} from '@angular/material/card';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatPseudoCheckboxModule} from '@angular/material/core';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {VitamUICommonModule} from 'ui-frontend-common';
 import {SharedModule} from '../../shared/shared.module';
@@ -47,9 +50,13 @@ import {AccessionRegisterListComponent} from './accession-register-list.componen
     CommonModule,
     SharedModule,
     MatProgressSpinnerModule,
-    VitamUICommonModule
+    VitamUICommonModule,
+    MatCheckboxModule,
+    MatCardModule,
+    MatPseudoCheckboxModule
   ],
   declarations: [AccessionRegisterListComponent],
-  exports: [AccessionRegisterListComponent]
+  exports: [AccessionRegisterListComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AccessionRegisterListModule {}
