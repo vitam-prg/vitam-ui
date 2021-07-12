@@ -57,17 +57,24 @@ export interface SearchCriteriaValue {
   label?: string;
   valueShown?: boolean;
   status: SearchCriteriaStatusEnum;
-  translated: boolean;
+  keyTranslated: boolean;
+  valueTranslated: boolean;
 }
 
-export interface SearchCriteriaExchange {
+export interface SearchCriteriaAddAction {
   keyElt: string;
   keyLabel: string;
   valueElt: string;
   labelElt: string;
-  translated: boolean;
+  keyTranslated: boolean;
   operator: string;
   category: SearchCriteriaTypeEnum;
+  valueTranslated: boolean;
+}
+
+export interface SearchCriteriaRemoveAction {
+  keyElt: string;
+  valueElt: string;
 }
 
 export interface SearchCriteria {

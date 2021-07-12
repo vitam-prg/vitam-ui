@@ -7,8 +7,8 @@
             <div
               class="vitamui-search-criteria-content"
               matTooltip="{{
-                (criteriaValue.translated
-                  ? ('ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.FIELDS.' + criteriaVal.label | translate)
+                (criteriaValue.keyTranslated
+                  ? ('ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.' + getCategoryName(criteriaVal.category) + '.' + criteriaVal.label | translate)
                   : criteriaVal.label) +
                   ' : ' +
                   criteriaValue.label
@@ -23,15 +23,24 @@
             >
               <ng-container *ngIf="isFirst">
                 {{
-                  (criteriaValue.translated
-                    ? ('ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.FIELDS.' + criteriaVal.label | translate)
+                  (criteriaValue.keyTranslated
+                    ? ('ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.' + getCategoryName(criteriaVal.category) + '.' + criteriaVal.label
+                      | translate)
                     : criteriaVal.label) +
                     ' : ' +
-                    criteriaValue.label | truncate: 45
+                    (criteriaValue.valueTranslated
+                      ? ('ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.' + getCategoryName(criteriaVal.category) + '.' + criteriaValue.label
+                        | translate)
+                      : (criteriaValue.label | truncate: 45))
                 }}
               </ng-container>
               <ng-container *ngIf="!isFirst">
-                {{ criteriaValue.label | truncate: 45 }}
+                {{
+                  criteriaValue.valueTranslated
+                    ? ('ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.' + getCategoryName(criteriaVal.category) + '.' + criteriaValue.label
+                      | translate)
+                    : (criteriaValue.label | truncate: 45)
+                }}
               </ng-container>
             </div>
             <div
@@ -78,7 +87,7 @@
             <div
               class="vitamui-search-criteria-content"
               matTooltip="{{
-                (criteriaValue.translated
+                (criteriaValue.keyTranslated
                   ? ('ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.FIELDS.' + criteriaVal.label | translate)
                   : criteriaVal.label) +
                   ' : ' +
@@ -95,7 +104,7 @@
               <ng-container *ngIf="isFirst">
                 <i class="vitamui-icon vitamui-icon-target vitamui-row-icon"></i>
                 {{
-                  (criteriaValue.translated
+                  (criteriaValue.keyTranslated
                     ? ('ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.FIELDS.' + criteriaVal.label | translate)
                     : criteriaVal.label) +
                     ' : ' +

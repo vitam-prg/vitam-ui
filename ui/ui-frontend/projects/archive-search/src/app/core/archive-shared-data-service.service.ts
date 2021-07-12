@@ -40,7 +40,7 @@ import { Direction } from 'ui-frontend-common';
 import { FilingHoldingSchemeNode } from '../archive/models/node.interface';
 import { NodeData } from '../archive/models/nodedata.interface';
 import { SearchCriteriaHistory, SearchCriterias } from '../archive/models/search-criteria-history.interface';
-import { ResultFacet, SearchCriteriaExchange } from '../archive/models/search.criteria';
+import { ResultFacet, SearchCriteriaAddAction, SearchCriteriaRemoveAction } from '../archive/models/search.criteria';
 import { Unit } from '../archive/models/unit.interface';
 
 @Injectable({
@@ -58,8 +58,10 @@ export class ArchiveSharedDataServiceService {
   private storedSearchCriteriaHistorySubject = new BehaviorSubject<SearchCriteriaHistory>(null);
   private allSearchCriteriaHistorySubject = new BehaviorSubject<SearchCriteriaHistory[]>([]);
 
-  private simpleSearchCriteriaSubject = new BehaviorSubject<SearchCriteriaExchange>(null);
-  private appraisalSearchCriteriaSubject = new BehaviorSubject<SearchCriteriaExchange>(null);
+  private simpleSearchCriteriaAddSubject = new BehaviorSubject<SearchCriteriaAddAction>(null);
+  private appraisalSearchCriteriaAddSubject = new BehaviorSubject<SearchCriteriaAddAction>(null);
+
+  private searchCriteriaRemoveSubject = new BehaviorSubject<SearchCriteriaRemoveAction>(null);
 
   private entireNodes = new BehaviorSubject<string[]>([]);
 
@@ -73,8 +75,7 @@ export class ArchiveSharedDataServiceService {
   storedSearchCriteriaHistoryObservable = this.storedSearchCriteriaHistorySubject.asObservable();
   allSearchCriteriaHistoryObservable = this.allSearchCriteriaHistorySubject.asObservable();
 
-  simpleSearchCriteriaObservable = this.simpleSearchCriteriaSubject.asObservable();
-  appraisalSearchCriteriaObservable = this.appraisalSearchCriteriaSubject.asObservable();
+  removeSearchCriteriaObservable = this.searchCriteriaRemoveSubject.asObservable();
 
   filingHoldingNodes = this.filingHoldingNodesSubject.asObservable();
 
@@ -182,19 +183,27 @@ export class ArchiveSharedDataServiceService {
     return searchCriteriaHistory;
   }
 
-  addSimpleSearchCriteriaSubject(searchCriteria: SearchCriteriaExchange) {
-    this.simpleSearchCriteriaSubject.next(searchCriteria);
+  addSimpleSearchCriteriaSubject(searchCriteria: SearchCriteriaAddAction) {
+    this.simpleSearchCriteriaAddSubject.next(searchCriteria);
   }
 
-  receiveSimpleSearchCriteriaSubject(): Observable<SearchCriteriaExchange> {
-    return this.simpleSearchCriteriaSubject.asObservable();
+  receiveSimpleSearchCriteriaSubject(): Observable<SearchCriteriaAddAction> {
+    return this.simpleSearchCriteriaAddSubject.asObservable();
   }
 
-  addAppraisalSearchCriteriaSubject(searchCriteria: SearchCriteriaExchange) {
-    this.appraisalSearchCriteriaSubject.next(searchCriteria);
+  addAppraisalSearchCriteriaSubject(searchCriteria: SearchCriteriaAddAction) {
+    this.appraisalSearchCriteriaAddSubject.next(searchCriteria);
   }
 
-  receiveAppraisalSearchCriteriaSubject(): Observable<SearchCriteriaExchange> {
-    return this.appraisalSearchCriteriaSubject.asObservable();
+  receiveAppraisalSearchCriteriaSubject(): Observable<SearchCriteriaAddAction> {
+    return this.appraisalSearchCriteriaAddSubject.asObservable();
+  }
+
+  sendRemoveSearchCriteriaAction(searchCriteriaAction: SearchCriteriaRemoveAction) {
+    this.searchCriteriaRemoveSubject.next(searchCriteriaAction);
+  }
+
+  receiveRemoveSearchCriteriaSubject(): Observable<SearchCriteriaRemoveAction> {
+    return this.searchCriteriaRemoveSubject.asObservable();
   }
 }

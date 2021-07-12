@@ -49,7 +49,7 @@ import { SearchCriteria, SearchCriteriaCategory, SearchCriteriaEltDto, SearchCri
 import { Unit } from '../../models/unit.interface';
 
 const UPDATE_DEBOUNCE_TIME = 200;
- 
+
 @Component({
   selector: 'title-and-description-criteria-search',
   templateUrl: './title-and-description-criteria-search.component.html',
@@ -142,7 +142,8 @@ export class TitleAndDescriptionCriteriaSearchComponent implements OnInit {
           formData.archiveCriteria.trim(),
           formData.archiveCriteria.trim(),
           true,
-          'EQ'
+          'EQ',
+          false
         );
         return true;
       } else {
@@ -205,16 +206,25 @@ export class TitleAndDescriptionCriteriaSearchComponent implements OnInit {
     }
   }
 
-  addCriteria(keyElt: string, keyLabel: string, valueElt: string, labelElt: string, translated: boolean, operator: string) {
+  addCriteria(
+    keyElt: string,
+    keyLabel: string,
+    valueElt: string,
+    labelElt: string,
+    translated: boolean,
+    operator: string,
+    valueTranslated: boolean
+  ) {
     if (keyElt && valueElt) {
       this.archiveExchangeDataService.addSimpleSearchCriteriaSubject({
         keyElt: keyElt,
         keyLabel: keyLabel,
         valueElt: valueElt,
         labelElt: labelElt,
-        translated: translated,
+        keyTranslated: translated,
         operator: operator,
         category: SearchCriteriaTypeEnum.FIELDS,
+        valueTranslated: valueTranslated,
       });
     }
   }

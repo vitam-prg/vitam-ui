@@ -55,7 +55,7 @@
         <div class="col-1 form-control"></div>
         <div class="col-4 form-control">
           <p *ngIf="!showDuaEndDate" class="text medium text-primary bold text-clicable-uppercase" (click)="showHideDuaEndDate(true)">
-            {{ 'ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.DUA.CREATE_INTERVAL' | translate }}
+            {{ 'ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.APPRAISAL_RULE.CREATE_INTERVAL' | translate }}
           </p>
 
           <div class="vitamui-input" (click)="pickerEndDua.open()" *ngIf="showDuaEndDate">
@@ -82,7 +82,7 @@
         </div>
         <div class="col-1 form-control">
           <p *ngIf="showDuaEndDate" class="text medium text-primary bold text-clicable-uppercase" (click)="showHideDuaEndDate(false)">
-            {{ 'ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.DUA.DELETE_INTERVAL' | translate }}
+            {{ 'ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.APPRAISAL_RULE.DELETE_INTERVAL' | translate }}
           </p>
         </div>
       </div>
@@ -145,17 +145,7 @@
               {{ 'ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.FIELDS.FINAL_ACTION_TYPE.TITLE' | translate }}
             </p>
           </div>
-          <div class="row criteria-choice">
-            <input
-              class="criteria-choice-input"
-              id="SELECT_ALL_APPRAISAL_RULE_FINAL_ACTION_TYPE"
-              type="checkbox"
-              formControlName="anyFinalAction"
-            />
-            <label for="SELECT_ALL_APPRAISAL_RULE_FINAL_ACTION_TYPE" class="form-check-label">
-              {{ 'ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.FIELDS.FINAL_ACTION_TYPE.SELECT_ALL_APPRAISAL_RULE' | translate }}</label
-            >
-          </div>
+
           <div class="row criteria-choice sub-choice">
             <input
               class="criteria-choice-input"
@@ -187,17 +177,7 @@
               {{ 'ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.FIELDS.FINAL_ACTION.TITLE' | translate }}
             </p>
           </div>
-          <div class="row criteria-choice">
-            <input
-              class="criteria-choice-input"
-              id="SELECT_ALL_APPRAISAL_RULE_FINAL_ACTION"
-              type="checkbox"
-              formControlName="anyFinalActionType"
-            />
-            <label for="SELECT_ALL_APPRAISAL_RULE_FINAL_ACTION" class="form-check-label">
-              {{ 'ARCHIVE_SEARCH.SEARCH_CRITERIA_FILTER.FIELDS.FINAL_ACTION.SELECT_ALL_APPRAISAL_RULE' | translate }}</label
-            >
-          </div>
+
           <div class="row criteria-choice sub-choice">
             <input
               class="criteria-choice-input"

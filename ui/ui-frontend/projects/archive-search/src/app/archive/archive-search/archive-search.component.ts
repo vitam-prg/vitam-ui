@@ -37,13 +37,13 @@
 import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { merge, Subject, Subscription } from 'rxjs';
-import { debounceTime, filter, map } from 'rxjs/operators';
-import { diff, Direction } from 'ui-frontend-common';
+import { debounceTime } from 'rxjs/operators';
+import { Direction } from 'ui-frontend-common';
 import { ArchiveSharedDataServiceService } from '../../core/archive-shared-data-service.service';
 import { ArchiveService } from '../archive.service';
 import { FilingHoldingSchemeNode } from '../models/node.interface';
@@ -60,7 +60,6 @@ import {
 import { Unit } from '../models/unit.interface';
 import { SearchCriteriaSaverComponent } from './search-criteria-saver/search-criteria-saver.component';
 
-const UPDATE_DEBOUNCE_TIME = 200;
 const BUTTON_MAX_TEXT = 40;
 const DESCRIPTION_MAX_TEXT = 60;
 const PAGE_SIZE = 10;
@@ -90,7 +89,6 @@ export class ArchiveSearchComponent implements OnInit {
   included: boolean = false;
   canLoadMore: boolean = false;
   tenantIdentifier: string;
-  simpleCriteriaForm: FormGroup;
   appraisalRuleCriteriaForm: FormGroup;
   submited: boolean = false;
   searchCriterias: Map<string, SearchCriteria>;
@@ -119,65 +117,6 @@ export class ArchiveSearchComponent implements OnInit {
   searchCriteriaHistoryToSave: Map<string, SearchCriteriaHistory>;
   searchCriteriaHistoryLength: number = null;
   hasResults = false;
-  previousSimpleCriteriaValue: {
-    archiveCriteria: '';
-    title: '';
-    identifier: '';
-    description: '';
-    guid: '';
-    uaid: '';
-    beginDt: '';
-    endDt: '';
-    serviceProdLabel: '';
-    serviceProdCode: '';
-    serviceProdCommunicability: '';
-    serviceProdCommunicabilityDt: '';
-    otherCriteria: '';
-    otherCriteriaValue: '';
-    appraisalRuleIdentifier: '';
-    appraisalRuleTitle: '';
-    appraisalRuleStartDate: '';
-    appraisalRuleEndDate: '';
-    appraisalRuleOrigin: {};
-    appraisalRuleFinalActionType: {
-      anyFinalActionType: '';
-      eliminationFinalActionType: '';
-      conservationFinalActionType: '';
-      notSpecifiedFinalActionType: '';
-    };
-    appraisalRuleFinalAction: {};
-    appraisalRuleEliminationIdentifier: '';
-  };
-  emptySimpleCriteriaForm = {
-    archiveCriteria: '',
-    title: '',
-    identifier: '',
-    description: '',
-    guid: '',
-    uaid: '',
-    beginDt: '',
-    endDt: '',
-    serviceProdLabel: '',
-    serviceProdCode: '',
-    serviceProdCommunicability: '',
-    serviceProdCommunicabilityDt: '',
-    otherCriteria: '',
-    otherCriteriaValue: '',
-
-    appraisalRuleIdentifier: '',
-    appraisalRuleTitle: '',
-    appraisalRuleStartDate: '',
-    appraisalRuleEndDate: '',
-    appraisalRuleOrigin: {},
-    appraisalRuleFinalActionType: {
-      anyFinalActionType: '',
-      eliminationFinalActionType: '',
-      conservationFinalActionType: '',
-      notSpecifiedFinalActionType: '',
-    },
-    appraisalRuleFinalAction: {},
-    appraisalRuleEliminationIdentifier: '',
-  };
 
   show = true;
   showUnitPreviewBlock = false;
@@ -187,7 +126,6 @@ export class ArchiveSearchComponent implements OnInit {
   entireNodesIds: string[];
 
   constructor(
-    private formBuilder: FormBuilder,
     private archiveService: ArchiveService,
     private translateService: TranslateService,
     private route: ActivatedRoute,
@@ -201,7 +139,7 @@ export class ArchiveSearchComponent implements OnInit {
 
     this.subscriptionNodes = this.archiveExchangeDataService.getNodes().subscribe((node) => {
       if (node.checked) {
-        this.addCriteria('NODE', 'NODE', node.id, node.title, true, 'EQ', SearchCriteriaTypeEnum.NODES);
+        this.addCriteria('NODE', 'NODE', node.id, node.title, true, 'EQ', SearchCriteriaTypeEnum.NODES, false);
       } else {
         node.count = null;
         this.removeCriteria('NODE', node.id);
@@ -216,10 +154,18 @@ export class ArchiveSearchComponent implements OnInit {
           criteria.keyLabel,
           criteria.valueElt,
           criteria.labelElt,
-          criteria.translated,
+          criteria.keyTranslated,
           criteria.operator,
-          criteria.category
+          criteria.category,
+          criteria.valueTranslated
         );
+      }
+    });
+
+    this.archiveExchangeDataService.receiveRemoveSearchCriteriaSubject().subscribe((criteria) => {
+      if (criteria) {
+        console.log('remove criteria ', criteria.keyElt, criteria.valueElt);
+        this.removeCriteria(criteria.keyElt, criteria.valueElt);
       }
     });
 
@@ -231,9 +177,10 @@ export class ArchiveSearchComponent implements OnInit {
           criteria.keyLabel,
           criteria.valueElt,
           criteria.labelElt,
-          criteria.translated,
+          criteria.keyTranslated,
           criteria.operator,
-          criteria.category
+          criteria.category,
+          criteria.valueTranslated
         );
       }
     });
@@ -246,299 +193,6 @@ export class ArchiveSearchComponent implements OnInit {
         return shortNameA < shortNameB ? -1 : shortNameA > shortNameB ? 1 : 0;
       });
     });
-
-    this.previousSimpleCriteriaValue = {
-      archiveCriteria: '',
-      title: '',
-      identifier: '',
-      description: '',
-      guid: '',
-      uaid: '',
-      beginDt: '',
-      endDt: '',
-      serviceProdLabel: '',
-      serviceProdCode: '',
-      serviceProdCommunicability: '',
-      serviceProdCommunicabilityDt: '',
-      otherCriteria: '',
-      otherCriteriaValue: '',
-
-      appraisalRuleIdentifier: '',
-      appraisalRuleTitle: '',
-      appraisalRuleStartDate: '',
-      appraisalRuleEndDate: '',
-      appraisalRuleOrigin: {},
-      appraisalRuleFinalActionType: {
-        anyFinalActionType: '',
-        eliminationFinalActionType: '',
-        conservationFinalActionType: '',
-        notSpecifiedFinalActionType: '',
-      },
-      appraisalRuleFinalAction: {},
-      appraisalRuleEliminationIdentifier: '',
-    };
-
-    this.simpleCriteriaForm = this.formBuilder.group({
-      archiveCriteria: ['', []],
-      title: ['', []],
-      description: ['', []],
-      guid: ['', []],
-      uaid: ['', []],
-      beginDt: ['', []],
-      endDt: ['', []],
-      serviceProdLabel: ['', []],
-      serviceProdCode: ['', []],
-      serviceProdCommunicability: ['', []],
-      serviceProdCommunicabilityDt: ['', []],
-      otherCriteria: ['', []],
-      otherCriteriaValue: ['', []],
-
-      //appraisalRules
-      appraisalRuleIdentifier: ['', []],
-      appraisalRuleTitle: ['', []],
-      appraisalRuleStartDate: ['', []],
-      appraisalRuleEndDate: ['', []],
-
-      appraisalRuleOrigin: formBuilder.group({
-        inheriteAtLeastOne: ['true', []],
-        hasAtLeastOne: ['true', []],
-        hasNoOne: ['', []],
-        waitingRecalculate: ['', []],
-      }),
-
-      appraisalRuleFinalAction: formBuilder.group({
-        anyFinalAction: ['', []],
-        hasFinalAction: ['', []],
-        inheriteFinalAction: ['', []],
-      }),
-
-      appraisalRuleFinalActionType: formBuilder.group({
-        anyFinalActionType: ['', []],
-        eliminationFinalActionType: ['true', []],
-        conservationFinalActionType: ['', []],
-        notSpecifiedFinalActionType: ['', []],
-      }),
-
-      appraisalRuleEliminationIdentifier: ['', []],
-    });
-    merge(this.simpleCriteriaForm.statusChanges, this.simpleCriteriaForm.valueChanges)
-      .pipe(
-        debounceTime(UPDATE_DEBOUNCE_TIME),
-        filter(() => this.simpleCriteriaForm.valid),
-        map(() => this.simpleCriteriaForm.value),
-        map(() => diff(this.simpleCriteriaForm.value, this.previousSimpleCriteriaValue)),
-        filter((formData) => this.isEmpty(formData))
-      )
-      .subscribe(() => {
-        this.resetSimpleCriteriaForm();
-      });
-  }
-
-  isEmpty(formData: any): boolean {
-    if (formData) {
-      if (formData.archiveCriteria) {
-        this.addCriteria(
-          'titleAndDescription',
-          'TITLE_OR_DESCRIPTION',
-          formData.archiveCriteria.trim(),
-          formData.archiveCriteria.trim(),
-          true,
-          'EQ',
-          SearchCriteriaTypeEnum.FIELDS
-        );
-        return true;
-      } else if (formData.title) {
-        this.addCriteria('Title', 'TITLE', formData.title.trim(), formData.title.trim(), true, 'EQ', SearchCriteriaTypeEnum.FIELDS);
-        return true;
-      } else if (formData.description) {
-        this.addCriteria(
-          'Description',
-          'DESCRIPTION',
-          formData.description.trim(),
-          formData.description.trim(),
-          true,
-          'EQ',
-          SearchCriteriaTypeEnum.FIELDS
-        );
-        return true;
-      } else if (formData.beginDt) {
-        this.addCriteria(
-          'StartDate',
-          'START_DATE',
-          this.simpleCriteriaForm.value.beginDt,
-          this.datePipe.transform(this.simpleCriteriaForm.value.beginDt, 'dd/MM/yyyy'),
-          true,
-          'GTE',
-          SearchCriteriaTypeEnum.FIELDS
-        );
-        return true;
-      } else if (formData.endDt) {
-        this.addCriteria(
-          'EndDate',
-          'END_DATE',
-          this.simpleCriteriaForm.value.endDt,
-          this.datePipe.transform(this.simpleCriteriaForm.value.endDt, 'dd/MM/yyyy'),
-          true,
-          'LTE',
-          SearchCriteriaTypeEnum.FIELDS
-        );
-        return true;
-      } else if (formData.serviceProdCode) {
-        this.addCriteria(
-          '#originating_agency',
-          'SP_CODE',
-          formData.serviceProdCode.trim(),
-          formData.serviceProdCode.trim(),
-          true,
-          'EQ',
-          SearchCriteriaTypeEnum.FIELDS
-        );
-        return true;
-      } else if (formData.serviceProdLabel) {
-        this.addCriteria(
-          'originating_agency_label',
-          'SP_LABEL',
-          formData.serviceProdLabel.trim(),
-          formData.serviceProdLabel.trim(),
-          true,
-          'EQ',
-          SearchCriteriaTypeEnum.FIELDS
-        );
-        return true;
-      } else if (formData.uaid) {
-        this.addCriteria('#id', 'ID', formData.uaid, formData.uaid, true, 'EQ', SearchCriteriaTypeEnum.FIELDS);
-        return true;
-      } else if (formData.guid) {
-        this.addCriteria('#opi', 'GUID', formData.guid, formData.guid, true, 'EQ', SearchCriteriaTypeEnum.FIELDS);
-        return true;
-      } else if (formData.otherCriteriaValue) {
-        const ontologyElt = this.ontologies.find((ontoElt: any) => ontoElt.Value === formData.otherCriteria);
-        if (this.otherCriteriaValueType === 'DATE') {
-          this.addCriteria(
-            ontologyElt.Value,
-            ontologyElt.Label,
-            this.simpleCriteriaForm.value.otherCriteriaValue,
-            this.datePipe.transform(this.simpleCriteriaForm.value.otherCriteriaValue, 'dd/MM/yyyy'),
-            false,
-            'EQ',
-            SearchCriteriaTypeEnum.FIELDS
-          );
-        } else {
-          this.addCriteria(
-            ontologyElt.Value,
-            ontologyElt.Label,
-            formData.otherCriteriaValue.trim(),
-            formData.otherCriteriaValue.trim(),
-            false,
-            'EQ',
-            SearchCriteriaTypeEnum.FIELDS
-          );
-        }
-        return true;
-      } else if (formData.appraisalRuleIdentifier) {
-        this.addCriteria(
-          'AppraisalRuleIdentifier',
-          'ID_DUA',
-          formData.appraisalRuleIdentifier.trim(),
-          formData.appraisalRuleIdentifier.trim(),
-          true,
-          'EQ',
-          SearchCriteriaTypeEnum.APPRAISAL_RULE
-        );
-        return true;
-      } else if (formData.appraisalRuleTitle) {
-        this.addCriteria(
-          'AppraisalRuleTitle',
-          'TITLE_DUA',
-          formData.appraisalRuleTitle.trim(),
-          formData.appraisalRuleTitle.trim(),
-          true,
-          'EQ',
-          SearchCriteriaTypeEnum.APPRAISAL_RULE
-        );
-        return true;
-      } else if (formData.appraisalRuleStartDate) {
-        this.addCriteria(
-          'AppraisalRuleStartDate',
-          'START_DATE_DUA',
-          this.simpleCriteriaForm.value.appraisalRuleStartDate,
-          this.datePipe.transform(this.simpleCriteriaForm.value.appraisalRuleStartDate, 'dd/MM/yyyy'),
-          true,
-          'GTE',
-          SearchCriteriaTypeEnum.APPRAISAL_RULE
-        );
-        return true;
-      } else if (formData.appraisalRuleEndDate) {
-        this.addCriteria(
-          'AppraisalRuleEndDate',
-          'END_DATE_DUA',
-          this.simpleCriteriaForm.value.appraisalRuleEndDate,
-          this.datePipe.transform(this.simpleCriteriaForm.value.appraisalRuleEndDate, 'dd/MM/yyyy'),
-          true,
-          'LTE',
-          SearchCriteriaTypeEnum.APPRAISAL_RULE
-        );
-        return true;
-      } else if (formData.appraisalRuleFinalActionType) {
-        this.addCriteria(
-          'appraisalRuleFinalActionTypeSelected',
-          'appraisalRuleFinalActionTypeSelected',
-          'eliminationFinalActionType',
-          'eliminationFinalActionType',
-          true,
-          'EQ',
-          SearchCriteriaTypeEnum.APPRAISAL_RULE
-        );
-
-        let appraisalRuleFinalActionTypeSelected = this.simpleCriteriaForm.value.appraisalRuleFinalActionType;
-        if (appraisalRuleFinalActionTypeSelected) {
-          if (appraisalRuleFinalActionTypeSelected.anyFinalActionType === 'true') {
-            this.removeCriteria('appraisalRuleFinalActionTypeSelected', 'eliminationFinalActionType');
-            this.removeCriteria('appraisalRuleFinalActionTypeSelected', 'conservationFinalActionType');
-            this.removeCriteria('appraisalRuleFinalActionTypeSelected', 'notSpecifiedFinalActionType');
-          }
-          if (appraisalRuleFinalActionTypeSelected.eliminationFinalActionType === 'true') {
-            this.addCriteria(
-              'appraisalRuleFinalActionTypeSelected',
-              'appraisalRuleFinalActionTypeSelected',
-              'eliminationFinalActionType',
-              'eliminationFinalActionType',
-              true,
-              'EQ',
-              SearchCriteriaTypeEnum.APPRAISAL_RULE
-            );
-          }
-          if (appraisalRuleFinalActionTypeSelected.conservationFinalActionType === 'true') {
-            this.addCriteria(
-              'appraisalRuleFinalActionTypeSelected',
-              'appraisalRuleFinalActionTypeSelected',
-              'conservationFinalActionType',
-              'conservationFinalActionType',
-              true,
-              'EQ',
-              SearchCriteriaTypeEnum.APPRAISAL_RULE
-            );
-          }
-          if (appraisalRuleFinalActionTypeSelected.notSpecifiedFinalActionType === 'true') {
-            this.addCriteria(
-              'appraisalRuleFinalActionTypeSelected',
-              'appraisalRuleFinalActionTypeSelected',
-              'notSpecifiedFinalActionType',
-              'notSpecifiedFinalActionType',
-              true,
-              'EQ',
-              SearchCriteriaTypeEnum.APPRAISAL_RULE
-            );
-          }
-        }
-
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    }
   }
 
   selectedCategoryChange(selectedCategoryIndex: number) {
@@ -584,10 +238,6 @@ export class ArchiveSearchComponent implements OnInit {
     this.additionalSearchCriteriaCategories.forEach((category, index) => {
       category.index = index + 1;
     });
-  }
-
-  private resetSimpleCriteriaForm() {
-    this.simpleCriteriaForm.reset(this.emptySimpleCriteriaForm);
   }
 
   ngOnInit() {
@@ -671,32 +321,15 @@ export class ArchiveSearchComponent implements OnInit {
     }
   }
 
-  onSelectOtherCriteria() {
-    this.simpleCriteriaForm.get('otherCriteria').valueChanges.subscribe((selectedcriteria) => {
-      if (selectedcriteria === '') {
-        this.otherCriteriaValueEnabled = false;
-        this.selectedValueOntolonogy = null;
-      } else {
-        this.simpleCriteriaForm.controls.otherCriteriaValue.setValue('');
-        this.otherCriteriaValueEnabled = true;
-        let selectedValueOntolonogyValue = this.simpleCriteriaForm.get('otherCriteria').value;
-        const selectedValueOntolonogyElt = this.ontologies.find((ontoElt: any) => ontoElt.Value === selectedValueOntolonogyValue);
-        if (selectedValueOntolonogyElt) {
-          this.selectedValueOntolonogy = selectedValueOntolonogyElt.Label;
-          this.otherCriteriaValueType = selectedValueOntolonogyElt.Type;
-        }
-      }
-    });
-  }
-
   addCriteria(
     keyElt: string,
     keyLabel: string,
     valueElt: string,
     labelElt: string,
-    translated: boolean,
+    keyTranslated: boolean,
     operator: string,
-    category: SearchCriteriaTypeEnum
+    category: SearchCriteriaTypeEnum,
+    valueTranslated: boolean
   ) {
     if (keyElt && valueElt) {
       if (this.searchCriterias) {
@@ -715,7 +348,8 @@ export class ArchiveSearchComponent implements OnInit {
               label: labelElt,
               valueShown: true,
               status: SearchCriteriaStatusEnum.NOT_INCLUDED,
-              translated: translated,
+              keyTranslated: keyTranslated,
+              valueTranslated: valueTranslated,
             });
             criteria.values = values;
             this.searchCriterias.set(keyElt, criteria);
@@ -728,7 +362,8 @@ export class ArchiveSearchComponent implements OnInit {
             label: labelElt,
             valueShown: true,
             status: SearchCriteriaStatusEnum.NOT_INCLUDED,
-            translated: translated,
+            keyTranslated: keyTranslated,
+            valueTranslated: valueTranslated,
           });
           let criteria = { key: keyElt, label: keyLabel, values: values, operator: operator, category: category };
           this.searchCriterias.set(keyElt, criteria);
@@ -919,7 +554,7 @@ export class ArchiveSearchComponent implements OnInit {
       if (node.id === nodeId) {
         node.checked = true;
         node.hidden = false;
-        this.addCriteria('NODE', 'NODE', nodeId, node.title, true, 'EQ', SearchCriteriaTypeEnum.NODES);
+        this.addCriteria('NODE', 'NODE', nodeId, node.title, true, 'EQ', SearchCriteriaTypeEnum.NODES, false);
       } else if (node.children.length > 0) {
         this.fillNodeTitle(node.children, nodeId);
       }
@@ -970,10 +605,11 @@ export class ArchiveSearchComponent implements OnInit {
                   this.datePipe.transform(value, 'dd/MM/yyyy'),
                   false,
                   'EQ', //TODO : check operator and category
-                  SearchCriteriaTypeEnum.FIELDS
+                  SearchCriteriaTypeEnum.FIELDS,
+                  false
                 );
               } else {
-                this.addCriteria(c, keyLabel, value, value, true, 'EQ', SearchCriteriaTypeEnum.FIELDS); //TODO : check operator and category
+                this.addCriteria(c, keyLabel, value, value, true, 'EQ', SearchCriteriaTypeEnum.FIELDS, false); //TODO : check operator and category
               }
             } else {
               this.addOntologyFilter(c, value, 'EQ', SearchCriteriaTypeEnum.FIELDS); //TODO : check operator and category
@@ -994,10 +630,11 @@ export class ArchiveSearchComponent implements OnInit {
         this.datePipe.transform(value, 'dd/MM/yyyy'),
         false,
         operator,
-        category
+        category,
+        false
       );
     } else {
-      this.addCriteria(ontologyElt.Value, ontologyElt.Label, value, value, false, operator, category);
+      this.addCriteria(ontologyElt.Value, ontologyElt.Label, value, value, false, operator, category, false);
     }
   }
 
@@ -1108,45 +745,5 @@ export class ArchiveSearchComponent implements OnInit {
     this.setFilingHoldingScheme();
     this.archiveExchangeDataService.emitFilingHoldingNodes(this.nodeArray);
     this.checkAllNodes(false);
-  }
-
-  get uaid() {
-    return this.simpleCriteriaForm.controls.uaid;
-  }
-  get archiveCriteria() {
-    return this.simpleCriteriaForm.controls.archiveCriteria;
-  }
-  get title() {
-    return this.simpleCriteriaForm.controls.title;
-  }
-  get description() {
-    return this.simpleCriteriaForm.controls.description;
-  }
-  get guid() {
-    return this.simpleCriteriaForm.controls.guid;
-  }
-  get beginDt() {
-    return this.simpleCriteriaForm.controls.beginDt;
-  }
-  get endDt() {
-    return this.simpleCriteriaForm.controls.endDt;
-  }
-  get serviceProdLabel() {
-    return this.simpleCriteriaForm.controls.serviceProdLabel;
-  }
-  get serviceProdCommunicability() {
-    return this.simpleCriteriaForm.controls.serviceProdCommunicability;
-  }
-  get serviceProdCode() {
-    return this.simpleCriteriaForm.controls.serviceProdCode;
-  }
-  get serviceProdCommunicabilityDt() {
-    return this.simpleCriteriaForm.controls.serviceProdCommunicabilityDt;
-  }
-  get otherCriteria() {
-    return this.simpleCriteriaForm.controls.otherCriteria;
-  }
-  get otherCriteriaValue() {
-    return this.simpleCriteriaForm.controls.otherCriteriaValue;
   }
 }

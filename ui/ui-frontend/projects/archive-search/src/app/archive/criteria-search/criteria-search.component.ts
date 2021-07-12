@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { SearchCriteria } from '../models/search.criteria';
+import { SearchCriteria, SearchCriteriaTypeEnum } from '../models/search.criteria';
 
 @Component({
   selector: 'app-criteria-search',
@@ -21,5 +21,9 @@ export class CriteriaSearchComponent implements OnInit {
 
   removeCriteria(keyElt: string, valueElt: string) {
     this.criteriaRemoveEvent.emit({ keyElt, valueElt });
+  }
+
+  getCategoryName(categoryEnum: SearchCriteriaTypeEnum): string {
+    return SearchCriteriaTypeEnum[categoryEnum];
   }
 }

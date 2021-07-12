@@ -14,9 +14,26 @@
       "TITLE": "Filtre de recherche",
       "OTHER_FILED_SELECTION": "Sélection d'un autre critère",
       "DUA_TITLE": "Durée d'utilité administrative",        
-       "DUA": {
+       "APPRAISAL_RULE": {
          "CREATE_INTERVAL":"Créer un intervale",
-         "DELETE_INTERVAL":"Supprimer l'intervale"
+         "DELETE_INTERVAL":"Supprimer l'intervale",
+         "APPRAISAL_RULE_FINAL_ACTION":"Sort final DUA",
+                   "TITLE_DUA": "Intitulé règle DUA",
+        "ID_DUA": "Identifiant  règle DUA",
+ "START_DATE_DUA": "Date de début règle DUA",
+        "END_DATE_DUA": "Date de fin règle DUA",
+        "APPRAISAL_RULE_FINAL_ACTION_TYPE":"Type Sort final ",
+        "APPRAISAL_RULE_ORIGIN":"Origine règle",
+        "ELIMINATION":"Elimination",
+        "CONSERVATION":"Conservation",
+        "NOT_SPECIFIED":"Non déclarée",
+        "HAS_FINAL_ACTION":"Porte le sort final DUA",
+        "INHERITE_FINAL_ACTION":"Hérite du sort final DUA",
+        "HAS_AT_LEAST_ONE":"Porte au moins une règle DUA",
+        "HAS_NO_ONE":"N'a pas de règle DUA définie",
+        "WAITING_RECALCULATE":"Est en attente de recalcul de règme",
+        "INHERITE_AT_LEAST_ONE":"Hérite au moins une règle DUA"
+
        },
       "FIELDS": {
         "ID": "ID",

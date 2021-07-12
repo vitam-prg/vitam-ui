@@ -160,7 +160,7 @@ export class SimpleCriteriaSearchComponent implements OnInit {
 
     this.subscriptionNodes = this.archiveExchangeDataService.getNodes().subscribe((node) => {
       if (node.checked) {
-        this.addCriteriaNode('NODE', 'NODE', node.id, node.title, true, 'EQ');
+        this.addCriteriaNode('NODE', 'NODE', node.id, node.title, true, 'EQ', false);
       } else {
         node.count = null;
         this.removeCriteria('NODE', node.id);
@@ -226,14 +226,15 @@ export class SimpleCriteriaSearchComponent implements OnInit {
           formData.archiveCriteria.trim(),
           formData.archiveCriteria.trim(),
           true,
-          'EQ'
+          'EQ',
+          false
         );
         return true;
       } else if (formData.title) {
-        this.addCriteria('Title', 'TITLE', formData.title.trim(), formData.title.trim(), true, 'EQ');
+        this.addCriteria('Title', 'TITLE', formData.title.trim(), formData.title.trim(), true, 'EQ', false);
         return true;
       } else if (formData.description) {
-        this.addCriteria('Description', 'DESCRIPTION', formData.description.trim(), formData.description.trim(), true, 'EQ');
+        this.addCriteria('Description', 'DESCRIPTION', formData.description.trim(), formData.description.trim(), true, 'EQ', false);
         return true;
       } else if (formData.beginDt) {
         this.addCriteria(
@@ -242,7 +243,8 @@ export class SimpleCriteriaSearchComponent implements OnInit {
           this.simpleCriteriaForm.value.beginDt,
           this.datePipe.transform(this.simpleCriteriaForm.value.beginDt, 'dd/MM/yyyy'),
           true,
-          'GTE'
+          'GTE',
+          false
         );
         return true;
       } else if (formData.endDt) {
@@ -252,11 +254,20 @@ export class SimpleCriteriaSearchComponent implements OnInit {
           this.simpleCriteriaForm.value.endDt,
           this.datePipe.transform(this.simpleCriteriaForm.value.endDt, 'dd/MM/yyyy'),
           true,
-          'LTE'
+          'LTE',
+          false
         );
         return true;
       } else if (formData.serviceProdCode) {
-        this.addCriteria('#originating_agency', 'SP_CODE', formData.serviceProdCode.trim(), formData.serviceProdCode.trim(), true, 'EQ');
+        this.addCriteria(
+          '#originating_agency',
+          'SP_CODE',
+          formData.serviceProdCode.trim(),
+          formData.serviceProdCode.trim(),
+          true,
+          'EQ',
+          false
+        );
         return true;
       } else if (formData.serviceProdLabel) {
         this.addCriteria(
@@ -265,14 +276,15 @@ export class SimpleCriteriaSearchComponent implements OnInit {
           formData.serviceProdLabel.trim(),
           formData.serviceProdLabel.trim(),
           true,
-          'EQ'
+          'EQ',
+          false
         );
         return true;
       } else if (formData.uaid) {
-        this.addCriteria('#id', 'ID', formData.uaid, formData.uaid, true, 'EQ');
+        this.addCriteria('#id', 'ID', formData.uaid, formData.uaid, true, 'EQ', false);
         return true;
       } else if (formData.guid) {
-        this.addCriteria('#opi', 'GUID', formData.guid, formData.guid, true, 'EQ');
+        this.addCriteria('#opi', 'GUID', formData.guid, formData.guid, true, 'EQ', false);
         return true;
       } else if (formData.otherCriteriaValue) {
         const ontologyElt = this.ontologies.find((ontoElt: any) => ontoElt.Value === formData.otherCriteria);
@@ -283,7 +295,8 @@ export class SimpleCriteriaSearchComponent implements OnInit {
             this.simpleCriteriaForm.value.otherCriteriaValue,
             this.datePipe.transform(this.simpleCriteriaForm.value.otherCriteriaValue, 'dd/MM/yyyy'),
             false,
-            'EQ'
+            'EQ',
+            false
           );
         } else {
           this.addCriteria(
@@ -292,7 +305,8 @@ export class SimpleCriteriaSearchComponent implements OnInit {
             formData.otherCriteriaValue.trim(),
             formData.otherCriteriaValue.trim(),
             false,
-            'EQ'
+            'EQ',
+            false
           );
         }
         return true;
@@ -378,30 +392,48 @@ export class SimpleCriteriaSearchComponent implements OnInit {
     });
   }
 
-  addCriteria(keyElt: string, keyLabel: string, valueElt: string, labelElt: string, translated: boolean, operator: string) {
+  addCriteria(
+    keyElt: string,
+    keyLabel: string,
+    valueElt: string,
+    labelElt: string,
+    keyTranslated: boolean,
+    operator: string,
+    valueTranslated: boolean
+  ) {
     if (keyElt && valueElt) {
       this.archiveExchangeDataService.addSimpleSearchCriteriaSubject({
         keyElt: keyElt,
         keyLabel: keyLabel,
         valueElt: valueElt,
         labelElt: labelElt,
-        translated: translated,
+        keyTranslated: keyTranslated,
         operator: operator,
         category: SearchCriteriaTypeEnum.FIELDS,
+        valueTranslated: valueTranslated,
       });
     }
   }
 
-  addCriteriaNode(keyElt: string, keyLabel: string, valueElt: string, labelElt: string, translated: boolean, operator: string) {
+  addCriteriaNode(
+    keyElt: string,
+    keyLabel: string,
+    valueElt: string,
+    labelElt: string,
+    keyTranslated: boolean,
+    operator: string,
+    valueTranslated: boolean
+  ) {
     if (keyElt && valueElt) {
       this.archiveExchangeDataService.addSimpleSearchCriteriaSubject({
         keyElt: keyElt,
         keyLabel: keyLabel,
         valueElt: valueElt,
         labelElt: labelElt,
-        translated: translated,
+        keyTranslated: keyTranslated,
         operator: operator,
         category: SearchCriteriaTypeEnum.NODES,
+        valueTranslated: valueTranslated,
       });
     }
   }
@@ -409,9 +441,9 @@ export class SimpleCriteriaSearchComponent implements OnInit {
   addOntologyFilter(criteriaValue: string, value: string, operator: string): any {
     const ontologyElt = this.ontologies.find((ontoElt: any) => ontoElt.Value === criteriaValue);
     if (ontologyElt.Type === 'DATE') {
-      this.addCriteria(ontologyElt.Value, ontologyElt.Label, value, this.datePipe.transform(value, 'dd/MM/yyyy'), false, operator);
+      this.addCriteria(ontologyElt.Value, ontologyElt.Label, value, this.datePipe.transform(value, 'dd/MM/yyyy'), false, operator, false);
     } else {
-      this.addCriteria(ontologyElt.Value, ontologyElt.Label, value, value, false, operator);
+      this.addCriteria(ontologyElt.Value, ontologyElt.Label, value, value, false, operator, false);
     }
   }
 
